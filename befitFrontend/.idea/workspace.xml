@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/befit/src/assets/images/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/components/Appbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/helpers/UserContext.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/i18n.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/HomePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/LoginPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/SettingsPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/SignupPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/exercise/AddExercisePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/exercise/AllExercisesPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/exercise/DeleteExercisePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/exercise/EditExercisePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/AddMealPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/AddMealSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealsPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/DeleteMealPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/DeleteMealSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/EditMealPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/meal/EditMealSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/product/AddProductPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/product/AllProductsPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/product/DetailsProductPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainer/AllTrainersPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainer/DeatilsTrainerPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingSchemasPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingsPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DeleteTrainingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DeleteTrainingSchema.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/EditTrainingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/trainings/EditTrainingSchemaPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/AllUsersPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/DeleteUsersTrainer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/GoalsPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/GuestPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/LogoutPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/pages/user/UsersTrainersPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/styles/FormPage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/styles/HomePage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/styles/MainPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/setupTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/BefitApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/BodyPart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Exercise.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Goals.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Meal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/MealSchema.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Trainer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/Trening.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/TreningCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/TreningSchema.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/java/com/befit/befit/model/UserTrainer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/test/java/com/befit/befit/BefitApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/befit" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2eZxIB1mZtqALy77vfGL21zqCMu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/domin/befit/befitFrontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\domin\befitClient\befit\src\assets\images" />
+      <recent name="C:\Users\domin\befitClient\befit\src\pages" />
+      <recent name="C:\Users\domin\befitClient\befit\src\pages\user" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="" />
+      <created>1712125819468</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712125819468</updated>
+      <workItem from="1712125820767" duration="254000" />
+      <workItem from="1712126085216" duration="2172000" />
+      <workItem from="1712337713335" duration="8717000" />
+      <workItem from="1712412868238" duration="11287000" />
+      <workItem from="1712490418138" duration="4830000" />
+      <workItem from="1712507852660" duration="1122000" />
+      <workItem from="1712509809308" duration="590000" />
+      <workItem from="1712510701030" duration="2763000" />
+      <workItem from="1712674316752" duration="3806000" />
+      <workItem from="1712707730327" duration="1199000" />
+      <workItem from="1712708999194" duration="6093000" />
+      <workItem from="1712786693855" duration="1591000" />
+      <workItem from="1712797440954" duration="9470000" />
+      <workItem from="1712847611128" duration="2000000" />
+      <workItem from="1712891250941" duration="15161000" />
+      <workItem from="1713802123314" duration="623000" />
+      <workItem from="1714066282975" duration="3355000" />
+      <workItem from="1714073257676" duration="4433000" />
+      <workItem from="1714118908285" duration="1896000" />
+      <workItem from="1714396740407" duration="3578000" />
+      <workItem from="1714407030182" duration="7000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
