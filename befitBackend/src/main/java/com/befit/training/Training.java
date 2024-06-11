@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.befit.trainingSchema.TrainingSchema;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,20 +26,25 @@ public class Training {
     private TrainingSchema trainingSchema;
 
     @Column
-    private long userId;
+    private
+    String userEmail;
 
     @Column
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDateTime date;
+    private LocalDateTime startTime;
+
+    @Column
+    @Nullable
+    private LocalDateTime endTime;
 
     @Column
     @Enumerated(EnumType.STRING)
     private TrainingCategory category;
 
-    public Training(TrainingSchema trainingSchema, long userId, LocalDateTime date, TrainingCategory category) {
-        this.trainingSchema = trainingSchema;
-        this.userId = userId;
-        this.date = date;
+
+
+    public Training(String userEmail, LocalDateTime startTime, TrainingCategory category) {
+        this.userEmail = userEmail;
+        this.startTime = startTime;
         this.category = category;
     }
 }

@@ -6,9 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/training")
 public class TrainingController {
     @Autowired
@@ -28,5 +29,10 @@ public class TrainingController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTraining(@RequestBody Training tr, @PathVariable Long id){
         return new ResponseEntity<>(trainingService.editTraining(tr,id),HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<List<Training>> getUsersTrainings(@PathVariable String email){
+        return new ResponseEntity<>(trainingService.userTrainings(email),HttpStatus.OK);
     }
 }

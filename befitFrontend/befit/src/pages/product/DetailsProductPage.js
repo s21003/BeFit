@@ -18,8 +18,16 @@ const DetailsProductPage = () => {
 
     useEffect(() => {
         const fetchProductDetails = async () => {
+            const token = localStorage.getItem("token");
+
             try {
-                const response = await fetch(`http://localhost:8080/product/${id}`);
+                const response = await fetch(`http://localhost:8080/product/${id}`,{
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -48,12 +56,13 @@ const DetailsProductPage = () => {
         e.preventDefault();
 
         const updatedData = { id: productDetails.id, ...editFormData };
-
+        const token = localStorage.getItem("token");
         try {
             const response = await fetch(`http://localhost:8080/product/update/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedData),
             });
@@ -71,12 +80,14 @@ const DetailsProductPage = () => {
 
     const handleDelete = async () => {
         const deletedData = { id: productDetails.id, ...editFormData };
+        const token = localStorage.getItem("token");
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
                 const response = await fetch(`http://localhost:8080/product/delete`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
                     },
                     body: JSON.stringify(deletedData),
                 });

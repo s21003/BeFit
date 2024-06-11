@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 const AllTrainersPage = () => {
     const navigate = useNavigate();
@@ -9,8 +10,16 @@ const AllTrainersPage = () => {
 
     useEffect(() => {
         const fetchTrainers = async () => {
+            const token = localStorage.getItem("token");
+
             try {
-                const response = await fetch(`http://localhost:8080/trainer/all`);
+                const response = await fetch(`http://localhost:8080/trainer/all`,{
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -59,7 +68,6 @@ const AllTrainersPage = () => {
                             <th>Imię</th>
                             <th>Nazwisko</th>
                             <th>Adres</th>
-                            <th>Hasło</th>
                             <th>Specjalizacje</th>
                         </tr>
                         </thead>
@@ -69,7 +77,6 @@ const AllTrainersPage = () => {
                                 <td>{trainer.name}</td>
                                 <td>{trainer.surname}</td>
                                 <td>{trainer.address}</td>
-                                <td>{trainer.password}</td>
                                 <td>{trainer.specializations}</td>
                             </tr>
                         ))}

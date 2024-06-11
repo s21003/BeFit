@@ -358,6 +358,33 @@
     background-color: #a67c52; /* A darker blue for hover effect */
 }
 
+.training-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.training-buttons h1 {
+    margin-right: 20px; /* Adjust as needed */
+}
+
+.training-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.training-buttons a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
 
 
 /* Responsive Design */

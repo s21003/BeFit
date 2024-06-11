@@ -3,6 +3,11 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/system": "^5.15.15",
+    "@syncfusion/ej2-base": "^25.2.7",
+    "@syncfusion/ej2-data": "^25.2.3",
+    "@syncfusion/ej2-react-buttons": "^25.2.7",
+    "@syncfusion/ej2-react-calendars": "^25.2.7",
+    "@syncfusion/ej2-react-dropdowns": "^25.2.7",
     "react-router-dom": "^6.22.3"
   }
 }

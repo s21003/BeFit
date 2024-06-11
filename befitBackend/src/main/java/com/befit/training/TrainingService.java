@@ -13,12 +13,13 @@ public class TrainingService {
     public List<Training> allTrainings(){
         return trainingRepository.findAll();
     }
+
     public Training createTraining(Training tr){
         Training training = new Training();
-        training.setTrainingSchema(tr.getTrainingSchema());
-        training.setUserId(tr.getUserId());
+        training.setUserEmail(tr.getUserEmail());
         training.setCategory(tr.getCategory());
-        training.setDate(tr.getDate());
+        training.setStartTime(tr.getStartTime());
+        training.setEndTime(tr.getEndTime());
         trainingRepository.save(training);
         return training;
     }
@@ -29,30 +30,40 @@ public class TrainingService {
         trainingRepository.deleteById(id);
         return "Deleted";
     }
-    public String editTraining(Training tr, Long id){
+    public String editTraining(Training tr, Long id) {
         Optional<Training> tmp = singleTraining(id);
-        if (tmp.isEmpty()){
+        if (tmp.isEmpty()) {
             return "WrongId";
-        }else{
+        } else {
             Training training = tmp.get();
-            if (training.getTrainingSchema() != tr.getTrainingSchema()){
+
+            if (tr.getTrainingSchema() != null && !training.getTrainingSchema().equals(tr.getTrainingSchema())) {
                 training.setTrainingSchema(tr.getTrainingSchema());
             }
-            if (training.getUserId() != tr.getUserId()){
-                training.setUserId(tr.getUserId());
+            if (tr.getUserEmail() != null && !training.getUserEmail().equals(tr.getUserEmail())) {
+                training.setUserEmail(tr.getUserEmail());
             }
-            if (training.getCategory() != tr.getCategory()){
+            if (tr.getCategory() != null && !training.getCategory().equals(tr.getCategory())) {
                 training.setCategory(tr.getCategory());
             }
-            if (training.getDate() != tr.getDate()){
-                training.setDate(tr.getDate());
+            if (tr.getStartTime() != null && !training.getStartTime().equals(tr.getStartTime())) {
+                training.setStartTime(tr.getStartTime());
             }
+            if (tr.getEndTime() != null && !training.getEndTime().equals(tr.getEndTime())) {
+                training.setEndTime(tr.getEndTime());
+            }
+
             trainingRepository.save(training);
             return "Updated";
         }
     }
+
     public Optional<Training> singleTraining(Long id){
         return trainingRepository.findById(id);
+    }
+
+    public List<Training> userTrainings(String email){
+        return trainingRepository.findByUserEmail(email);
     }
 
 }

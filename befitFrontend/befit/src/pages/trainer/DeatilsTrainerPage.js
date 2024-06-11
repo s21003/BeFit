@@ -17,8 +17,16 @@ const DetailsTrainerPage = () => {
 
     useEffect(() => {
         const fetchTrainerDetails = async () => {
+            const token = localStorage.getItem("token");
+
             try {
-                const response = await fetch(`http://localhost:8080/trainer/${id}`);
+                const response = await fetch(`http://localhost:8080/trainer/${id}`,{
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -52,10 +60,12 @@ const DetailsTrainerPage = () => {
         const updatedData = { id: trainerDetails.id, ...editFormData };
 
         try {
+            const token = localStorage.getItem("token");
             const response = await fetch(`http://localhost:8080/trainer/update/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedData),
             });

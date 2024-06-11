@@ -16,6 +16,7 @@ public class MealService {
     public Meal createMeal(Meal m){
         Meal meal = new Meal();
         meal.setProducts(m.getProducts());
+        meal.setMealSchemas(m.getMealSchemas());
         meal.setIdUser(m.getIdUser());
         meal.setDate(m.getDate());
         mealRepository.save(meal);
