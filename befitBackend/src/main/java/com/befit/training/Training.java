@@ -42,6 +42,8 @@ public class Training {
 
 
 
+
+
     public Training(String userEmail, LocalDateTime startTime, TrainingCategory category) {
         this.userEmail = userEmail;
         this.startTime = startTime;

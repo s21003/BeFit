@@ -17,7 +17,14 @@ const DetailsExercisePage = () => {
     useEffect(() => {
         const fetchExerciseDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/exercise/${id}`);
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://localhost:8080/exercise/${id}`,{
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -46,10 +53,12 @@ const DetailsExercisePage = () => {
         const updatedData = { id: exerciseDetails.id, ...editFormData };
 
         try {
+            const token = localStorage.getItem("token");
             const response = await fetch(`http://localhost:8080/exercise/update/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedData),
             });
@@ -69,10 +78,12 @@ const DetailsExercisePage = () => {
         const deletedData = { id: exerciseDetails.id, ...editFormData };
         if (window.confirm("Are you sure you want to delete this exercise?")) {
             try {
+                const token = localStorage.getItem("token");
                 const response = await fetch(`http://localhost:8080/exercise/delete`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
                     },
                     body: JSON.stringify(deletedData),
                 });

@@ -26,17 +26,18 @@ const AddExercisePage = () => {
         const exercisePayload = {
             name: exerciseData.name,
             part: exerciseData.part,
-            videoLink: exerciseData.videoLink,
-            series: exerciseData.series
+            videoLink: exerciseData.videoLink
         };
 
         console.log(JSON.stringify(exercisePayload))
 
         try {
-            let response = await fetch('http://localhost:8080/exercise/add', {
+            const token = localStorage.getItem("token");
+            const response = await fetch('http://localhost:8080/exercise/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(exercisePayload)
             });
@@ -77,8 +78,6 @@ const AddExercisePage = () => {
                     </select>
                     <input className="inputStyle" type="url" name="videoLink" value={exerciseData.videoLink}
                            onChange={handleChange} placeholder="Link"/>
-                    <input className="inputStyle" type="text" name="series" value={exerciseData.series}
-                           onChange={handleChange} placeholder="Serie"/>
                     <button className="submitButton" type="submit">Add Exercise</button>
                 </form>
             </div>

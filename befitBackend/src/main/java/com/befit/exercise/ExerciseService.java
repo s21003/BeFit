@@ -20,11 +20,6 @@ public class ExerciseService {
         }else{
             exercise.setVideoLink(ex.getVideoLink());
         }
-        if(ex.getSeries()==null){
-            exercise.setSeries(null);
-        }else{
-            exercise.setSeries(ex.getSeries());
-        }
         exercise.setName(ex.getName());
         exercise.setPart(ex.getPart());
         exerciseRepository.save(exercise);
@@ -51,9 +46,6 @@ public class ExerciseService {
             }
             if (exercise.getVideoLink() != ex.getVideoLink()){
                 exercise.setVideoLink(ex.getVideoLink());
-            }
-            if (exercise.getSeries() != ex.getSeries()){
-                exercise.setSeries(ex.getSeries());
             }
             exerciseRepository.save(exercise);
             return "Updated";

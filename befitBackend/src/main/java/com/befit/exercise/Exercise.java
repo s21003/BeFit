@@ -1,7 +1,6 @@
 package com.befit.exercise;
 
 import java.net.URL;
-import java.util.List;
 
 import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
@@ -34,15 +33,9 @@ public class Exercise {
     @Nullable
     private URL videoLink=null;
 
-    @Column
-    @Nullable
-    @OneToMany
-    private List<Series> series;
-
-    public Exercise(String name, BodyPart part, @Nullable URL videoLink, @Nullable List<Series> series) {
+    public Exercise(String name, BodyPart part, @Nullable URL videoLink) {
         this.name = name;
         this.part = part;
         this.videoLink = videoLink;
-        this.series = series;
     }
 }

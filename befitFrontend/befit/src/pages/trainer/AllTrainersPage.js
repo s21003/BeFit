@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import {CustomLink} from "../../helpers/CustomLink";
 
 const AllTrainersPage = () => {
     const navigate = useNavigate();
@@ -51,17 +52,7 @@ const AllTrainersPage = () => {
             </nav>
             {trainers.length > 0 ? (
                 <>
-                    <nav>
-                        <ul className="pagination">
-                            {pageNumbers.map(number => (
-                                <li key={number} className="page-item">
-                                    <button onClick={() => paginate(number)} className="page-link">
-                                        {number}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+                    {/*<CustomLink to="/add-trainer">Add Trainer</CustomLink>*/}
                     <table>
                         <thead>
                         <tr>
@@ -82,6 +73,17 @@ const AllTrainersPage = () => {
                         ))}
                         </tbody>
                     </table>
+                    <nav>
+                        <ul className="pagination">
+                            {pageNumbers.map(number => (
+                                <li key={number} className="page-item">
+                                    <button onClick={() => paginate(number)} className="page-link">
+                                        {number}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
                 </>
             ) : (
                 <p>No trainers available.</p>

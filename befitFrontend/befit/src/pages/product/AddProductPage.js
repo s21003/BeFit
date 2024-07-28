@@ -37,10 +37,12 @@ const AddProductPage = () => {
         console.log(JSON.stringify(productPayload))
 
         try {
+            const token = localStorage.getItem("token");
             let response = await fetch('http://localhost:8080/product/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(productPayload)
             });
@@ -63,7 +65,7 @@ const AddProductPage = () => {
             <nav className="mainNavigation">
                 <Link to="/all-products">All Products</Link>
             </nav>
-            <div className="editFormContainer">
+            <div className="editFormContainer">0
                 <form onSubmit={handleSubmit} className="editForm">
                     <input className="inputStyle" type="text" name="name" value={productData.name}
                            onChange={handleChange} placeholder="Name" required/>

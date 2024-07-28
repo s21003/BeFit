@@ -1,8 +1,12 @@
 package com.befit.trainingSchema;
 
+import com.befit.training.TrainingCategory;
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +19,11 @@ public class TrainingSchemaService {
     }
     public TrainingSchema createTrainingSchema(TrainingSchema ts){
         TrainingSchema trainingSchema = new TrainingSchema();
-        trainingSchema.setCreatorId(ts.getCreatorId());
-        trainingSchema.setExercises(ts.getExercises());
-        trainingSchema.setCreationDate(ts.getCreationDate());
+        trainingSchema.setCategory(ts.getCategory());
+        trainingSchema.setName(ts.getName());
+        trainingSchema.setCreationDate(LocalDate.now());
+        trainingSchema.setCreatorEmail(ts.getCreatorEmail());
+
         trainingSchemaRepository.save(trainingSchema);
         return trainingSchema;
     }
@@ -34,19 +40,38 @@ public class TrainingSchemaService {
             return "WrongId";
         }else{
             TrainingSchema trainingSchema = tmp.get();
-            if (trainingSchema.getCreatorId() != ts.getCreatorId()){
-                trainingSchema.setCreatorId(ts.getCreatorId());
+            if (trainingSchema.getCategory() != ts.getCategory()){
+                trainingSchema.setCategory(ts.getCategory());
             }
-            if (trainingSchema.getExercises() != ts.getExercises()){
-                trainingSchema.setExercises(ts.getExercises());
+            if (trainingSchema.getName() != ts.getName()){
+                trainingSchema.setName(ts.getName());
             }
             if (trainingSchema.getCreationDate() != ts.getCreationDate()){
                 trainingSchema.setCreationDate(ts.getCreationDate());
+            }
+            if (trainingSchema.getCreatorEmail() != ts.getCreatorEmail()){
+                trainingSchema.setCreatorEmail(ts.getCreatorEmail());
             }
             trainingSchemaRepository.save(trainingSchema);
             return "Updated";
         }
     }
+
+    public String editTrainingSchemaExercises(List<TrainingSchemaExercise> ids, Long id){
+        Optional<TrainingSchema> tmp = singleTrainingSchema(id);
+        if (tmp.isEmpty()){
+            return "WrongId";
+        }else{
+            TrainingSchema trainingSchema = tmp.get();
+            trainingSchema.setTrainingSchemaExerciseIds(ids);
+
+            trainingSchemaRepository.save(trainingSchema);
+            return "Updated";
+        }
+    }
+
+    public List<TrainingCategory> getCategories(){ return Arrays.asList(TrainingCategory.values()); }
+
     public Optional<TrainingSchema> singleTrainingSchema(Long id){
         return trainingSchemaRepository.findById(id);
     }

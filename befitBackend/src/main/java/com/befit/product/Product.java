@@ -39,6 +39,9 @@ public class Product {
     @Column
     private double weight;
 
+    @Column
+    private long creatorId;
+
     public Product(String name, double kcal, double protein, double fat, double carbs, double weight) {
         this.name = name;
         this.kcal = kcal;

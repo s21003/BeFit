@@ -18,13 +18,14 @@ import AddProductPage from "./pages/product/AddProductPage";
 import AllProductsPage from "./pages/product/AllProductsPage";
 import DetailsProductPage from "./pages/product/DetailsProductPage";
 import AllTrainersPage from "./pages/trainer/AllTrainersPage";
+import AddTrainerPage from "./pages/trainer/AddTrainerPage";
 import DetailsTrainerPage from "./pages/trainer/DeatilsTrainerPage";
 import AddTrainingPage from "./pages/trainings/AddTrainingPage";
 import AllTrainingsPage from "./pages/trainings/AllTrainingsPage";
-// import DetailsTrainingPage from "./pages/trainings/DetailsTrainingPage";
+import DetailsTrainingPage from "./pages/trainings/DetailsTrainingPage";
 import AddTrainingSchemaPage from "./pages/trainings/AddTrainingSchemaPage";
 import AllTrainingSchemasPage from "./pages/trainings/AllTrainingSchemasPage";
-// import DetailsTrainingSchemaPage from "./pages/trainings/DetailsTrainingSchemaPage";
+import DetailsTrainingSchemaPage from "./pages/trainings/DetailsTrainingSchemaPage";
 // import AllUsersPage from "./pages/user/AllUsersPage";
 import GoalsPage from "./pages/user/GoalsPage";
 // import LogoutPage from "./pages/user/LogoutPage";
@@ -57,13 +58,14 @@ function App() {
             <Route path="/all-products" element={<AllProductsPage />}/>
             <Route path="/product/:id" element={<DetailsProductPage/>}/>
             <Route path="/all-trainers" element={<AllTrainersPage/>}/>
+            <Route path="/add-trainer" element={<AddTrainerPage/>}/>
             <Route path="/trainer/:id" element={<DetailsTrainerPage/>}/>
             <Route path="/add-training" element={<AddTrainingPage/>}/>
             <Route path="/add-training-schema" element={<AddTrainingSchemaPage/>}/>
             <Route path="/all-trainings" element={<AllTrainingsPage/>}/>
             <Route path="/all-training-schemas" element={<AllTrainingSchemasPage/>}/>
-            {/*<Route path="/training/:id" element={<DetailsTrainingPage/>}/>*/}
-            {/*<Route path="/training-schema/:id" element={<DetailsTrainingSchemaPage/>}/>*/}
+            <Route path="/training/:id" element={<DetailsTrainingPage/>}/>
+            <Route path="/training-schema/:id" element={<DetailsTrainingSchemaPage/>}/>
             {/*<Route path="/users-trainers" element={<UsersTrainersPage/>}/>*/}
             <Route path="/goals" element={<GoalsPage/>}/>
             {/*<Route path="/all-users" element={<AllUsersPage/>}/>*/}

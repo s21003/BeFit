@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {CustomLink} from "../../helpers/CustomLink";
 
 const AllProductsPage = () => {
     const navigate = useNavigate();
@@ -48,6 +49,7 @@ const AllProductsPage = () => {
                 <Link to="/all-products">All Products</Link>
                 <Link to="/">Log out</Link>
             </nav>
+            <CustomLink to={"/add-product"}>Add Product</CustomLink>
             {products.length > 0 ? (
                 <>
                     <nav>
@@ -70,6 +72,7 @@ const AllProductsPage = () => {
                             <th>Tłuszcze</th>
                             <th>Węglowodany</th>
                             <th>Waga</th>
+                            <th>ID</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -81,6 +84,7 @@ const AllProductsPage = () => {
                                 <td>{product.fat}</td>
                                 <td>{product.carbs}</td>
                                 <td>{product.weight}</td>
+                                <td>{product.creatorId}</td>
                             </tr>
                         ))}
                         </tbody>

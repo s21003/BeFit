@@ -173,7 +173,7 @@ const AllTrainingsPage = () => {
             <NavBar />
             <div className="training-buttons">
                 <h1>Treningi</h1>
-                <CustomLink to="/training-schemas"> Schematy trenigów</CustomLink>
+                <CustomLink to="/all-training-schemas"> Schematy trenigów</CustomLink>
                 <CustomLink to="/exercises">Własne ćwiczenia</CustomLink>
             </div>
             <div>

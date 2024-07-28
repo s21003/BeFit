@@ -1,5 +1,7 @@
 package com.befit.trainingSchema;
 
+import com.befit.training.TrainingCategory;
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +29,18 @@ public class TrainingSchemaController {
         return new ResponseEntity<>(trainingSchemaService.dropTrainingSchema(ts.getId()),HttpStatus.OK);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateTraininingSchema(@RequestBody TrainingSchema ts, @PathVariable Long id){
+    public ResponseEntity<String> updateTrainingSchema(@RequestBody TrainingSchema ts, @PathVariable Long id){
         return new ResponseEntity<>(trainingSchemaService.editTrainingSchema(ts,id),HttpStatus.OK);
+    }
+
+    @PutMapping("/updatetse/{id}")
+    public ResponseEntity<String> updateTrainingSchemaExercises(@RequestBody List<TrainingSchemaExercise> ids, @PathVariable Long id){
+        return new ResponseEntity<>(trainingSchemaService.editTrainingSchemaExercises(ids,id),HttpStatus.OK);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<TrainingCategory>> getCategories(){
+        return new ResponseEntity<>(trainingSchemaService.getCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

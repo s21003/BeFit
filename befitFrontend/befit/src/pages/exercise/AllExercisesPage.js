@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {CustomLink} from "../../helpers/CustomLink";
 
 const AllExercisesPage = () => {
     const navigate = useNavigate();
@@ -10,7 +11,14 @@ const AllExercisesPage = () => {
     useEffect(() => {
         const fetchExercises = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/exercise/all`);
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://localhost:8080/exercise/all`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -40,8 +48,27 @@ const AllExercisesPage = () => {
                 <Link to="/all-exercises">All Exercises</Link>
                 <Link to="/">Log out</Link>
             </nav>
+            <CustomLink to={"/add-exercise"}>Add Exercise</CustomLink>
             {exercises.length > 0 ? (
                 <>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Partia</th>
+                            <th>Link</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {exercises.map(exercise => (
+                            <tr key={exercise.id} onClick={() => handleRowClick(exercise.id)}>
+                                <td>{exercise.name}</td>
+                                <td>{exercise.part}</td>
+                                <td>{exercise.videoLink}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
                     <nav>
                         <ul className="pagination">
                             {pageNumbers.map(number => (
@@ -53,26 +80,6 @@ const AllExercisesPage = () => {
                             ))}
                         </ul>
                     </nav>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Nazwa</th>
-                            <th>Partia</th>
-                            <th>Link</th>
-                            <th>Serie</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {exercises.map(exercise => (
-                            <tr key={exercise.id} onClick={() => handleRowClick(exercise.id)}>
-                                <td>{exercise.name}</td>
-                                <td>{exercise.part}</td>
-                                <td>{exercise.videoLink}</td>
-                                <td>{exercise.series}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
                 </>
             ) : (
                 <p>No exercises available.</p>
