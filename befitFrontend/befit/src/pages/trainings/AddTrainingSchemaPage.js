@@ -123,6 +123,7 @@ const AddTrainingSchemaPage = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const createdSchema = await response.json();
+            console.log("createdSchema: ",createdSchema)
             trainingSchemaId = createdSchema.id;
         } catch (error) {
             console.error('Error adding training schema:', error);

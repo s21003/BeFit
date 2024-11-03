@@ -17,7 +17,7 @@ public class TrainingSchemaExerciseController {
 
     @GetMapping("/all")
     public ResponseEntity<List<TrainingSchemaExercise>> getAllTrainingSchemaExercises(){
-        return new ResponseEntity<>(trainingSchemaExerciseService.allTrainingSchemaExercies(), HttpStatus.OK);
+        return new ResponseEntity<>(trainingSchemaExerciseService.allTrainingSchemaExercise(), HttpStatus.OK);
     }
     @PostMapping("/add")
     public ResponseEntity<TrainingSchemaExercise> addNewTrainingSchemaExercise(@RequestBody TrainingSchemaExercise trainingSchemaExercise){

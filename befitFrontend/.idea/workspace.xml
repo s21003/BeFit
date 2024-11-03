@@ -5,64 +5,62 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/Series.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/SeriesController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/SeriesRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/SeriesService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingExercise/TrainingExercise.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingExercise/TrainingExerciseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingExercise/TrainingExerciseRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingExercise/TrainingExerciseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExercise.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/befit/src/styles/Table.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/befit/src/styles/TrainingSchema.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchemaProduct/MealSchemaProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchemaProduct/MealSchemaProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchemaProduct/MealSchemaProductRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchemaProduct/MealSchemaProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/weights/Weights.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/weights/WeightsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/weights/WeightsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/weights/WeightsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchemaProduct/MealSchemaProduct.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchemaProduct/MealSchemaProductController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchemaProduct/MealSchemaProductRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchemaProduct/MealSchemaProductService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/weights/Weights.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/weights/WeightsController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/weights/WeightsRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/weights/WeightsService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/Exercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/Exercise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/ExerciseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/ExerciseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/Series.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/SeriesController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/SeriesRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/exercise/SeriesService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/Meal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/Meal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/meal/MealService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchemaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchemaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchemaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/mealSchema/MealSchemaService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/product/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/product/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/training/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/training/Training.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchemaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchemaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchemaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchema/TrainingSchemaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExercise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/trainingSchemaExercise/TrainingSchemaExerciseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/Exercise.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/Exercise.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/ExerciseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/ExerciseService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/Series.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/SeriesController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/SeriesRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/exercise/SeriesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/Meal.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/Meal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/meal/MealService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchema.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchemaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchemaController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchemaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/mealSchema/MealSchemaService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/product/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/product/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/training/Training.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/training/Training.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchema.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchema.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchemaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchemaController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchemaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchema/TrainingSchemaService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExercise.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExercise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExerciseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExerciseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExerciseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/trainingSchemaExercise/TrainingSchemaExerciseService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/AddExercisePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/AddExercisePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/AllExercisesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/AllExercisesPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/DeleteExercisePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainer/AddTrainerPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/EditExercisePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/Modal.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/product/AddProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/product/AddProductPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/product/AllProductsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/product/AllProductsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainer/AllTrainersPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainer/AllTrainersPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AddMealPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AddMealPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AddMealSchemaPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AddMealSchemaPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AllMealsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealsPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DeleteMealPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DeleteMealSchemaPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/EditMealPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/EditMealSchemaPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingSchemasPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingSchemasPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/HomePage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/todo user" beforeDir="false" afterPath="$PROJECT_DIR$/todo user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,7 +160,12 @@
       <workItem from="1720447948079" duration="3210000" />
       <workItem from="1721607119558" duration="22679000" />
       <workItem from="1721839918466" duration="26617000" />
-      <workItem from="1722186082196" duration="17568000" />
+      <workItem from="1722186082196" duration="18116000" />
+      <workItem from="1729854787776" duration="3398000" />
+      <workItem from="1730325198732" duration="1738000" />
+      <workItem from="1730420020828" duration="7654000" />
+      <workItem from="1730583804183" duration="3701000" />
+      <workItem from="1730640174399" duration="16282000" />
     </task>
     <servers />
   </component>

@@ -11,24 +11,24 @@ import java.util.List;
 @Getter
 @Setter
 @Data
-@Table(name = "trainingSchemaExercise")
+@Table(name = "TrainingSchemaExercise")
 @Entity
 public class TrainingSchemaExercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     @JoinColumn
-    private Long exerciseId;
+    private long exerciseId;
 
     @JoinColumn
-    private Long trainingSchemaId;
+    private long trainingSchemaId;
 
     @JoinColumn
-    private Long seriesId;
+    private long seriesId;
 
-    public TrainingSchemaExercise(Long exerciseId, Long trainingSchemaId, Long seriesId){
+    public TrainingSchemaExercise(long exerciseId, long trainingSchemaId, long seriesId){
         this.exerciseId=exerciseId;
         this.trainingSchemaId=trainingSchemaId;
         this.seriesId=seriesId;

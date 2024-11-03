@@ -40,8 +40,11 @@ public class Meal {
     @Column
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
+    @Column
+    private String userEmail;
 
-    public Meal(List<Product> products, List<MealSchema> mealSchemas, long idUser, LocalDateTime date) {
+    public Meal(String userEmail, List<Product> products, List<MealSchema> mealSchemas, long idUser, LocalDateTime date) {
+        this.userEmail = userEmail;
         this.products = products;
         this.mealSchemas = mealSchemas;
         this.idUser = idUser;

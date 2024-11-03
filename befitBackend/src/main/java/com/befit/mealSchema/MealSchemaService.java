@@ -1,5 +1,6 @@
 package com.befit.mealSchema;
 
+import com.befit.mealSchemaProduct.MealSchemaProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,9 @@ public class MealSchemaService {
     }
     public MealSchema createMealSchema(MealSchema ms){
         MealSchema mealSchema = new MealSchema();
-        ms.setCreatorId(ms.getCreatorId());
-        ms.setProducts(ms.getProducts());
-        ms.setCreationDate(LocalDate.now());
+        mealSchema.setName(ms.getName());
+        mealSchema.setCreatorEmail(ms.getCreatorEmail());
+        mealSchema.setCreationDate(LocalDate.now());
         mealSchemaRepository.save(mealSchema);
         return mealSchema;
     }
@@ -35,15 +36,25 @@ public class MealSchemaService {
             return "WrongId";
         }else{
             MealSchema mealSchema = tmp.get();
-            if (mealSchema.getCreatorId() != ms.getCreatorId()){
-                mealSchema.setCreatorId(ms.getCreatorId());
-            }
-            if(mealSchema.getProducts() != ms.getProducts()){
-                mealSchema.setProducts(ms.getProducts());
+            if (mealSchema.getCreatorEmail() != ms.getCreatorEmail()){
+                mealSchema.setCreatorEmail(ms.getCreatorEmail());
             }
             if (mealSchema.getCreationDate() != ms.getCreationDate()){
                 mealSchema.setCreationDate(ms.getCreationDate());
             }
+            mealSchemaRepository.save(mealSchema);
+            return "Updated";
+        }
+    }
+
+    public String editMealSchemaProducts(List<MealSchemaProduct> ids, Long id){
+        Optional<MealSchema> tmp = singleMealSchema(id);
+        if (tmp.isEmpty()){
+            return "WrongId";
+        }else{
+            MealSchema mealSchema = tmp.get();
+            mealSchema.setMealSchemaProductIds(ids);
+
             mealSchemaRepository.save(mealSchema);
             return "Updated";
         }

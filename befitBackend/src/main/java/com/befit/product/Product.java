@@ -13,7 +13,7 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-@Table(name = "product")
+@Table(name = "Product")
 @Entity
 public class Product {
 
@@ -40,7 +40,7 @@ public class Product {
     private double weight;
 
     @Column
-    private long creatorId;
+    private String creatorEmail;
 
     public Product(String name, double kcal, double protein, double fat, double carbs, double weight) {
         this.name = name;

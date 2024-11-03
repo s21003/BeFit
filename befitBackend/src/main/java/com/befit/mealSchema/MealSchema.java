@@ -3,7 +3,9 @@ package com.befit.mealSchema;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.befit.mealSchemaProduct.MealSchemaProduct;
 import com.befit.product.Product;
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-@Table (name ="mealSchema")
+@Table (name ="MealSchema")
 @Entity
 public class MealSchema {
 
@@ -25,20 +27,22 @@ public class MealSchema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @JoinColumn
     @OneToMany
-    private List<Product> products;
+    private List<MealSchemaProduct> mealSchemaProductIds;
+
+    @Column
+    private String name;
 
     @Column
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate creationDate;
 
     @Column
-    private long creatorId;
+    private String creatorEmail;
 
-    public MealSchema(List<Product> products, LocalDate creationDate, long creatorId) {
-        this.products = products;
-        this.creationDate = creationDate;
-        this.creatorId = creatorId;
+    public MealSchema(String name, String creatorEmail) {
+        this.name = name;
+        this.creatorEmail = creatorEmail;
     }
 }

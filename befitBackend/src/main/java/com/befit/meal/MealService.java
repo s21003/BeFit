@@ -1,5 +1,6 @@
 package com.befit.meal;
 
+import com.befit.training.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,4 +52,9 @@ public class MealService {
     public Optional<Meal> singleMeal(Long id){
         return mealRepository.findById(id);
     }
+
+    public List<Meal> userMeal(String email){
+        return mealRepository.findByUserEmail(email);
+    }
+
 }

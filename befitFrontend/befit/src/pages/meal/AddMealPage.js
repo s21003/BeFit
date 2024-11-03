@@ -8,6 +8,9 @@ const AddMealPage = () => {
         name: '',
         kcal: 0.0,
         protein: 0.0,
+        fat: 0.0,
+        carbs: 0.0,
+        weight: 0.0
     });
 
     const handleChange = (e) => {
@@ -26,6 +29,7 @@ const AddMealPage = () => {
             name: mealData.name,
             kcal: mealData.kcal,
             protein: mealData.protein,
+            fat: mealData.fat,
         };
 
         console.log(JSON.stringify(mealPayload))
@@ -44,7 +48,7 @@ const AddMealPage = () => {
             }
 
             if (response.ok) {
-                alert('Meal added successfully');
+                alert('Product added successfully');
                 navigate(`/all-meals`);
             }
         } catch (error) {
@@ -61,6 +65,12 @@ const AddMealPage = () => {
                 <form onSubmit={handleSubmit} className="editForm">
                     <input className="inputStyle" type="text" name="name" value={mealData.name}
                            onChange={handleChange} placeholder="Name" required/>
+                    <input className="inputStyle" type="number" step="0.1" name="kcal" value={mealData.kcal}
+                           onChange={handleChange} placeholder="Kcal" required/>
+                    <input className="inputStyle" type="protein" step="0.1" name="protein" value={mealData.protein}
+                           onChange={handleChange} placeholder="Proteins" required/>
+                    <input className="inputStyle" type="fat" step="0.1" name="fat" value={mealData.fat}
+                           onChange={handleChange} placeholder="Fats" required/>
                     <button className="submitButton" type="submit">Add Meal</button>
                 </form>
             </div>

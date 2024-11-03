@@ -1,23 +1,43 @@
-import React, {useState} from 'react';
-import {useNavigate, Link} from 'react-router-dom';
-import "../../styles/MainPage.css";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
+import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
+import {jwtDecode} from "jwt-decode";
 
 const AddMealSchemaPage = () => {
     const navigate = useNavigate();
+    const [rowToEdit, setRowToEdit] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [rows, setRows] = useState([]);
     const [mealSchemaData, setMealSchemaData] = useState({
         name: '',
-        kcal: 0.0,
-        protein: 0.0,
-        fat: 0.0,
-        carbs: 0.0,
-        weight: 0.0
+        mealSchemaProductIds: []
     });
 
-    const handleChange = (e) => {
-        setMealSchemaData({...mealSchemaData, [e.target.name]: e.target.value});
+
+    const handleDeleteRow = (targetId) => {
+        setRows(rows.filter((_, id) => id !== targetId));
     };
 
-    const handleSubmit = async (e) => {
+    const handleEditRow = (id) => {
+        setRowToEdit(id);
+        setModalOpen(true);
+    };
+
+    const handleChange = (e) => {
+        setMealSchemaData({ ...mealSchemaData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (newRow) => {
+        rowToEdit === null
+            ? setRows([...rows, newRow])
+            : setRows(rows.map((currentRow, id) => {
+                if (id !== rowToEdit) return currentRow;
+                return newRow;
+            }));
+    };
+
+    const handleSubmitSchema = async (e) => {
         e.preventDefault();
 
         if (!mealSchemaData.name.trim()) {
@@ -25,20 +45,48 @@ const AddMealSchemaPage = () => {
             return;
         }
 
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+
         const mealSchemaPayload = {
             name: mealSchemaData.name,
-            kcal: mealSchemaData.kcal,
-            protein: mealSchemaData.protein,
-            fat: mealSchemaData.fat,
+            creatorEmail: decodedToken.sub
         };
 
-        console.log(JSON.stringify(mealSchemaPayload))
+        let weightsId;
+        let mealSchemaId;
+
+        try {
+            weightsId = new Array(rows.length);
+            for (let i=0; i < rows.length; i++) {
+                const row = {
+                    weight: rows[i].weight,
+                };
+                let response = await fetch('http://localhost:8080/weights/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(row),
+
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const createdWeights = await response.json();
+                weightsId[i]=createdWeights.id;
+            }
+        } catch (error) {
+            console.error('Error adding weights:', error);
+        }
 
         try {
             let response = await fetch('http://localhost:8080/mealSchema/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(mealSchemaPayload)
             });
@@ -46,28 +94,111 @@ const AddMealSchemaPage = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            const createdSchema = await response.json();
+            mealSchemaId = createdSchema.id;
+        } catch (error) {
+            console.error('Error adding meal schema:', error);
+        }
 
-            if (response.ok) {
-                alert('MealSchema added successfully');
-                navigate(`/all-mealSchemas`);
+        let mealSchemaProductsId;
+
+        try {
+            mealSchemaProductsId = new Array(rows.length);
+            for (let i=0; i < rows.length; i++) {
+                const row = {
+                    productId: rows[i].productId,
+                    mealSchemaId: mealSchemaId,
+                    weightsId: weightsId[i],
+                };
+                let response = await fetch('http://localhost:8080/mealSchemaProduct/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(row),
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const createdSchemaProduct = await response.json();
+                mealSchemaProductsId[i] = createdSchemaProduct.id;
             }
         } catch (error) {
-            console.error('Error adding exchange:', error);
+            console.error('Error adding mealSchemaProduct:', error);
         }
+
+        let mealSchemaProducts;
+
+        try {
+            mealSchemaProducts = new Array(rows.length);
+            for (let i=0; i < rows.length; i++) {
+                let response = await fetch(`http://localhost:8080/mealSchemaProduct/${mealSchemaProductsId[i]}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const SchemaProduct = await response.json();
+                mealSchemaProducts[i] = SchemaProduct;
+            }
+        } catch (error) {
+            console.error('Error adding mealSchemaProduct:', error);
+        }
+
+        try {
+            let response = await fetch(`http://localhost:8080/mealSchema/updatemsp/${mealSchemaId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(mealSchemaProducts)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            alert('Meal schema added successfully');
+            navigate(`/all-meal-schemas`);
+        } catch (error) {
+            console.error('Error adding meal schema:', error);
+        }
+
     };
 
     return (
-        <div className="mainPage">
+        <div className="MealSchema">
             <nav className="mainNavigation">
-                <Link to="/all-mealSchemas">All MealSchemas</Link>
+                <Link to="/all-meal-schemas">All Meal Schemas</Link>
+                <Link to="/">Log out</Link>
             </nav>
-            <div className="editFormContainer">
-                <form onSubmit={handleSubmit} className="editForm">
-                    <input className="inputStyle" type="text" name="name" value={mealSchemaData.name}
-                           onChange={handleChange} placeholder="Name" required/>
-                    <button className="submitButton" type="submit">Add MealSchema</button>
-                </form>
-            </div>
+            <label>Schema name:</label>
+            <input
+                type="text"
+                name="name"
+                value={mealSchemaData.name}
+                placeholder="Name"
+                onChange={handleChange}
+                required
+            />
+            <MealSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
+            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
+            {modalOpen && (
+                <MealSchemaModal
+                    closeModal={() => {
+                        setModalOpen(false);
+                        setRowToEdit(null);
+                    }}
+                    onSubmit={handleSubmit}
+                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                />
+            )}
+            <button type="submit" onClick={handleSubmitSchema}>Save Schema</button>
         </div>
     );
 };

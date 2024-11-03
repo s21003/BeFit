@@ -6,11 +6,6 @@ const AddTrainingPage = () => {
     const navigate = useNavigate();
     const [trainingData, setTrainingData] = useState({
         name: '',
-        kcal: 0.0,
-        protein: 0.0,
-        fat: 0.0,
-        carbs: 0.0,
-        weight: 0.0
     });
 
     const handleChange = (e) => {

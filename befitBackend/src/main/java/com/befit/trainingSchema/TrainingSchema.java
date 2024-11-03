@@ -15,7 +15,7 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-@Table(name = "trainingSchema")
+@Table(name = "TrainingSchema")
 @Entity
 public class TrainingSchema {
 

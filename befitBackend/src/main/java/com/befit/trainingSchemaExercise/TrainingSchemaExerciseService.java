@@ -11,7 +11,7 @@ import java.util.Optional;
 public class TrainingSchemaExerciseService {
     @Autowired
     private TrainingSchemaExerciseRepository trainingSchemaExerciseRepository;
-    public List<TrainingSchemaExercise> allTrainingSchemaExercies() { return trainingSchemaExerciseRepository.findAll(); }
+    public List<TrainingSchemaExercise> allTrainingSchemaExercise() { return trainingSchemaExerciseRepository.findAll(); }
     public TrainingSchemaExercise createTrainingSchemaExercise(TrainingSchemaExercise tse){
         TrainingSchemaExercise trainingSchemaExercise = new TrainingSchemaExercise();
         trainingSchemaExercise.setExerciseId(tse.getExerciseId());
