@@ -36,35 +36,13 @@ const AllTrainingsPage = () => {
                     }
                     const data = await response.json();
 
-                    const formatDate = date => {
-                        const localDate = new Date(date);
-                        // Get the local time zone offset and convert it to milliseconds
-                        const offset = localDate.getTimezoneOffset() * 60 * 1000;
-                        // Convert UTC time to local time
-                        const localTime = localDate.getTime() - offset;
-                        // Create a new Date object with local time
-                        const localDateTime = new Date(localTime);
-                        // Extract date components
-                        const year = localDateTime.getFullYear();
-                        const month = String(localDateTime.getMonth() + 1).padStart(2, '0');
-                        const day = String(localDateTime.getDate()).padStart(2, '0');
-                        // Extract time components
-                        const hours = String(localDateTime.getHours()).padStart(2, '0');
-                        const minutes = String(localDateTime.getMinutes()).padStart(2, '0');
-                        const seconds = String(localDateTime.getSeconds()).padStart(2, '0');
-                        // Format the date and time
-                        const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-                        return formattedDateTime;
-                    };
-
                     const mappedData = data.map(training => ({
                         Id: training.id,
                         Subject: training.category,
-                        StartTime: formatDate(new Date(training.startTime)),
-                        EndTime: formatDate(new Date(training.endTime)),
+                        StartTime: training.startTime,
+                        EndTime: training.endTime,
                         IsAllDay: false
                     }));
-
 
                     setTrainings(mappedData);
                 } catch (error) {
@@ -78,7 +56,6 @@ const AllTrainingsPage = () => {
         fetchTrainings();
     }, [navigate]);
 
-    const eventSettings = { dataSource: trainings }
 
     let popupData;
 
@@ -89,6 +66,7 @@ const AllTrainingsPage = () => {
                 statusElement.setAttribute('name', 'EventType');
             }
             popupData = args.data;
+            console.log("popupData: ", popupData);
         }
     };
 
@@ -99,19 +77,23 @@ const AllTrainingsPage = () => {
                 <tr>
                     <td className="e-textlabel">Category</td>
                     <td colSpan={4}>
-                        <DropDownListComponent id="Category" placeholder='Choose category' data-name="Category" className="e-field" dataSource={['Cardio', 'Silowy', 'Crossfit', 'Fitness', 'Grupowy']} value={props.Category || null}></DropDownListComponent>
+                        <DropDownListComponent id="category" placeholder='Choose category' data-name="category" className="e-field" dataSource={['Cardio', 'Silowy', 'Crossfit', 'Fitness', 'Grupowy']} value={props.category || null}></DropDownListComponent>
                     </td>
                 </tr>
                 <tr>
                     <td className="e-textlabel">From</td>
                     <td colSpan={4}>
-                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="StartTime" data-name="StartTime" value={new Date(props.StartTime || props.startTime)} className="e-field"></DateTimePickerComponent>
+                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="StartTime" data-name="StartTime"
+                                                 value={new Date(props.StartTime || props.startTime)}
+                                                 className="e-field"></DateTimePickerComponent>
                     </td>
                 </tr>
                 <tr>
                     <td className="e-textlabel">To</td>
                     <td colSpan={4}>
-                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="EndTime" data-name="EndTime" value={new Date(props.EndTime || props.endTime)} className="e-field"></DateTimePickerComponent>
+                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="EndTime" data-name="EndTime"
+                                                 value={new Date(props.EndTime || props.endTime)}
+                                                 className="e-field"></DateTimePickerComponent>
                     </td>
                 </tr>
                 </tbody>
@@ -121,20 +103,24 @@ const AllTrainingsPage = () => {
 
     const onActionComplete = async (args) => {
         if (args.requestType === 'eventCreated') {
-            const eventData = args.data[0]; // Syncfusion may send the data as an array
-            console.log("Event Data:", eventData);
+            const eventData = args.data[0];
+            const startTime = new Date(eventData.StartTime);
+            startTime.setHours(startTime.getHours() + 1);
+            const endTime = new Date(eventData.EndTime);
+            endTime.setHours(endTime.getHours() + 1);
+
+            const startTimeISO = startTime.toISOString();
+            const endTimeISO = endTime.toISOString();
 
             const trainingData = {
                 userEmail: jwtDecode(localStorage.getItem("token")).sub,  // Decode the token to get the user email
-                category: eventData.Category,
-                startTime: eventData.StartTime,
-                endTime: eventData.EndTime
+                category: eventData.category,
+                startTime: startTimeISO,
+                endTime: endTimeISO,
             };
 
-            console.log("trainigData: ", trainingData);
 
-            console.log("start time: ", eventData.StartTime);
-            console.log("end time: ", eventData.EndTime);
+            console.log("training lenght przed postem: ",trainings.length)
 
             try {
                 const token = localStorage.getItem("token");
@@ -147,26 +133,27 @@ const AllTrainingsPage = () => {
                     body: JSON.stringify(trainingData)
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                console.log("training lenght po post: ",trainings.length)
 
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const savedEvent = await response.json();
-                console.log("Saved Event:", savedEvent);
-
-                // Add the saved event to the state
-                setTrainings(prevTrainings => [...prevTrainings, {
-                    Id: savedEvent.id,
-                    Subject: savedEvent.category,
-                    StartTime: new Date(savedEvent.startTime),
-                    EndTime: new Date(savedEvent.endTime),
-                    IsAllDay: false
-                }]);
+                console.log("savedevent: ",savedEvent)
+                // setTrainings(prevTrainings => [...prevTrainings, {
+                //     Id: savedEvent.id,
+                //     Subject: savedEvent.category,
+                //     StartTime: savedEvent.startTime,
+                //     EndTime: savedEvent.endTime,
+                //     IsAllDay: false
+                // }]);
             } catch (error) {
                 console.error("Saving event failed:", error);
             }
         }
+        console.log("trainings after add: ",trainings)
     };
+
+    const eventSettings = { dataSource: trainings }
 
     return (
         <>
@@ -185,8 +172,9 @@ const AllTrainingsPage = () => {
                     eventSettings={eventSettings}
                     editorTemplate={editorTemplate.bind(this)}
                     showQuickInfo={false}
-                    popupOpen={onPopupOpen.bind(this)}
-                    actionComplete={onActionComplete.bind(this)}
+                    popupOpen={onPopupOpen}
+                    actionComplete={onActionComplete}
+                    timeZone="Europe/Warsaw"
                 >
                     <ViewsDirective>
                         <ViewDirective option='Day'></ViewDirective>

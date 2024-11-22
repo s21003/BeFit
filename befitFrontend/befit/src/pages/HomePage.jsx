@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/HomePage.css';
+//import '../styles/HomePage.css';
 import {Link} from "react-router-dom";
 
 const HomePage = () => (
@@ -13,6 +13,7 @@ const HomePage = () => (
             <Link to="/all-meals">All Meals</Link>
             {/*<Link to="/all-meal-schemas">All Meal Schemas</Link>*/}
             <Link to="/all-exercises">All Exercises</Link>
+            <Link to="/chat">Chat</Link>
             {/*<Link to="/goals">All Goals</Link>*/}
         </nav>
     </div>

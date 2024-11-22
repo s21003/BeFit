@@ -16,10 +16,10 @@ public class MealService {
     }
     public Meal createMeal(Meal m){
         Meal meal = new Meal();
-        meal.setProducts(m.getProducts());
-        meal.setMealSchemas(m.getMealSchemas());
-        meal.setIdUser(m.getIdUser());
-        meal.setDate(m.getDate());
+        meal.setStartTime(m.getStartTime());
+        meal.setEndTime(m.getEndTime());
+        meal.setUserEmail(m.getUserEmail());
+        meal.setLabel(m.getLabel());
         mealRepository.save(meal);
         return meal;
     }
@@ -38,12 +38,6 @@ public class MealService {
             Meal meal = tmp.get();
             if (meal.getProducts() != m.getProducts()){
                 meal.setProducts(m.getProducts());
-            }
-            if (meal.getIdUser() != m.getIdUser()){
-                meal.setIdUser(m.getIdUser());
-            }
-            if (meal.getDate() != m.getDate()){
-                meal.setDate(m.getDate());
             }
             mealRepository.save(meal);
             return "Updated";

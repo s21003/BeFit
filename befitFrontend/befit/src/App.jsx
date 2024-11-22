@@ -32,6 +32,7 @@ import GoalsPage from "./pages/user/GoalsPage";
 // import UsersTrainersPage from "./pages/user/UsersTrainersPage";
 import {UserProvider} from "./helpers/UserContext";
 import OwnProductsPage from "./pages/product/OwnProductsPage";
+import Chat from "./pages/chat/Chat";
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/all-training-schemas" element={<AllTrainingSchemasPage/>}/>
             <Route path="/training/:id" element={<DetailsTrainingPage/>}/>
             <Route path="/training-schema/:id" element={<DetailsTrainingSchemaPage/>}/>
+            <Route path="/chat" element={<Chat/>}/>
             {/*<Route path="/users-trainers" element={<UsersTrainersPage/>}/>*/}
             <Route path="/goals" element={<GoalsPage/>}/>
             {/*<Route path="/all-users" element={<AllUsersPage/>}/>*/}

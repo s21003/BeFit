@@ -1,5 +1,6 @@
 package com.befit.product;
 
+import com.befit.training.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +63,9 @@ public class ProductService {
     public Optional<Product> singleProduct(Long id){
         return productRepository.findById(id);
     }
+
+    public List<Product> ownProducts(String email){
+        return productRepository.findByCreatorEmail(email);
+    }
+
 }

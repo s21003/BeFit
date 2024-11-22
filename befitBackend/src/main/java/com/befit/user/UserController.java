@@ -31,8 +31,8 @@ public class UserController {
         return new ResponseEntity<>(userService.editUSer(u),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getSingleExercise(@PathVariable Long id){
-        return new ResponseEntity<>(userService.singleUser(id),HttpStatus.OK);
+    @GetMapping("/{email}")
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String email){
+        return new ResponseEntity<>(userService.singleUserByEmail(email),HttpStatus.OK);
     }
 }

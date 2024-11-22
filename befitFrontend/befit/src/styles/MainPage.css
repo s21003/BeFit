@@ -358,18 +358,18 @@
     background-color: #a67c52; /* A darker blue for hover effect */
 }
 
-.training-buttons {
+.training-buttons, .meal-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.training-buttons h1 {
+.training-buttons h1,.meal-buttons h1 {
     margin-right: 20px; /* Adjust as needed */
 }
 
-.training-buttons a {
+.training-buttons a, .meal-buttons a {
     display: inline-block;
     padding: 10px 20px;
     margin-right: 10px;
@@ -380,7 +380,7 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.training-buttons a:hover {
+.training-buttons a:hover, .meal-buttons a:hover {
     background-color: #333;
     color: #fff;
 }

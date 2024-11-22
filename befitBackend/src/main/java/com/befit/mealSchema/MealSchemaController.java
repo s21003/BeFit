@@ -1,7 +1,7 @@
 package com.befit.mealSchema;
 
+import com.befit.meal.MealLabel;
 import com.befit.mealSchemaProduct.MealSchemaProduct;
-import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +36,11 @@ public class MealSchemaController {
     @PutMapping("/updatemsp/{id}")
     public ResponseEntity<String> updateMealSchemaProducts(@RequestBody List<MealSchemaProduct> ids, @PathVariable Long id){
         return new ResponseEntity<>(mealSchemaService.editMealSchemaProducts(ids,id),HttpStatus.OK);
+    }
+
+    @GetMapping("/types")
+    public ResponseEntity<List<MealLabel>> getTypes(){
+        return new ResponseEntity<>(mealSchemaService.getTypes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

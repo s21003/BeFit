@@ -1,10 +1,12 @@
 package com.befit.mealSchema;
 
+import com.befit.meal.MealLabel;
 import com.befit.mealSchemaProduct.MealSchemaProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +61,9 @@ public class MealSchemaService {
             return "Updated";
         }
     }
+
+    public List<MealLabel> getTypes(){ return Arrays.asList(MealLabel.values()); }
+
     public Optional<MealSchema> singleMealSchema(Long id){
         return mealSchemaRepository.findById(id);
     }

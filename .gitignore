@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/befitFrontend/node_modules
+/befitFrontend/befit/node_modules
 /.pnp
 .pnp.js
 

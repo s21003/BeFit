@@ -1,5 +1,6 @@
 package com.befit.product;
 
+import com.befit.training.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,10 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Product>> getSingleExercise(@PathVariable Long id){
         return new ResponseEntity<>(productService.singleProduct(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<List<Product>> getOwnProducts(@PathVariable String email){
+        return new ResponseEntity<>(productService.ownProducts(email),HttpStatus.OK);
     }
 }

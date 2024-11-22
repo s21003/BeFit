@@ -35,19 +35,19 @@ public class Meal {
     private List<MealSchema> mealSchemas;
 
     @Column
-    private long idUser;
+    private LocalDateTime startTime;
 
     @Column
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDateTime date;
+    private LocalDateTime endTime;
+
+    @Column
+    private String name;
+
     @Column
     private String userEmail;
 
-    public Meal(String userEmail, List<Product> products, List<MealSchema> mealSchemas, long idUser, LocalDateTime date) {
-        this.userEmail = userEmail;
-        this.products = products;
-        this.mealSchemas = mealSchemas;
-        this.idUser = idUser;
-        this.date = date;
-    }
+    @Column
+    @Enumerated(EnumType.STRING)
+    private MealLabel label;
+
 }

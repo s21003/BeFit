@@ -26,8 +26,7 @@ public class Training {
     private TrainingSchema trainingSchema;
 
     @Column
-    private
-    String userEmail;
+    private String userEmail;
 
     @Column
     private LocalDateTime startTime;
