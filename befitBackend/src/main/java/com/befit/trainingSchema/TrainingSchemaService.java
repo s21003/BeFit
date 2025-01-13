@@ -22,7 +22,7 @@ public class TrainingSchemaService {
         trainingSchema.setCategory(ts.getCategory());
         trainingSchema.setName(ts.getName());
         trainingSchema.setCreationDate(LocalDate.now());
-        trainingSchema.setCreatorEmail(ts.getCreatorEmail());
+        trainingSchema.setCreatorUsername(ts.getCreatorUsername());
 
         trainingSchemaRepository.save(trainingSchema);
         return trainingSchema;
@@ -48,9 +48,6 @@ public class TrainingSchemaService {
             }
             if (trainingSchema.getCreationDate() != ts.getCreationDate()){
                 trainingSchema.setCreationDate(ts.getCreationDate());
-            }
-            if (trainingSchema.getCreatorEmail() != ts.getCreatorEmail()){
-                trainingSchema.setCreatorEmail(ts.getCreatorEmail());
             }
             trainingSchemaRepository.save(trainingSchema);
             return "Updated";

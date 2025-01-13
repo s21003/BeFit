@@ -1,6 +1,7 @@
 package com.befit.meal;
 
 import com.befit.training.Training;
+import com.befit.training.TrainingCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,18 @@ public class MealController {
         return new ResponseEntity<>(mealService.editMeal(m,id),HttpStatus.OK);
     }
 
+    @GetMapping("/labels")
+    public ResponseEntity<List<MealLabel>> getCategories(){
+        return new ResponseEntity<>(mealService.getLabels(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Meal>> getSingleExercise(@PathVariable Long id){
+    public ResponseEntity<Optional<Meal>> getSingleMeal(@PathVariable Long id){
         return new ResponseEntity<>(mealService.singleMeal(id),HttpStatus.OK);
     }
 
-    @GetMapping("/user/{email}")
-    public ResponseEntity<List<Meal>> getUsersTrainings(@PathVariable String email){
-        return new ResponseEntity<>(mealService.userMeal(email),HttpStatus.OK);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Meal>> getUsersTrainings(@PathVariable String username){
+        return new ResponseEntity<>(mealService.userMeal(username),HttpStatus.OK);
     }
 }

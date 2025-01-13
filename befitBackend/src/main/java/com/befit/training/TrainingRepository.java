@@ -6,5 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrainingRepository extends JpaRepository<Training,Long> {
-    List<Training> findByUserEmail(String email);
+    List<Training> findByUserUsername(String username);
+    Optional<Training> findById(Long id);
 }

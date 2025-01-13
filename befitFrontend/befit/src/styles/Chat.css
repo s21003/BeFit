@@ -1,57 +1,55 @@
-.chat{
-    height: calc(100vh - 70px);
+.container {
     display: flex;
+    height: 100vh;
 }
 
-.chatMenu{
-    flex: 3.5;
-}
-.chatMenuInput{
-    width: 90%;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid gray;
-}
-
-.chatBox{
-    flex: 8.5;
-}
-
-.chatBoxWrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.chatBoxTop{
-    height: 100%;
-    overflow-y: scroll;
-    padding-right: 10px;
-}
-
-.chatBoxBottom{
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.chatMessageInput{
-    width: 80%;
-    height: 90px;
+.contacts {
+    width: 30%;
+    border-right: 1px solid #ccc;
     padding: 10px;
 }
 
-.chatSubmitButton{
-    width: 70px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
+.contact {
     cursor: pointer;
-    background-color: teal;
-    color: white;
+    padding: 5px;
 }
 
-.chatMenuWrapper ,.chatBoxWrapper{
+.contact.active {
+    background: #f0f0f0;
+}
+
+.chat {
+    width: 70%;
     padding: 10px;
+}
+
+.chat-header {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.chat-messages {
+    height: 80%;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.chat-input {
+    display: flex;
+    margin-top: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.chat-input button {
+    padding: 5px 10px;
 }

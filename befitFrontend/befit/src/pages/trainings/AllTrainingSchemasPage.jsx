@@ -137,7 +137,7 @@ const AllTrainingSchemasPage = () => {
                             <tr key={trainingSchema.id} onClick={() => handleRowClick(trainingSchema.id)}>
                                 <td>{trainingSchema.name}</td>
                                 <td>{trainingSchema.category}</td>
-                                <td>{trainingSchema.creatorEmail}</td>
+                                <td>{trainingSchema.creatorUsername}</td>
                                 <td>{trainingSchema.creationDate}</td>
                                 <td className="actions">
                                     <BsFillTrashFill className="delete-btn" onClick={(e) => handleDelete(trainingSchema.id, e)}/>

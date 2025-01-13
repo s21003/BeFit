@@ -1,9 +1,11 @@
 package com.befit.meal;
 
 import com.befit.training.Training;
+import com.befit.training.TrainingCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public class MealService {
         Meal meal = new Meal();
         meal.setStartTime(m.getStartTime());
         meal.setEndTime(m.getEndTime());
-        meal.setUserEmail(m.getUserEmail());
+        meal.setUserUsername(m.getUserUsername());
         meal.setLabel(m.getLabel());
         mealRepository.save(meal);
         return meal;
@@ -47,8 +49,11 @@ public class MealService {
         return mealRepository.findById(id);
     }
 
-    public List<Meal> userMeal(String email){
-        return mealRepository.findByUserEmail(email);
+    public List<Meal> userMeal(String username){
+        return mealRepository.findByUserUsername(username);
     }
 
+    public List<MealLabel> getLabels() {
+        return Arrays.asList(MealLabel.values());
+    }
 }

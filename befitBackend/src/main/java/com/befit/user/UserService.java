@@ -1,6 +1,5 @@
 package com.befit.user;
 
-import com.befit.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +17,13 @@ public class UserService {
     }
 
     public String register(Map<String, String> payload) {
-        Optional<User> optionalUser = userRepository.findByEmail(payload.get("email"));
+        Optional<User> optionalUser = userRepository.findByUsername(payload.get("username"));
 
         if(optionalUser.isPresent()) {
-            return "Email exists";
+            return "Username exists";
         }
 
-        User user = new User(payload.get("name"),payload.get("surname"),payload.get("address"),payload.get("password"),payload.get("email"), Role.USER);
+        User user = new User(payload.get("name"),payload.get("surname"),payload.get("address"),payload.get("password"),payload.get("username"), Role.USER);
         userRepository.save(user);
 
         return "User added";
@@ -81,8 +80,7 @@ public class UserService {
     public Optional<User> singleUser(Long id){
         return userRepository.findById(id);
     }
-    public Optional<User> singleUserByEmail(String email){
-        return userRepository.findByEmail(email);
+    public Optional<User> singleUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
-
 }

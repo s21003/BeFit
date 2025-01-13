@@ -1,9 +1,11 @@
 package com.befit.trainingExercise;
 
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,4 +43,17 @@ public class TrainingExerciseService {
     }
     public Optional<TrainingExercise> singleTrainingExercise(Long id) { return trainingExerciseRepository.findById(id); }
 
+    public String dropTraining(Long id) {
+        List<TrainingExercise> all = trainingExerciseRepository.findAll();
+        String flag = "ERROR with delete";
+        for (int i = 0; i < all.size(); i++) {
+            if (Objects.equals(all.get(i).getTrainingSchemaId(), id)){
+                trainingExerciseRepository.deleteById(all.get(i).getId());
+                flag = "Deleted";
+            } else {
+                flag = "Wrong id";
+            }
+        }
+        return flag;
+    }
 }

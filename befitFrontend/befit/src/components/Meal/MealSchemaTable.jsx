@@ -4,6 +4,8 @@ import '../../styles/Table.css'
 
 
 export const MealSchemaTable = ({ rows, deleteRow, editRow }) => {
+    console.log("rows: "+rows)
+
     return (
         <div className="table-wrapper">
             <table className="table">

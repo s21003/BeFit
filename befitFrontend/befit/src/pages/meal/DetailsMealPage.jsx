@@ -8,16 +8,22 @@ const DetailsMealPage = () => {
     const [mealDetails, setMealDetails] = useState(null);
     const navigate = useNavigate();
     const [editFormData, setEditFormData] = useState({
-        meal: '',
-        idUser: '',
-        date: null,
+        products: '',
+        creatorId: '',
+        creationDate: null,
     });
 
     useEffect(() => {
         const fetchMealDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/meal/${id}`);
-                if (!response.ok) {
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://localhost:8080/meal/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });                if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
@@ -32,9 +38,9 @@ const DetailsMealPage = () => {
 
     const handleEdit = () => {
         setEditFormData({
-            meal: mealDetails.meal,
-            idUser: mealDetails.idUser,
-            date: mealDetails.date,
+            products: mealDetails.products,
+            creationDate: mealDetails.creationDate,
+            creatorId: mealDetails.creatorId,
         });
     };
 
@@ -89,14 +95,15 @@ const DetailsMealPage = () => {
         <div className="mainPage">
             {user && <h1>Hello, {user.username}</h1>}
             <nav className="mainNavigation">
-                <Link to="/all-mealts">All Meals</Link>
+                <Link to="/all-meals">All Meal</Link>
             </nav>
             <div className="detailsContainer">
                 <h2 className="detailsHeader">Meal Details</h2>
                 {mealDetails ? (
                     <>
-                        <div className="detailsContent"><strong>Posiłek:</strong> {mealDetails.meal}</div>
-                        <div className="detailsContent"><strong>Data dodania:</strong> {mealDetails.date}</div>
+                        <div className="detailsContent"><strong>Produkty:</strong> {mealDetails.products}</div>
+                        <div className="detailsContent"><strong>Data utworzenia:</strong> {mealDetails.creationDate}</div>
+                        <div className="detailsContent"><strong>Id twórcy:</strong> {mealDetails.creatorId}</div>
                         {(
                             <>
                                 <button onClick={handleDelete} className="submitButton">Delete meal</button>
@@ -104,27 +111,38 @@ const DetailsMealPage = () => {
                                 <form onSubmit={handleSubmitEdit}>
                                     <input
                                         type="text"
-                                        name="meal"
+                                        name="products"
                                         className="inputStyle"
-                                        value={editFormData.meal}
-                                        onChange={e => setEditFormData({...editFormData, meal: e.target.value})}
-                                        placeholder="Posiłek"
+                                        value={editFormData.products}
+                                        onChange={e => setEditFormData({...editFormData, products: e.target.value})}
+                                        placeholder="Produkty"
                                     />
                                     <input
                                         type="date"
-                                        name="date"
+                                        name="creationDate"
                                         className="inputStyle"
-                                        value={editFormData.date || ""}
-                                        onChange={e => setEditFormData({...editFormData, date: e.target.value})}
-                                        placeholder="DataDodania"
+                                        value={editFormData.creationDate || ""}
+                                        onChange={e => setEditFormData({...editFormData, creationDate: e.target.value})}
+                                        placeholder="DataUtworzenia"
                                     />
-                                    <button type="submit" className="submitButton">Update meal</button>
+                                    <input
+                                        className="inputStyle"
+                                        type="number"
+                                        name="creatorId"
+                                        value={editFormData.creatorId}
+                                        onChange={e => setEditFormData({
+                                            ...editFormData,
+                                            creatorId: parseFloat(e.target.value)
+                                        })}
+                                        placeholder="IdTwórcy"
+                                    />
+                                    <button type="submit" className="submitButton">Update Meal </button>
                                 </form>
                             </>
                         )}
                     </>
                 ) : (
-                    <p>Loading meal details...</p>
+                    <p>Loading Meal  details...</p>
                 )}
             </div>
         </div>

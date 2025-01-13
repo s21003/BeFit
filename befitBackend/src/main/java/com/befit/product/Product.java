@@ -40,7 +40,7 @@ public class Product {
     private double weight;
 
     @Column
-    private String creatorEmail;
+    private String creatorUsername;
 
     public Product(String name, double kcal, double protein, double fat, double carbs, double weight) {
         this.name = name;

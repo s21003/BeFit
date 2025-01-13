@@ -39,10 +39,10 @@ public class MealSchema {
     private LocalDate creationDate;
 
     @Column
-    private String creatorEmail;
+    private String creatorUsername;
 
-    public MealSchema(String name, String creatorEmail) {
+    public MealSchema(String name, String creatorUsername) {
         this.name = name;
-        this.creatorEmail = creatorEmail;
+        this.creatorUsername = creatorUsername;
     }
 }

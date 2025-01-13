@@ -1,96 +1,73 @@
-import React, {useEffect, useState} from "react";
-import '../../styles/Chat.css'
-
-import NavBar from "../../components/NavBar";
-import Conversation from "./Conversation";
-import Message from "./Message";
-import {jwtDecode} from "jwt-decode";
-
-var stompClient = null;
+import React, { useState, useEffect } from 'react';
+import { Client } from '@stomp/stompjs';
 
 const Chat = () => {
-    const token = localStorage.getItem("token");
-    const decodedToken = jwtDecode(token);
-    const userEmail = decodedToken.sub;
-    const [receiverEmails, setReceiverEmails] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [client, setClient] = useState(null);
+    const socketUrl = 'ws://localhost:8080/ws';  // Use the correct URL
 
-    const [userData, setUserData] = React.useState({
-        userEmail: "",
-        userName:"",
-        userSurname:"",
-    });
-    const [receiversData, setReceiversData] = React.useState({
-        receiverEmail: "",
-        receiverName:"",
-        receiverSurname:"",
-    });
+    const handleNewMessage = (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+    };
+
+    const handleError = (error) => {
+        console.error('WebSocket error: ', error);
+    };
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem("token");
+        const stompClient = new Client({
+            brokerURL: socketUrl,  // Use the socketUrl you defined
+            reconnectDelay: 5000,
+            debug: (str) => console.log('STOMP Debug: ' + str),
+            onConnect: () => {
+                console.log('WebSocket connected!');
+                stompClient.subscribe('/topic/messages', (message) => {
+                    console.log('Received message: ', message.body);
+                    handleNewMessage(message.body);
+                });
+            },
+            onWebSocketError: (error) => {
+                console.error('WebSocket error:', error);
+            },
+            onStompError: (frame) => {
+                console.error('STOMP error: ', frame);
+            },
+            onWebSocketClose: () => {
+                console.log('WebSocket connection closed');
+            }
+        });
 
-            if (token) {
-                console.log("User Email from token:", userEmail, "   ", token);
+        stompClient.activate();
+        setClient(stompClient);
 
-                try {
-                    const response = await fetch(`http://localhost:8080/user/${userEmail}`, {
-                        method: 'GET',
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-
-                    const tmp = {
-                        userName: data.name,
-                        userSurname: data.surname,
-                        userEmail: data.email,
-                    }
-
-                    setUserData(tmp);
-                } catch (error) {
-                    console.error("Fetching user failed: ", error);
-                }
-            } else {
-                console.error("No token found, please login again.");
-                navigate('/login');
+        return () => {
+            if (stompClient) {
+                stompClient.deactivate();
+                console.log('WebSocket disconnected');
             }
         };
-        fetchUser();
     }, []);
 
-
-    return(
-        <>
-            <NavBar/>
-            <div className="chat">
-                <div className="chatMenu">
-                    <div className="chatMenuWrapper">
-                        <input placeholder="Search for friends" className="chatMenuInput"/>
-                        <Conversation/>
-                        <Conversation/>
-                        <Conversation/>
-                    </div>
-                </div>
-                <div className="chatBox">
-                    <div className="chatBoxWrapper">
-                        <div className="chatBoxTop">
-                            <Message />
-                            <Message message={true}/>
-                        </div>
-                        <div className="chatBoxBottom">
-                            <textarea className="chatMessageInput" placeholder="Write someting..."></textarea>
-                            <button className="chatSubmitButton">Send</button>
-                        </div>
-                    </div>
-                </div>
+    return (
+        <div style={{ display: 'flex' }}>
+            <div style={{ width: '20%', borderRight: '1px solid #ccc', padding: '10px' }}>
+                <h3>People</h3>
+                <ul>
+                    {/* List of people (to be implemented) */}
+                    <li>User 1</li>
+                    <li>User 2</li>
+                </ul>
             </div>
-        </>
-    )
+            <div style={{ width: '80%', padding: '10px' }}>
+                <h1>Chat</h1>
+                <ul>
+                    {messages.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
 };
 
 export default Chat;

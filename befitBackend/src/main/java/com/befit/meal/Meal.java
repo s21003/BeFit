@@ -44,7 +44,7 @@ public class Meal {
     private String name;
 
     @Column
-    private String userEmail;
+    private String userUsername;
 
     @Column
     @Enumerated(EnumType.STRING)

@@ -57,6 +57,12 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!validateForm()) return;
+
+        formState.kcal = formState.kcal*formState.weight/100;
+        formState.protein = formState.protein*formState.weight/100;
+        formState.fat = formState.fat*formState.weight/100;
+        formState.carbs = formState.carbs*formState.weight/100;
+
         onSubmit(formState);
         console.log("form state", formState);
         closeModal();

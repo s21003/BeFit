@@ -1,6 +1,6 @@
 package com.befit.auth;
 
-import com.befit.Role;
+import com.befit.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class RegisterRequest {
     private String name;
     private String surname;
     private String address;
-    private String email;
+    private String username;
     private String password;
     private Role role;
 }

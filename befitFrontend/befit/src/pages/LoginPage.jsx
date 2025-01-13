@@ -7,7 +7,7 @@ const LoginPage = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({
-        email: '',
+        username: '',
         password: ''
     });
 
@@ -25,8 +25,8 @@ const LoginPage = () => {
 
     const validateForm = () => {
         let newErrors = {};
-        if (!userDetails.email.trim()) newErrors.email = ('Email null');
-        else if (userDetails.email.trim().length < 3) newErrors.email = ('Invalid email');
+        if (!userDetails.username.trim()) newErrors.username = ('Username null');
+        else if (userDetails.username.trim().length < 3) newErrors.username = ('Invalid username');
 
         if (!userDetails.password.trim()) newErrors.password = ('Password null');
         else if (userDetails.password.trim().length < 6) newErrors.password = ('Password too short');
@@ -52,7 +52,7 @@ const LoginPage = () => {
                 navigate("/home")
 
             } catch (error) {
-                setErrors({ ...errors, email: ('Wrong Details')});
+                setErrors({ ...errors, username: ('Wrong Details')});
             }
         }
     }
@@ -63,9 +63,9 @@ const LoginPage = () => {
             <div className={`login-form-container ${isVisible ? 'visible' : ''}`}>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        {errors.email && <p className = {`error ${errors.email ? 'show' : ''}`}>{errors.email}</p>}
-                        <label htmlFor="email">{('email')}</label>
-                        <input type="text" name="email" value={userDetails.email} onChange={handleChange} />
+                        {errors.username && <p className = {`error ${errors.username ? 'show' : ''}`}>{errors.username}</p>}
+                        <label htmlFor="username">{('username')}</label>
+                        <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         {errors.password && <p className = {`error ${errors.password ? 'show' : ''}`}>{errors.password}</p>}

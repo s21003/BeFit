@@ -38,12 +38,12 @@ public class TrainingSchema {
     private LocalDate creationDate;
 
     @Column
-    private String creatorEmail;
+    private String creatorUsername;
 
-    public TrainingSchema(String name, TrainingCategory category,String creatorEmail) {
+    public TrainingSchema(String name, TrainingCategory category,String creatorUsername) {
         this.category = category;
         this.name=name;
-        this.creatorEmail=creatorEmail;
+        this.creatorUsername=creatorUsername;
     }
 }
 

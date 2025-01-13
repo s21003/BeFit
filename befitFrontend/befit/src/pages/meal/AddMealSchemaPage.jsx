@@ -51,7 +51,7 @@ const AddMealSchemaPage = () => {
 
         const mealSchemaPayload = {
             name: mealSchemaData.name,
-            creatorEmail: decodedToken.sub
+            creatorUsername: decodedToken.sub
         };
 
         let weightsId;
@@ -148,7 +148,7 @@ const AddMealSchemaPage = () => {
                 mealSchemaProducts[i] = SchemaProduct;
             }
         } catch (error) {
-            console.error('Error adding mealSchemaProduct:', error);
+            console.error('Error getting mealSchemaProduct:', error);
         }
 
         try {

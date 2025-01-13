@@ -20,11 +20,9 @@ public class UserTrainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn
     @ManyToOne
     private User user;
 
-    @JoinColumn
     @ManyToOne
     private Trainer trainer;
 

@@ -76,7 +76,7 @@ const AddTrainingSchemaPage = () => {
         const trainingSchemaPayload = {
             name: trainingSchemaData.name,
             category: trainingSchemaData.category,
-            creatorEmail: decodedToken.sub
+            creatorUsername: decodedToken.sub
         };
 
         let seriesId;

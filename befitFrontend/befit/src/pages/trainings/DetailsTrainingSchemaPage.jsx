@@ -19,7 +19,7 @@ const DetailsTrainingSchemaPage = () => {
         name: '',
         category: '',
         trainingSchemaExerciseIds: [],
-        creatorEmail: ''
+        creatorUsername: ''
     });
 
     // Fetch the training schema data
@@ -242,7 +242,7 @@ const DetailsTrainingSchemaPage = () => {
         const trainingSchemaPayload = {
             name: trainingSchemaData.name,
             category: trainingSchemaData.category,
-            creatorEmail: decodedToken.sub
+            creatorUsername: decodedToken.sub
         };
 
         let seriesId;
@@ -345,7 +345,7 @@ const DetailsTrainingSchemaPage = () => {
             const row = {
                 name: trainingSchemaData.name,
                 category: trainingSchemaData.category,
-                creatorEmail: trainingSchemaData.creatorEmail,
+                creatorUsername: trainingSchemaData.creatorUsername,
                 creationDate: trainingSchemaData.creationDate,
             };
 

@@ -27,10 +27,10 @@ const AllMealsPage = () => {
 
             if (token) {
                 const decodedToken = jwtDecode(token);
-                const userEmail = decodedToken.sub;
+                const userUsername = decodedToken.sub;
 
                 try {
-                    const response = await fetch(`http://localhost:8080/meal/user/${userEmail}`, {
+                    const response = await fetch(`http://localhost:8080/meal/user/${userUsername}`, {
                         method: 'GET',
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -94,6 +94,7 @@ const AllMealsPage = () => {
                     </td>
                 </tr>
                 </tbody>
+                <CustomLink to={`/meal/${props.Id}`}>Edytuj</CustomLink>
             </table>
         ) : <div></div>);
 };
@@ -110,7 +111,7 @@ const AllMealsPage = () => {
             const endTimeISO = endTime.toISOString();
 
             const mealData = {
-                userEmail: jwtDecode(localStorage.getItem("token")).sub,
+                userUsername: jwtDecode(localStorage.getItem("token")).sub,
                 label: eventData.label,
                 startTime: startTimeISO,
                 endTime: endTimeISO,

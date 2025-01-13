@@ -19,12 +19,12 @@ const AllTrainingsPage = () => {
 
             if (token) {
                 const decodedToken = jwtDecode(token);
-                const userEmail = decodedToken.sub;
+                const userUsername = decodedToken.sub;
 
-                console.log("User Email from token:", userEmail, "   ", token);
+                console.log("User username from token:", userUsername, "   ", token);
 
                 try {
-                    const response = await fetch(`http://localhost:8080/training/user/${userEmail}`, {
+                    const response = await fetch(`http://localhost:8080/training/user/${userUsername}`, {
                         method: 'GET',
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -43,7 +43,6 @@ const AllTrainingsPage = () => {
                         EndTime: training.endTime,
                         IsAllDay: false
                     }));
-
                     setTrainings(mappedData);
                 } catch (error) {
                     console.error("Fetching trainings failed: ", error);
@@ -56,7 +55,6 @@ const AllTrainingsPage = () => {
         fetchTrainings();
     }, [navigate]);
 
-
     let popupData;
 
     const onPopupOpen = (args) => {
@@ -65,19 +63,20 @@ const AllTrainingsPage = () => {
             if (statusElement) {
                 statusElement.setAttribute('name', 'EventType');
             }
+            console.log("status element: ",statusElement);
             popupData = args.data;
-            console.log("popupData: ", popupData);
         }
     };
 
     const editorTemplate = (props) => {
+        console.log("props editorTemlate: ",props);
         return (props !== undefined ? (
             <table className="custom-event-editor">
                 <tbody>
                 <tr>
                     <td className="e-textlabel">Category</td>
                     <td colSpan={4}>
-                        <DropDownListComponent id="category" placeholder='Choose category' data-name="category" className="e-field" dataSource={['Cardio', 'Silowy', 'Crossfit', 'Fitness', 'Grupowy']} value={props.category || null}></DropDownListComponent>
+                        <DropDownListComponent id="Subject" placeholder='Choose category' data-name="Subject" className="e-field" dataSource={['Cardio', 'Silowy', 'Crossfit', 'Fitness', 'Grupowy']} value={props.Subject || null}></DropDownListComponent>
                     </td>
                 </tr>
                 <tr>
@@ -97,13 +96,16 @@ const AllTrainingsPage = () => {
                     </td>
                 </tr>
                 </tbody>
+                <CustomLink to={`/training/${props.Id}`}>Edytuj</CustomLink>
             </table>
+
         ) : <div></div>);
     };
 
     const onActionComplete = async (args) => {
         if (args.requestType === 'eventCreated') {
             const eventData = args.data[0];
+            console.log("eventData: ", eventData);
             const startTime = new Date(eventData.StartTime);
             startTime.setHours(startTime.getHours() + 1);
             const endTime = new Date(eventData.EndTime);
@@ -113,14 +115,11 @@ const AllTrainingsPage = () => {
             const endTimeISO = endTime.toISOString();
 
             const trainingData = {
-                userEmail: jwtDecode(localStorage.getItem("token")).sub,  // Decode the token to get the user email
-                category: eventData.category,
+                userUsername: jwtDecode(localStorage.getItem("token")).sub,
+                category: eventData.Subject,
                 startTime: startTimeISO,
                 endTime: endTimeISO,
             };
-
-
-            console.log("training lenght przed postem: ",trainings.length)
 
             try {
                 const token = localStorage.getItem("token");
@@ -132,25 +131,11 @@ const AllTrainingsPage = () => {
                     },
                     body: JSON.stringify(trainingData)
                 });
-
-                console.log("training lenght po post: ",trainings.length)
-
-
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const savedEvent = await response.json();
-                console.log("savedevent: ",savedEvent)
-                // setTrainings(prevTrainings => [...prevTrainings, {
-                //     Id: savedEvent.id,
-                //     Subject: savedEvent.category,
-                //     StartTime: savedEvent.startTime,
-                //     EndTime: savedEvent.endTime,
-                //     IsAllDay: false
-                // }]);
             } catch (error) {
                 console.error("Saving event failed:", error);
             }
         }
-        console.log("trainings after add: ",trainings)
     };
 
     const eventSettings = { dataSource: trainings }
@@ -170,7 +155,7 @@ const AllTrainingsPage = () => {
                     height='550px'
                     currentView='Month'
                     eventSettings={eventSettings}
-                    editorTemplate={editorTemplate.bind(this)}
+                    editorTemplate={editorTemplate}
                     showQuickInfo={false}
                     popupOpen={onPopupOpen}
                     actionComplete={onActionComplete}

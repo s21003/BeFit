@@ -1,6 +1,5 @@
 package com.befit.user;
 
-import com.befit.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Data
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Entity
 public class User implements UserDetails {
 
@@ -24,7 +23,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn
     @OneToMany
     private List<UserTrainer> userTrainers;
 
@@ -38,7 +36,7 @@ public class User implements UserDetails {
     private String address;
 
     @Column
-    private String email;
+    private String username;
 
     @Column
     private String password;
@@ -47,11 +45,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String name, String surname, String address, String email, String password, Role role) {
+    public User(String name, String surname, String address, String username, String password, Role role) {
         this.name = name;
         this.surname = surname;
         this.address = address;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
@@ -62,8 +60,13 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
     public String getUsername() {
-        return email;
+        return this.username;
     }
 
     @Override
@@ -85,4 +88,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

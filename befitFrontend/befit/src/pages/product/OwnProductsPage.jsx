@@ -15,12 +15,12 @@ const OwnProductsPage = () => {
 
             if (token) {
                 const decodedToken = jwtDecode(token);
-                const creatorEmail = decodedToken.sub;
+                const creatorUsername = decodedToken.sub;
 
-                console.log("User Email from token:", creatorEmail, "   ", token);
+                console.log("User username from token:", creatorUsername, "   ", token);
 
                 try {
-                    const response = await fetch(`http://localhost:8080/product/user/${creatorEmail}`, {
+                    const response = await fetch(`http://localhost:8080/product/user/${creatorUsername}`, {
                         method: 'GET',
                         headers: {
                             Authorization: `Bearer ${token}`,

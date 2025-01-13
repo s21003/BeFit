@@ -13,7 +13,7 @@ const HomePage = () => (
             <Link to="/all-meals">All Meals</Link>
             {/*<Link to="/all-meal-schemas">All Meal Schemas</Link>*/}
             <Link to="/all-exercises">All Exercises</Link>
-            <Link to="/chat">Chat</Link>
+            <Link to="/tmpChat">Chat</Link>
             {/*<Link to="/goals">All Goals</Link>*/}
         </nav>
     </div>

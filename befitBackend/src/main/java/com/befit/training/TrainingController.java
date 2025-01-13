@@ -1,5 +1,8 @@
 package com.befit.training;
 
+import com.befit.trainingExercise.TrainingExercise;
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
+import com.befit.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +34,19 @@ public class TrainingController {
         return new ResponseEntity<>(trainingService.editTraining(tr,id),HttpStatus.OK);
     }
 
-    @GetMapping("/user/{email}")
-    public ResponseEntity<List<Training>> getUsersTrainings(@PathVariable String email){
-        return new ResponseEntity<>(trainingService.userTrainings(email),HttpStatus.OK);
+    @PutMapping("/updatete/{id}")
+    public ResponseEntity<String> updateTrainingSchemaExercises(@RequestBody List<TrainingExercise> ids, @PathVariable Long id){
+        return new ResponseEntity<>(trainingService.editTrainingExercises(ids,id),HttpStatus.OK);
     }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Training>> getUsersTrainings(@PathVariable String username){
+        return new ResponseEntity<>(trainingService.userTrainings(username),HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Training>> getSingleUser(@PathVariable Long id){
+        return new ResponseEntity<>(trainingService.singleTrainingById(id),HttpStatus.OK);
+    }
+
 }

@@ -7,11 +7,7 @@ const AllMealSchemasPage = () => {
     const navigate = useNavigate();
     const [mealSchemas, setMealSchemas] = useState([]);
     const [mealSchemaProduct, setMealSchemaProduct] = useState([]);
-    const [weights, setWeights] = useState([]);
-    const [products, setProducts] = useState([]);
     const [rows, setRows] = useState([]);
-    const mealSchemasPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchMealSchemas = async () => {
         const token = localStorage.getItem("token");
@@ -40,6 +36,7 @@ const AllMealSchemasPage = () => {
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             setMealSchemaProduct(await response.json());
+            console.log("setMealSchemaProduct: "+mealSchemaProduct)
         } catch (error) {
             console.error("Fetching mealSchemas failed: ", error);
         }
@@ -53,8 +50,6 @@ const AllMealSchemasPage = () => {
     useEffect(() => {
         const calculateNutritionData = async () => {
             const token = localStorage.getItem("token");
-            let tempWeights = [];
-            let tempProducts = [];
             let tempData = [];
             const nutritions = Array.from({ length: mealSchemas.length }, () => ({
                 kcal: 0.0,
@@ -75,7 +70,6 @@ const AllMealSchemasPage = () => {
                     });
                     if (!weightResponse.ok) throw new Error(`HTTP error weight! Status: ${weightResponse.status}`);
                     const weight = await weightResponse.json();
-                    tempWeights.push(weight);
 
                     const productResponse = await fetch(`http://localhost:8080/product/${productId}`, {
                         headers: {
@@ -85,7 +79,6 @@ const AllMealSchemasPage = () => {
                     });
                     if (!productResponse.ok) throw new Error(`HTTP error product! Status: ${productResponse.status}`);
                     const product = await productResponse.json();
-                    tempProducts.push(product);
 
                     const calculatedData = {
                         kcal: (product.kcal * weight.weight) / 100,
@@ -95,6 +88,7 @@ const AllMealSchemasPage = () => {
                         mealSchemaId,
                     };
                     tempData.push(calculatedData);
+                    console.log("i: ",i,", calculatedData: ",calculatedData)
                 }
 
                 for (let i = 0; i < nutritions.length; i++) {
@@ -109,9 +103,7 @@ const AllMealSchemasPage = () => {
                         }
                     }
                 }
-
-                setWeights(tempWeights);
-                setProducts(tempProducts);
+                console.log("nutritions: ",nutritions)
                 setRows(
                     mealSchemas.map((schema, i) => ({
                         id: schema.id,
@@ -132,12 +124,6 @@ const AllMealSchemasPage = () => {
     }, [mealSchemas, mealSchemaProduct]);
 
     const handleRowClick = (mealSchemaId) => navigate(`/meal-schema/${mealSchemaId}`);
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(mealSchemas.length / mealSchemasPerPage); i++) {
-        pageNumbers.push(i);
-    }
 
     const handleDelete = async (id, e) => {
         e.stopPropagation(); // Prevent the row click event from firing
@@ -205,17 +191,6 @@ const AllMealSchemasPage = () => {
 
             {mealSchemas.length > 0 ? (
                 <>
-                    <nav>
-                        <ul className="pagination">
-                            {pageNumbers.map((number) => (
-                                <li key={number} className="page-item">
-                                    <button onClick={() => paginate(number)} className="page-link">
-                                        {number}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
                     <table>
                         <thead>
                         <tr>

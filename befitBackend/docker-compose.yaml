@@ -1,15 +1,13 @@
-
 version: '3.1'
 
 services:
 
   db:
-    image: mysql:latest
+    image: postgres:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: s21003
-      MYSQL_DATABASE: befit
-      MYSQL_USER: konewka
-      MYSQL_PASSWORD: wiaderko
+      POSTGRES_DB: befit
+      POSTGRES_USER: konewka
+      POSTGRES_PASSWORD: wiaderko
     ports:
-      - "3306:3306"
+      - "5432:5432"

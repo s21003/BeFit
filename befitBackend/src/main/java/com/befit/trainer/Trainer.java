@@ -18,7 +18,6 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn
     @OneToMany
     private List<UserTrainer> userTrainers;
 
@@ -32,7 +31,7 @@ public class Trainer {
     private String address;
 
     @Column
-    private String email;
+    private String username;
 
     @Column
     private String password;
@@ -42,11 +41,11 @@ public class Trainer {
     @Column
     private List<String> specializations;
 
-    public Trainer(String name, String surname, String address, String email ,String password, List<String> specializations) {
+    public Trainer(String name, String surname, String address, String username, String password, List<String> specializations) {
         this.name = name;
         this.surname = surname;
         this.address = address;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.specializations = specializations;
     }

@@ -64,8 +64,8 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public List<Product> ownProducts(String email){
-        return productRepository.findByCreatorEmail(email);
+    public List<Product> ownProducts(String username){
+        return productRepository.findByCreatorUsername(username);
     }
 
 }

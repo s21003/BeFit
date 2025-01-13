@@ -29,11 +29,15 @@ public class TrainingExerciseController {
     public ResponseEntity<String> deleteTrainingExercise(@RequestBody TrainingExercise ts){
         return new ResponseEntity<>(trainingExerciseService.dropTrainingExercise(ts.getId()),HttpStatus.OK);
     }
+    @DeleteMapping("/deleteSchema/{id}")
+    public ResponseEntity<String> deleteTrainingSchemaExercise(@PathVariable Long id){
+        return new ResponseEntity<>(trainingExerciseService.dropTraining(id),HttpStatus.OK);
+    }
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTrainingExercise(@RequestBody TrainingExercise ts, @PathVariable Long id){
         return new ResponseEntity<>(trainingExerciseService.editTrainingExercise(ts,id),HttpStatus.OK);
     }
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<TrainingExercise>> getSingleTrainingExercise(@PathVariable Long id){
         return new ResponseEntity<>(trainingExerciseService.singleTrainingExercise(id),HttpStatus.OK);
     }

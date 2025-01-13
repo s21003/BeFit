@@ -33,6 +33,7 @@ import GoalsPage from "./pages/user/GoalsPage";
 import {UserProvider} from "./helpers/UserContext";
 import OwnProductsPage from "./pages/product/OwnProductsPage";
 import Chat from "./pages/chat/Chat";
+import TmpChatPage from "./pages/chat/TmpChatPage"
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
             {/*<Route path="/users-trainers" element={<UsersTrainersPage/>}/>*/}
             <Route path="/goals" element={<GoalsPage/>}/>
             {/*<Route path="/all-users" element={<AllUsersPage/>}/>*/}
+            <Route path="/tmpChat" element={<TmpChatPage/>}/>
         </Routes>
       </Router>
       </UserProvider>

@@ -20,7 +20,7 @@ public class MealSchemaService {
     public MealSchema createMealSchema(MealSchema ms){
         MealSchema mealSchema = new MealSchema();
         mealSchema.setName(ms.getName());
-        mealSchema.setCreatorEmail(ms.getCreatorEmail());
+        mealSchema.setCreatorUsername(ms.getCreatorUsername());
         mealSchema.setCreationDate(LocalDate.now());
         mealSchemaRepository.save(mealSchema);
         return mealSchema;
@@ -38,12 +38,6 @@ public class MealSchemaService {
             return "WrongId";
         }else{
             MealSchema mealSchema = tmp.get();
-            if (mealSchema.getCreatorEmail() != ms.getCreatorEmail()){
-                mealSchema.setCreatorEmail(ms.getCreatorEmail());
-            }
-            if (mealSchema.getCreationDate() != ms.getCreationDate()){
-                mealSchema.setCreationDate(ms.getCreationDate());
-            }
             mealSchemaRepository.save(mealSchema);
             return "Updated";
         }

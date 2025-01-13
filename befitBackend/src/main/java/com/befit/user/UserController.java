@@ -31,8 +31,8 @@ public class UserController {
         return new ResponseEntity<>(userService.editUSer(u),HttpStatus.OK);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String email){
-        return new ResponseEntity<>(userService.singleUserByEmail(email),HttpStatus.OK);
+    @GetMapping("/{username}")
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String username){
+        return new ResponseEntity<>(userService.singleUserByUsername(username),HttpStatus.OK);
     }
 }

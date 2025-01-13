@@ -1,8 +1,11 @@
 package com.befit.training;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.befit.trainingExercise.TrainingExercise;
 import com.befit.trainingSchema.TrainingSchema;
+import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
@@ -25,8 +28,12 @@ public class Training {
     @ManyToOne
     private TrainingSchema trainingSchema;
 
+    @JoinColumn
+    @OneToMany
+    private List<TrainingExercise> trainingExerciseIds;
+
     @Column
-    private String userEmail;
+    private String userUsername;
 
     @Column
     private LocalDateTime startTime;
@@ -39,12 +46,8 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingCategory category;
 
-
-
-
-
-    public Training(String userEmail, LocalDateTime startTime, TrainingCategory category) {
-        this.userEmail = userEmail;
+    public Training(String userUsername, LocalDateTime startTime, TrainingCategory category) {
+        this.userUsername = userUsername;
         this.startTime = startTime;
         this.category = category;
     }

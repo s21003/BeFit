@@ -34,7 +34,7 @@ public class Exercise {
     private URL videoLink=null;
 
     @Column
-    private String creatorEmail;
+    private String creatorUsername;
 
     public Exercise(String name, BodyPart part, @Nullable URL videoLink) {
         this.name = name;

@@ -37,8 +37,8 @@ public class ProductController {
         return new ResponseEntity<>(productService.singleProduct(id),HttpStatus.OK);
     }
 
-    @GetMapping("/user/{email}")
-    public ResponseEntity<List<Product>> getOwnProducts(@PathVariable String email){
-        return new ResponseEntity<>(productService.ownProducts(email),HttpStatus.OK);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Product>> getOwnProducts(@PathVariable String username){
+        return new ResponseEntity<>(productService.ownProducts(username),HttpStatus.OK);
     }
 }

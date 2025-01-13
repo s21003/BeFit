@@ -9,7 +9,7 @@ const SignUpPage = () => {
         name: '',
         surname: '',
         address: '',
-        email: '',
+        username: '',
         password: ''
     });
     const [isChangingBackground, setIsChangingBackground] = useState(false);
@@ -37,8 +37,8 @@ const SignUpPage = () => {
         if (!userDetails.password.trim()) newErrors.password = 'Password cannot be null';
         else if (userDetails.password.trim().length < 6) newErrors.password = 'Password too short';
 
-        if (!userDetails.email.trim()) newErrors.email = 'Email cannot be null';
-        else if (!/\S+@\S+\.\S+/.test(userDetails.email)) newErrors.email = 'Invalid email';
+        if (!userDetails.username.trim()) newErrors.username = 'Username cannot be null';
+        else if (userDetails.username.trim().length < 6) newErrors.username = 'Username too short';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -60,8 +60,8 @@ const SignUpPage = () => {
                 const data = await response.json();
                 console.log(data); // Debugging statement
 
-                if (data.token === "EmailTaken") {
-                    setErrors((prevErrors) => ({ ...prevErrors, email: 'Email is already taken' }));
+                if (data.token === "UsernameTaken") {
+                    setErrors((prevErrors) => ({ ...prevErrors, username: 'Username is already taken' }));
                 } else {
                     setIsVisible(false);
                     setIsChangingBackground(true);
@@ -96,9 +96,9 @@ const SignUpPage = () => {
                         <input type="text" name="address" value={userDetails.address} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        {errors.email && <p className="error" aria-live="assertive">{errors.email}</p>}
-                        <label htmlFor="email">Email</label>
-                        <input type="email" name="email" value={userDetails.email} onChange={handleChange} />
+                        {errors.username && <p className="error" aria-live="assertive">{errors.username}</p>}
+                        <label htmlFor="username">Username</label>
+                        <input type="username" name="username" value={userDetails.username} onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         {errors.password && <p className="error" aria-live="assertive">{errors.password}</p>}
