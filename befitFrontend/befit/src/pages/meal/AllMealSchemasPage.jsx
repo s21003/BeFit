@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CustomLink } from "../../helpers/CustomLink";
 import { BsFillTrashFill } from "react-icons/bs";
+import NavBar from "../../components/NavBar";
+import "../../styles/SchemaPage.css"
 
 const AllMealSchemasPage = () => {
     const navigate = useNavigate();
@@ -108,10 +110,10 @@ const AllMealSchemasPage = () => {
                     mealSchemas.map((schema, i) => ({
                         id: schema.id,
                         name: schema.name,
-                        kcal: nutritions[i].kcal,
-                        protein: nutritions[i].protein,
-                        fat: nutritions[i].fat,
-                        carbs: nutritions[i].carbs,
+                        kcal: Math.round(nutritions[i].kcal),
+                        protein: Math.round(nutritions[i].protein),
+                        fat: Math.round(nutritions[i].fat),
+                        carbs: Math.round(nutritions[i].carbs),
                         creationDate: schema.creationDate,
                     }))
                 );
@@ -125,82 +127,29 @@ const AllMealSchemasPage = () => {
 
     const handleRowClick = (mealSchemaId) => navigate(`/meal-schema/${mealSchemaId}`);
 
-    const handleDelete = async (id, e) => {
-        e.stopPropagation(); // Prevent the row click event from firing
+    const handleAddSchema = () => {
+        navigate(`/add-meal-schema`);
+    };
 
-        const token = localStorage.getItem("token");
-        let mealSchema;
-        try{
-            let response = await fetch(`http://localhost:8080/mealSchema/${id}`,{
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            mealSchema = await response.json();
-        } catch (err){
-            console.log(err);
-        }
-
-        try{
-            let response = await fetch(`http://localhost:8080/mealSchemaProduct/deleteSchema/${id}`,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        try{
-            let response = await fetch(`http://localhost:8080/mealSchema/delete`,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(mealSchema)
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            alert('Meal schema deleted successfully');
-            setMealSchemas(mealSchemas.filter(schema => schema.id !== id));
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    const handleReturn = () => {
+        navigate(`/all-meals`);
+    };
 
     return (
-        <div className="mainPage">
-            <nav className="mainNavigation">
-                <Link to="/all-meal-schemas">All Meal Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <CustomLink to="/add-meal-schema">Add Schema</CustomLink>
+        <div className="schemaPage-container">
+            <NavBar />
 
             {mealSchemas.length > 0 ? (
-                <>
+                <div className="schemaPage">
                     <table>
                         <thead>
                         <tr>
                             <th>Nazwa</th>
-                            <th>Kcal</th>
+                            <th>Kalorie</th>
                             <th>Białko</th>
                             <th>Tłuszcze</th>
                             <th>Węglowodany</th>
                             <th>Data utworzenia</th>
-                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -212,17 +161,18 @@ const AllMealSchemasPage = () => {
                                 <td>{row.fat}</td>
                                 <td>{row.carbs}</td>
                                 <td>{row.creationDate}</td>
-                                <td className="actions">
-                                    <BsFillTrashFill className="delete-btn" onClick={(e) => handleDelete(row.id, e)} />
-                                </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                </>
+                </div>
             ) : (
-                <p>No mealSchemas available.</p>
+                <p>Brak dostępnych schematów posiłków.</p>
             )}
+            <div className="button-container">
+                <button type="submit" onClick={handleAddSchema}>Dodaj schemat</button>
+                <button type="submit" onClick={handleReturn}>Powrót</button>
+            </div>
         </div>
     );
 };

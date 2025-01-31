@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaModal";
-import '../../styles/Schema.css';
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
 import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/SchemaDetailsPage.css"
 
 const DetailsTrainingSchemaPage = () => {
     let { id } = useParams();
@@ -11,7 +12,6 @@ const DetailsTrainingSchemaPage = () => {
     const [rowToEdit, setRowToEdit] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [rows, setRows] = useState([]);
-    const [categories, setCategories] = useState([]);
     const [trainingSchemaExerciseData, setTrainingSchemaExerciseData] = useState([]);
     const [schemaExerciseData, setSchemaExerciseData] = useState([]);
     const [schemaSeriesData, setSchemaSeriesData] = useState([]);
@@ -21,6 +21,14 @@ const DetailsTrainingSchemaPage = () => {
         trainingSchemaExerciseIds: [],
         creatorUsername: ''
     });
+
+    const categories = {
+        "Cardio":"Cardio",
+        "Siłowy":"Silowy",
+        "Crossfit":"Crossfit",
+        "Fitness":"Fitness",
+        "Grupowy":"Grupowy"
+    }
 
     // Fetch the training schema data
     useEffect(() => {
@@ -166,7 +174,7 @@ const DetailsTrainingSchemaPage = () => {
 
     useEffect(() => {
         if (!schemaExerciseData.length || !schemaSeriesData.length) return;
-
+        console.log("schemaExerciseData: ",schemaExerciseData)
         const combinedRows = schemaExerciseData.map((exercise, index) => ({
             exerciseId: exercise.id,
             name: exercise.name,
@@ -181,30 +189,7 @@ const DetailsTrainingSchemaPage = () => {
         setRows(combinedRows);
     }, [schemaExerciseData, schemaSeriesData]);
 
-    // Fetch categories
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/trainingSchema/categories`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setCategories(data);
-            } catch (error) {
-                console.error("Fetching categories failed:", error);
-            }
-        };
 
-        fetchCategories();
-    }, []);
 
     const handleDeleteRow = (targetId) => {
         setRows(rows.filter((_, id) => id !== targetId));
@@ -388,64 +373,92 @@ const DetailsTrainingSchemaPage = () => {
         } catch (error) {
             console.error('Error adding trainingSchemaExercise:', error);
         }
-
-
-
     };
 
-    const handleCategoryChange = (e) => {
-        const selectedCategory = e.target.value;
-        setTrainingSchemaData({
-            ...trainingSchemaData,
-            category: selectedCategory
-        });
-    };
+    const handleDeleteSchema = async () => {
+        const confirmDelete = window.confirm("Czy jesteś pewny, że chcesz usunąć ten schemat?"); // Confirmation dialog
 
+        if (confirmDelete) {
+            try {
+                const token = localStorage.getItem("token");
 
+                const response = await fetch(`http://localhost:8080/trainingSchema/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(trainingSchemaData) // Send the training schema data in the body
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json(); // Try to get error details from the server
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
+                }
+
+                alert("Schemat treningowy został usunięty.");
+                navigate("/all-training-schemas"); // Redirect after successful deletion
+
+            } catch (error) {
+                console.error("Error deleting schema:", error);
+                alert("Wystąpił błąd podczas usuwania schematu."); // Show an error message to the user
+            }
+        }
+    }
+
+    const handleReturn = () => {
+        navigate(`/all-training-schemas`);
+    }
 
 
     return (
-        <div className="TrainingSchema">
-            <nav className="mainNavigation">
-                <Link to="/all-training-schemas">All Training Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <label>Schema name:</label>
-            <input
-                type="text"
-                name="name"
-                value={trainingSchemaData.name}
-                placeholder="Name"
-                onChange={handleChange}
-                required
-            />
-            <label>Category:</label>
-            <select
-                name="category"
-                value={trainingSchemaData.category || ''}
-                onChange={handleCategoryChange}
-            >
-                <option value="" disabled>Select a category</option>
-                {categories.map((category) => (
-                    <option key={category} value={category}>
-                        {category}
-                    </option>
-                ))}
-            </select>
-
-            <TrainingSchemaTable rows={rows} schemaExercise={schemaExerciseData} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
-            {modalOpen && (
-                <TrainingSchemaModal
-                    closeModal={() => {
-                        setModalOpen(false);
-                        setRowToEdit(null);
-                    }}
-                    onSubmit={handleSubmit}
-                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
+        <div className="schemaDetails-container">
+            <NavBar/>
+            <div className="schemaDetails">
+                <label>Nazwa schematu:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={trainingSchemaData.name}
+                    placeholder="Name"
+                    onChange={handleChange}
+                    required
                 />
-            )}
-            <button type="submit" onClick={handleSubmitSchema}>Save Schema</button>
+                <label htmlFor="category-select">Kategoria:</label>
+                <select
+                    id="category-select"
+                    className="inputStyle"
+                    name="category"
+                    value={trainingSchemaData.category || ""}
+                    onChange={(e) => setTrainingSchemaData({...trainingSchemaData, category: e.target.value})}>
+                    <option value="" disabled>-- Wybierz kategorię --</option>
+                    {Object.entries(categories).map(([displayCategory, internalValue]) => (
+                        <option key={internalValue} value={internalValue}>
+                            {displayCategory}
+                        </option>
+                    ))}
+                </select>
+
+                <TrainingSchemaTable rows={rows} schemaExercise={schemaExerciseData} deleteRow={handleDeleteRow}
+                                     editRow={handleEditRow}/>
+                <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
+
+                {modalOpen && (
+                    <TrainingSchemaModal
+                        closeModal={() => {
+                            setModalOpen(false);
+                            setRowToEdit(null);
+                        }}
+                        onSubmit={handleSubmit}
+                        defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                    />
+                )}
+                <div className="button-container">
+                    <button type="submit" className="btn" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button type="button" className="btn-delete" onClick={handleDeleteSchema}>Usuń schemat</button>
+                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

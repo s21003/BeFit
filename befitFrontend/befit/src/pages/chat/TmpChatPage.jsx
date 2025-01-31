@@ -6,11 +6,8 @@ const TmpChatPage = () => {
     useEffect(() => {
         // Configure STOMP client
         const client = new Client({
-            brokerURL: 'ws://localhost:9090/ws',
-
-            //webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-            // If using SockJS, disable brokerURL and use webSocketFactory
-            // webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            //brokerURL: 'ws://localhost:8080/ws',
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
             reconnectDelay: 5000, // Automatically reconnect on connection loss
             debug: (str) => console.log(str), // Debugging logs
             onConnect: () => {

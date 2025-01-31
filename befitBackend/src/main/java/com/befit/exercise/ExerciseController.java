@@ -1,5 +1,6 @@
 package com.befit.exercise;
 
+import com.befit.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ExerciseController {
         return new ResponseEntity<>(exerciseService.allExercises(),HttpStatus.OK);
     }
     @PostMapping("/add")
-    public ResponseEntity<Exercise> addNewExercise(@RequestBody Exercise ex){
+    public ResponseEntity<Exercise> addNewExercise(@RequestBody ExerciseDTO ex){
         return new ResponseEntity<>(exerciseService.createExercise(ex),HttpStatus.CREATED);
     }
     @DeleteMapping("/delete")
@@ -33,5 +34,10 @@ public class ExerciseController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Exercise>> getSingleExercise(@PathVariable Long id){
         return new ResponseEntity<>(exerciseService.singleExercise(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Exercise>> getOwnExercises(@PathVariable String username){
+        return new ResponseEntity<>(exerciseService.ownExercises(username),HttpStatus.OK);
     }
 }

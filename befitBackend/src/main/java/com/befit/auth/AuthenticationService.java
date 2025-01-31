@@ -1,6 +1,10 @@
 package com.befit.auth;
 
 import com.befit.config.JwtService;
+import com.befit.goal.Goal;
+import com.befit.goal.GoalRepository; // Add GoalRepository
+import com.befit.trainer.Trainer;
+import com.befit.trainer.TrainerRepository;
 import com.befit.user.Role;
 import com.befit.user.User;
 import com.befit.user.UserRepository;
@@ -14,19 +18,54 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository repository;
+    private final TrainerRepository trainerRepository;
+    private final GoalRepository goalRepository; // Add this dependency
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        if(repository.findByUsername(request.getUsername()).isPresent()) {
+        // Check if the username already exists
+        if (repository.findByUsername(request.getUsername()).isPresent()) {
             return AuthenticationResponse.builder()
                     .token("UsernameTaken")
                     .build();
         }
-        var user = new User(request.getName(), request.getSurname(),request.getAddress(),request.getUsername(), passwordEncoder.encode(request.getPassword()), Role.USER);
+
+        // Validate the role from the request
+        Role role;
+        try {
+            role = Role.valueOf(request.getRole().toUpperCase()); // Convert input to uppercase and map to Role enum
+        } catch (IllegalArgumentException e) {
+            return AuthenticationResponse.builder()
+                    .token("InvalidRole")
+                    .build();
+        }
+
+        // Create and save the user
+        var user = new User(
+                request.getName(),
+                request.getSurname(),
+                request.getAddress(),
+                request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                role
+        );
         repository.save(user);
+
+        // If the user is a trainer, create a trainer entry
+        if (role == Role.TRAINER) {
+            Trainer trainer = new Trainer();
+            trainer.setUser(user);
+            trainerRepository.save(trainer);
+        }
+
+        // Create a default goal for the new user
+        Goal goal = new Goal();
+        goal.setUserUsername(user.getUsername()); // Associate the goal with the user
+        goalRepository.save(goal); // Save the goal
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -46,5 +85,4 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-
 }

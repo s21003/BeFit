@@ -1,6 +1,9 @@
 package com.befit.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,30 +15,12 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;  // Injecting PasswordEncoder
+
     public List<User> allUsers(){
         return userRepository.findAll();
-    }
-
-    public String register(Map<String, String> payload) {
-        Optional<User> optionalUser = userRepository.findByUsername(payload.get("username"));
-
-        if(optionalUser.isPresent()) {
-            return "Username exists";
-        }
-
-        User user = new User(payload.get("name"),payload.get("surname"),payload.get("address"),payload.get("password"),payload.get("username"), Role.USER);
-        userRepository.save(user);
-
-        return "User added";
-    }
-
-    private static long parseId(String id) {
-        try{
-            return Long.parseLong(id);
-        }catch (NumberFormatException e) {
-            return -1;
-        }
-
     }
 
     public User createUser(User u){
@@ -43,7 +28,7 @@ public class UserService {
         user.setName(u.getName());
         user.setSurname(u.getSurname());
         user.setAddress(u.getAddress());
-        user.setPassword(u.getPassword());
+        user.setPassword(passwordEncoder.encode(u.getPassword()));  // Encode the password
         user.setRole(Role.USER);
         userRepository.save(user);
         return user;
@@ -55,32 +40,56 @@ public class UserService {
         userRepository.deleteById(id);
         return "Deleted";
     }
-    public String editUSer(User u){
-        Optional<User> tmp = singleUser(u.getId());
-        if (tmp.isEmpty()){
-            return "WrongId";
-        }else{
-            User user = tmp.get();
-            if (!Objects.equals(user.getName(), u.getName())){
-                user.setName(u.getName());
-            }
-            if (!Objects.equals(user.getSurname(), u.getSurname())){
-                user.setSurname(u.getSurname());
-            }
-            if (!Objects.equals(user.getAddress(), u.getAddress())){
-                user.setAddress(u.getAddress());
-            }
-            if (user.getPassword() != u.getPassword()){
-                user.setPassword(u.getPassword());
-            }
-            userRepository.save(user);
-            return "Updated";
+    public User editUser(UserDTO u) {
+        Optional<User> existingUser = getOptionalUser();
+        if (!existingUser.isPresent()) {
+            throw new IllegalArgumentException("User with the given ID does not exist");
         }
+        User updatedUser = existingUser.get();
+        if (u.getUsername() != null) {
+            if (userRepository.findByUsername(u.getUsername()).isEmpty()) {
+                updatedUser.setUsername(u.getUsername());
+            } else {
+                throw new IllegalArgumentException("Username is taken");
+            }
+        }
+        if (u.getPassword() != null && !u.getPassword().isEmpty()) {
+            updatedUser.setPassword(passwordEncoder.encode(u.getPassword()));
+        }
+
+        return userRepository.save(updatedUser);
     }
+
     public Optional<User> singleUser(Long id){
         return userRepository.findById(id);
     }
     public Optional<User> singleUserByUsername(String username){
+
         return userRepository.findByUsername(username);
+    }
+
+    private Optional<User> getOptionalUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println("username in optional: "+username);
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> singleUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User editUserData(UserDataDTO u) {
+        Optional<User> existingUser = getOptionalUser();
+        if (!existingUser.isPresent()) {
+            throw new IllegalArgumentException("User with the given ID does not exist");
+        }
+        User updatedUser = existingUser.get();
+
+        updatedUser.setName(u.getName());
+        updatedUser.setSurname(u.getSurname());
+        updatedUser.setAddress(u.getAddress());
+
+        return userRepository.save(updatedUser);
     }
 }

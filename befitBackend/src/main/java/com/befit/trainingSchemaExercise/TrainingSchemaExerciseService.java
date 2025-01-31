@@ -1,6 +1,7 @@
 package com.befit.trainingSchemaExercise;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,21 +29,16 @@ public class TrainingSchemaExerciseService {
         return "Deleted";
     }
     public String editTrainingSchemaExercise(TrainingSchemaExercise tse, Long id){
-        Optional<TrainingSchemaExercise> tmp = singleTrainingSchemaExercise(id);
-        if (tmp.isEmpty()){
+        Optional<TrainingSchemaExercise> existingtse = singleTrainingSchemaExercise(id);
+        if (existingtse.isEmpty()){
             return "WrongId";
         }else{
-            TrainingSchemaExercise trainingSchemaExercise = tmp.get();
-            if(trainingSchemaExercise.getExerciseId() != tse.getExerciseId()) {
-                trainingSchemaExercise.setExerciseId(tse.getExerciseId());
-            }
-            if (trainingSchemaExercise.getTrainingSchemaId() != tse.getTrainingSchemaId()) {
-                trainingSchemaExercise.setTrainingSchemaId(tse.getTrainingSchemaId());
-            }
-            if (trainingSchemaExercise.getSeriesId() != tse.getSeriesId()) {
-                trainingSchemaExercise.setSeriesId(tse.getSeriesId());
-            }
-            trainingSchemaExerciseRepository.save(trainingSchemaExercise);
+            TrainingSchemaExercise updatedtse = existingtse.get();
+            updatedtse.setExerciseId(tse.getExerciseId());
+            updatedtse.setTrainingSchemaId(tse.getTrainingSchemaId());
+            updatedtse.setSeriesId(tse.getSeriesId());
+
+            trainingSchemaExerciseRepository.save(updatedtse);
             return "Updated";
         }
     }
@@ -60,5 +56,9 @@ public class TrainingSchemaExerciseService {
             }
         }
         return flag;
+    }
+
+    public List<TrainingSchemaExercise> getTrainingSchemaExerciseForTrainingSchemaId(Long id) {
+        return trainingSchemaExerciseRepository.findByTrainingSchemaId(id);
     }
 }

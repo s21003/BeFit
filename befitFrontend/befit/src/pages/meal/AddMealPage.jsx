@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
-import "../../styles/MainPage.css";
 
 const AddMealPage = () => {
     const navigate = useNavigate();

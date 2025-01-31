@@ -1,12 +1,12 @@
 package com.befit.exercise;
 
 public enum BodyPart {
-    KlatkaPiersiowa,
-    Biceps,
-    Triceps,
-    Brzuch,
-    Plecy,
-    Barki,
-    Nogi,
-    Cardio
+    KLATKAPIERSIOWA,
+    BICEPS,
+    TRICEPS,
+    BRZUCH,
+    PLECY,
+    BARKI,
+    NOGI,
+    CARDIO
 }

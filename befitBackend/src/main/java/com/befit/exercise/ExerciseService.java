@@ -3,6 +3,8 @@ package com.befit.exercise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,15 +15,23 @@ public class ExerciseService {
     public List<Exercise> allExercises(){
         return exerciseRepository.findAll();
     }
-    public Exercise createExercise(Exercise ex){
+    public Exercise createExercise(ExerciseDTO ex){
         Exercise exercise = new Exercise();
-        if(ex.getVideoLink()==null){
-            exercise.setVideoLink(null);
-        }else{
-            exercise.setVideoLink(ex.getVideoLink());
-        }
         exercise.setName(ex.getName());
-        exercise.setPart(ex.getPart());
+        exercise.setPart(BodyPart.valueOf(ex.getPart()));
+        exercise.setCreatorUsername(ex.getCreatorUsername());
+        if (ex.getVideoLink()!= null &&!ex.getVideoLink().isEmpty()) {
+            try {
+                URL videoLinkURL = new URL(ex.getVideoLink());
+                exercise.setVideoLink(videoLinkURL);
+            } catch (MalformedURLException e) {
+                System.err.println("Invalid video link URL: " + ex.getVideoLink());
+                exercise.setVideoLink(null);
+            }
+        } else {
+            exercise.setVideoLink(null);
+        }
+
         exerciseRepository.save(exercise);
         return exercise;
     }
@@ -33,25 +43,24 @@ public class ExerciseService {
         return "Deleted";
     }
     public String editExercise(Exercise ex, Long id){
-        Optional<Exercise> tmp = singleExercise(id);
-        if(tmp.isEmpty()){
+        Optional<Exercise> existingExercise = singleExercise(id);
+        if(existingExercise.isEmpty()){
             return "WrongId";
         }else{
-            Exercise exercise = tmp.get();
-            if (exercise.getName() != ex.getName()){
-                exercise.setName(ex.getName());
-            }
-            if (exercise.getPart() != ex.getPart()){
-                exercise.setPart(ex.getPart());
-            }
-            if (exercise.getVideoLink() != ex.getVideoLink()){
-                exercise.setVideoLink(ex.getVideoLink());
-            }
-            exerciseRepository.save(exercise);
+            Exercise updatedExercise = existingExercise.get();
+            updatedExercise.setName(ex.getName());
+            updatedExercise.setPart(ex.getPart());
+            updatedExercise.setVideoLink(ex.getVideoLink());
+
+            exerciseRepository.save(updatedExercise);
             return "Updated";
         }
     }
     public Optional<Exercise> singleExercise(Long id){
         return exerciseRepository.findById(id);
+    }
+
+    public List<Exercise> ownExercises(String username) {
+        return exerciseRepository.findByCreatorUsername(username);
     }
 }

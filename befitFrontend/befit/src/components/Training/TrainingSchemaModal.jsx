@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../../styles/Modal.css";
+import "../../styles/SchemaModal.css";
 
 export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     const [formState, setFormState] = useState(
@@ -89,7 +89,7 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
             <div className="modal">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="exercise">Exercise</label>
+                        <label htmlFor="exercise">Ćwiczenie</label>
                         <select
                             name="exercise"
                             value={formState.exerciseId || ''}
@@ -104,20 +104,20 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="series">Planned number of Series</label>
+                        <label htmlFor="series">Planowana liczba serii</label>
                         <input type="number" name="series" value={formState.series} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="repeatNumber">Planned number of repetitions in a series</label>
+                        <label htmlFor="repeatNumber">Planowana liczba powtórzeń w serii</label>
                         <input type="number" name="repeatNumber" value={formState.repeatNumber} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="weight">Planned weight in a series</label>
+                        <label htmlFor="weight">Planowana waga w serii</label>
                         <input type="number" name="weight" value={formState.weight} onChange={handleChange} />
                     </div>
                     {/*{errors && <div className="error" >{`Missing: ${errors}`}</div>}*/}
                     {errors && <div>{`Missing: ${errors}`}</div>}
-                    <button type="submit" className="btn" onClick={handleSubmit}>Submit</button>
+                    <button type="submit" className="btn" onClick={handleSubmit}>Zapisz</button>
                 </form>
             </div>
         </div>

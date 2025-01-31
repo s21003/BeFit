@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {CustomLink} from "../../helpers/CustomLink";
+import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/OwnItemsPage.css"
 
 const OwnProductsPage = () => {
     const navigate = useNavigate();
     const [ownProducts, setOwnProducts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Corrected state declaration
-    const productsPerPage = 5;
 
     useEffect(() => {
         const fetchOwnProducts = async () => {
@@ -31,6 +30,7 @@ const OwnProductsPage = () => {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
+                    console.log(data);
                     setOwnProducts(data);
                 } catch (error) {
                     console.error("Fetching own products failed: ", error);
@@ -47,63 +47,54 @@ const OwnProductsPage = () => {
         navigate(`/product/${productId}`);
     };
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const handleAddProduct = () => {
+        navigate(`/add-product`);  // Use the username from the state
+    };
 
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(ownProducts.length / productsPerPage); i++) {
-        pageNumbers.push(i);
-    }
+    const handleReturn = () => {
+        navigate(`/all-meals`);  // Use the username from the state
+    };
 
     return (
-        <div className="mainPage">
-            <nav className="mainNavigation">
-                <Link to="/all-meals">All Meals</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <CustomLink to={"/add-product"}>Add Product</CustomLink>
-            {ownProducts.length > 0 ? (
-                <>
-                    <nav>
-                        <ul className="pagination">
-                            {pageNumbers.map(number => (
-                                <li key={number} className="page-item">
-                                    <button onClick={() => paginate(number)} className="page-link">
-                                        {number}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Nazwa</th>
-                            <th>Kalorie</th>
-                            <th>Białko</th>
-                            <th>Tłuszcze</th>
-                            <th>Węglowodany</th>
-                            <th>Waga</th>
-                            <th>ID</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {ownProducts.map(product => (
-                            <tr key={product.id} onClick={() => handleRowClick(product.id)}>
-                                <td>{product.name}</td>
-                                <td>{product.kcal}</td>
-                                <td>{product.protein}</td>
-                                <td>{product.fat}</td>
-                                <td>{product.carbs}</td>
-                                <td>{product.weight}</td>
-                                <td>{product.creatorId}</td>
+        <div className="ownItems-container">
+            <NavBar />
+            <div className="ownItems">
+                <h2 className="ownHeader">Twoje produkty</h2>
+                {ownProducts.length > 0 ? (
+                    <>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Kalorie</th>
+                                <th>Białko</th>
+                                <th>Tłuszcze</th>
+                                <th>Węglowodany</th>
+                                <th>Waga</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </>
-            ) : (
-                <p>No own products available.</p>
-            )}
+                            </thead>
+                            <tbody>
+                            {ownProducts.map(product => (
+                                <tr key={product.id} onClick={() => handleRowClick(product.id)}>
+                                    <td>{product.name}</td>
+                                    <td>{product.kcal}</td>
+                                    <td>{product.protein}</td>
+                                    <td>{product.fat}</td>
+                                    <td>{product.carbs}</td>
+                                    <td>{product.weight}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </>
+                ) : (
+                    <p>Brak własnych produktów.</p>
+                )}
+                <div className="buttons-container">
+                    <button className="btn" onClick={handleAddProduct}>Dodaj produkt</button>
+                    <button className="btn" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

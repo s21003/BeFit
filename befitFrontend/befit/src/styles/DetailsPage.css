@@ -1,0 +1,85 @@
+/* DetailsPage.css */
+
+/* General styles */
+body {
+    margin: 0;
+}
+
+/* details-container Styles */
+.details-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    padding-top: 80px; /* Adjust as needed for your navbar */
+}
+
+/* details Styles */
+.details {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.details label {
+    margin-bottom: 5px;
+}
+
+.details .inputStyle, /* Style for selects and inputs*/
+.details input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #555;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 5px;
+    width: 100%; /* Occupy full width of parent */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.details .inputStyle option { /* Style the options */
+    background-color: #333; /* Darker background for options */
+    color: white; /* White text for options */
+}
+
+/* Button styles */
+.details .btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+    display: inline-block; /* Key for width control */
+}
+
+.details .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Same-size buttons within .buttons-container */
+.buttons-container .btn {
+    width: 150px;
+    text-align: center;
+}
+
+
+/* Container for buttons */
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Responsive Design (if needed) */
+@media (max-width: 768px) {
+    .details {
+        margin: 10px;
+    }
+}

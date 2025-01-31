@@ -21,15 +21,14 @@ public class TrainingExercise {
     private Long exerciseId;
 
     @JoinColumn
-    private Long trainingSchemaId;
+    private Long trainingId;
 
     @JoinColumn
-    @ManyToOne
-    private Series series;
+    private Long seriesId;
 
-    public TrainingExercise(Long exerciseId, Long trainingSchemaId, Series series){
+    public TrainingExercise(Long exerciseId, Long trainingId, Long seriesId){
         this.exerciseId=exerciseId;
-        this.trainingSchemaId=trainingSchemaId;
-        this.series=series;
+        this.trainingId=trainingId;
+        this.seriesId=seriesId;
     }
 }

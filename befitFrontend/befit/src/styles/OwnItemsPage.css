@@ -1,0 +1,104 @@
+/* OwnItemsPage.css */
+
+.ownItems-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222; /* Dark background */
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    padding-top: 80px; /* Adjust for your navbar height */
+}
+
+.ownItems {
+    margin: 20px;
+    flex-grow: 1; /* Allow content to fill available space */
+}
+
+.ownHeader {
+    margin-bottom: 20px;
+    text-align: center; /* Center the header text */
+}
+
+.ownItems table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ownItems th,
+.ownItems td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ownItems td:nth-child(3) {
+    padding: 0;
+}
+
+.ownItems th {
+    background-color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+}
+
+.ownItems tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+
+.ownItems .btn-video {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    line-height: 1;
+    margin: 0;
+    height: 100%;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.ownItems .btn-video:hover {
+    background-color: #0056b3;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.buttons-container .btn {  /* Style for buttons */
+    line-height: 37px; /* Set line-height to desired height */
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 160px; /* Fixed width for buttons */
+    text-align: center;
+}
+
+.buttons-container .btn:hover {
+    background-color: #0056b3;
+}

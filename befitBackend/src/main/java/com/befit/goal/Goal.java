@@ -72,13 +72,11 @@ public class Goal {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate plannedAccomplishDate;
 
+    @Column
+    private String userUsername;
 
-    public Goal(double actualWeight, double plannedDailyKcal, double plannedDailyProteins, double plannedDailyFats, double plannedDailyCarbs, LocalDate plannedAccomplishDate) {
-        this.actualWeight = actualWeight;
-        this.plannedDailyKcal = plannedDailyKcal;
-        this.plannedDailyProteins = plannedDailyProteins;
-        this.plannedDailyFats = plannedDailyFats;
-        this.plannedDailyCarbs = plannedDailyCarbs;
-        this.plannedAccomplishDate = plannedAccomplishDate;
+
+    public Goal(String username) {
+        this.userUsername=username;
     }
 }

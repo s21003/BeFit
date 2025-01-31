@@ -22,6 +22,7 @@ public class ProductService {
         product.setFat(p.getFat());
         product.setCarbs(p.getCarbs());
         product.setWeight(p.getWeight());
+        product.setCreatorUsername(p.getCreatorUsername());
         productRepository.save(product);
         return product;
     }
@@ -33,30 +34,19 @@ public class ProductService {
         return "Deleted";
     }
     public String editProduct(Product p, Long id){
-        Optional<Product> tmp = singleProduct(id);
-        if (tmp.isEmpty()){
+        Optional<Product> existingProduct = singleProduct(id);
+        if (existingProduct.isEmpty()){
             return "WrongId";
         }else{
-            Product product = tmp.get();
-            if (product.getName() != p.getName()){
-                product.setName(p.getName());
-            }
-            if(product.getKcal() != p.getKcal()){
-                product.setKcal(p.getKcal());
-            }
-            if (product.getProtein() != p.getProtein()){
-                product.setProtein(p.getProtein());
-            }
-            if (product.getFat() != p.getFat()){
-                product.setFat(p.getFat());
-            }
-            if (product.getCarbs() != p.getCarbs()){
-                product.setCarbs(p.getCarbs());
-            }
-            if (product.getWeight() != p.getWeight()){
-                product.setWeight(p.getWeight());
-            }
-            productRepository.save(product);
+            Product updatedProduct = existingProduct.get();
+            updatedProduct.setName(p.getName());
+            updatedProduct.setKcal(p.getKcal());
+            updatedProduct.setProtein(p.getProtein());
+            updatedProduct.setFat(p.getFat());
+            updatedProduct.setCarbs(p.getCarbs());
+            updatedProduct.setWeight(p.getWeight());
+
+            productRepository.save(updatedProduct);
             return "Updated";
         }
     }
@@ -65,6 +55,7 @@ public class ProductService {
     }
 
     public List<Product> ownProducts(String username){
+
         return productRepository.findByCreatorUsername(username);
     }
 

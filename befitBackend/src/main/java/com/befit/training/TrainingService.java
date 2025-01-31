@@ -1,7 +1,10 @@
 package com.befit.training;
 
+import com.befit.trainer.Trainer;
+import com.befit.trainer.TrainerService;
 import com.befit.trainingExercise.TrainingExercise;
 import com.befit.user.User;
+import com.befit.userTrainer.UserTrainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,9 @@ import java.util.Optional;
 public class TrainingService {
     @Autowired
     private TrainingRepository trainingRepository;
+
+    @Autowired
+    private TrainerService trainerService;
     public List<Training> allTrainings(){
         return trainingRepository.findAll();
     }
@@ -32,27 +38,17 @@ public class TrainingService {
         trainingRepository.deleteById(id);
         return "Deleted";
     }
-    public String editTraining(Training tr, Long id) {
-        Optional<Training> tmp = singleTraining(id);
-        if (tmp.isEmpty()) {
+    public String editTraining(Training t, Long id) {
+        Optional<Training> existingTraining = singleTraining(id);
+        if (existingTraining.isEmpty()) {
             return "WrongId";
         } else {
-            Training training = tmp.get();
+            Training updatedTraining = existingTraining.get();
+            updatedTraining.setCategory(t.getCategory());
+            updatedTraining.setStartTime(t.getStartTime());
+            updatedTraining.setEndTime(t.getEndTime());
 
-            if (tr.getTrainingSchema() != null && !training.getTrainingSchema().equals(tr.getTrainingSchema())) {
-                training.setTrainingSchema(tr.getTrainingSchema());
-            }
-            if (tr.getCategory() != null && !training.getCategory().equals(tr.getCategory())) {
-                training.setCategory(tr.getCategory());
-            }
-            if (tr.getStartTime() != null && !training.getStartTime().equals(tr.getStartTime())) {
-                training.setStartTime(tr.getStartTime());
-            }
-            if (tr.getEndTime() != null && !training.getEndTime().equals(tr.getEndTime())) {
-                training.setEndTime(tr.getEndTime());
-            }
-
-            trainingRepository.save(training);
+            trainingRepository.save(updatedTraining);
             return "Updated";
         }
     }
@@ -80,5 +76,20 @@ public class TrainingService {
 
     public Optional<Training> singleTrainingById(Long id) {
         return trainingRepository.findById(id);
+    }
+
+    public String addTrainerToTraining(UserTrainerDTO trainerId, Long trainingId) {
+        Optional<Training> existingTraining = singleTraining(trainingId);
+        Optional<Trainer> trainer = trainerService.singleTrainer(trainerId.getTrainerId());
+        if(existingTraining.isEmpty()){
+            return "Training doesn't exist";
+        } else if (trainer.isEmpty()) {
+            return "Wrong trainer id";
+        } else {
+            Training updatedTraining = existingTraining.get();
+            updatedTraining.setTrainerId(trainerId.getTrainerId());
+            trainingRepository.save(updatedTraining);
+            return "Updated";
+        }
     }
 }

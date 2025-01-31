@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaModal";
-import '../../styles/Schema.css';
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
 import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/AddSchemaPage.css"
 
 const AddTrainingSchemaPage = () => {
     const navigate = useNavigate();
@@ -208,48 +209,54 @@ const AddTrainingSchemaPage = () => {
         });
     };
 
-    return (
-        <div className="Schema">
-            <nav className="mainNavigation">
-                <Link to="/all-training-schemas">All Training Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <label>Schema name:</label>
-            <input
-                type="text"
-                name="name"
-                value={trainingSchemaData.name}
-                placeholder="Name"
-                onChange={handleChange}
-                required
-            />
-            <label>Category:</label>
-            <select
-                name="category"
-                value={trainingSchemaData.category || ''}
-                onChange={handleCategoryChange}
-            >
-                <option value="" disabled>Select a category</option>
-                {categories.map((category) => (
-                    <option key={category} value={category}>
-                        {category}
-                    </option>
-                ))}
-            </select>
+    const handleReturn = () => {
+        navigate(`/all-training-schemas`);
+    }
 
-            <TrainingSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
-            {modalOpen && (
-                <TrainingSchemaModal
-                    closeModal={() => {
-                        setModalOpen(false);
-                        setRowToEdit(null);
-                    }}
-                    onSubmit={handleSubmit}
-                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
+    return (
+        <div className="addSchemaPage-container">
+            <NavBar/>
+            <div className="addSchemaPage">
+                <label>Nazwa schematu:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={trainingSchemaData.name}
+                    placeholder="Name"
+                    onChange={handleChange}
+                    required
                 />
-            )}
-            <button type="submit" onClick={handleSubmitSchema}>Save Schema</button>
+                <label>Kategoria:</label>
+                <select
+                    name="category"
+                    value={trainingSchemaData.category || ''}
+                    onChange={handleCategoryChange}
+                >
+                    <option value="" disabled>Wybierz kategorię</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+
+                <TrainingSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <div className="buttons-container">
+                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
+                    {modalOpen && (
+                        <TrainingSchemaModal
+                            closeModal={() => {
+                                setModalOpen(false);
+                                setRowToEdit(null);
+                            }}
+                            onSubmit={handleSubmit}
+                            defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                        />
+                    )}
+                    <button className="btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button className="btn" type="submit" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

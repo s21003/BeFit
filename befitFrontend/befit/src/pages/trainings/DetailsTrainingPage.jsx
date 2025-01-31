@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaModal";
-import '../../styles/Schema.css';
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
-import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import {TrainingAddSchemaModal} from "../../components/Training/TrainingAddSchemaModal";
+import "../../styles/DetailsPage.css"
 
 const DetailsTrainingPage = () => {
     let { id } = useParams();
     const navigate = useNavigate();
     const [rowToEdit, setRowToEdit] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    const [rows, setRows] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [rows, setRows] = useState([{
+        exerciseId: 0.0,
+        name: '',
+        series: 0.0,
+        repeatNumber: 0.0,
+        weight: 0.0,
+    }]);
+    const [addSchemaModalOpen, setAddSchemaModalOpen] = useState(false);
     const [trainingExerciseData, setTrainingExerciseData] = useState([]);
     const [exerciseData, setExerciseData] = useState([]);
-    const [seriesData, setSeriesData] = useState([]);
+    const [seriesData, setSeriesData] = useState([{
+        id: 0.0,
+        series: 0.0,
+        repeatNumber: 0.0,
+        weight: 0.0,
+    }]);
     const [trainingData, setTrainingData] = useState({
+        id: 0.0,
         category: '',
         trainingExerciseIds: [],
-        creatorUsername: ''
+        creatorUsername: '',
+        startTime: null,
+        endTime: null,
+        userUsername: ''
     });
 
     useEffect(() => {
@@ -47,8 +63,6 @@ const DetailsTrainingPage = () => {
     }, [id]);
 
     useEffect(() => {
-        if (!trainingData.trainingExerciseIds.length) return;
-
         const fetchTrainingExercise = async (teId) => {
             try {
                 const token = localStorage.getItem("token");
@@ -71,14 +85,14 @@ const DetailsTrainingPage = () => {
         };
 
         const fetchAllTrainingExercises = async () => {
-            const trainingExercises = [];
+            const exercises = [];
             for (let id of trainingData.trainingExerciseIds) {
-                const trainingExercise = await fetchTrainingExercise(id.id);
-                if (trainingExercise) {
-                    trainingExercises.push(trainingExercise);
+                const exercise = await fetchTrainingExercise(id.id);
+                if (exercise) {
+                    exercises.push(exercise);
                 }
             }
-            setTrainingExerciseData(trainingExercises);
+            setTrainingExerciseData(exercises);
         };
 
         fetchAllTrainingExercises();
@@ -87,10 +101,10 @@ const DetailsTrainingPage = () => {
     useEffect(() => {
         if (!trainingExerciseData.length) return;
 
-        const fetchExercise = async (exId) => {
+        const fetchExercise = async (Id) => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/exercise/${exId}`, {
+                const response = await fetch(`http://localhost:8080/exercise/${Id}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -110,8 +124,8 @@ const DetailsTrainingPage = () => {
 
         const fetchAllExercises = async () => {
             const exercises = [];
-            for (let se of trainingExerciseData) {
-                const exercise = await fetchExercise(se.exerciseId);
+            for (let te of trainingExerciseData) {
+                const exercise = await fetchExercise(te.exerciseId);
                 if (exercise) {
                     exercises.push(exercise);
                 }
@@ -120,7 +134,7 @@ const DetailsTrainingPage = () => {
         };
 
         fetchAllExercises();
-    }, [exerciseData]);
+    }, [trainingExerciseData]);
 
     useEffect(() => {
         if (!trainingExerciseData.length) return;
@@ -161,46 +175,27 @@ const DetailsTrainingPage = () => {
     }, [trainingExerciseData]);
 
     useEffect(() => {
-        if (!exerciseData.length || !seriesData.length) return;
-
-        const combinedRows = exerciseData.map((exercise, index) => ({
+        const combinedRows = exerciseData.map((exercise, i) => ({
             exerciseId: exercise.id,
             name: exercise.name,
             part: exercise.part,
             videoLink: exercise.videoLink,
-            seriesId: seriesData[index].id,
-            series: seriesData[index].series,
-            repeatNumber: seriesData[index].repeatNumber,
-            weight: seriesData[index].weight,
+            seriesId: seriesData[i].id,
+            series: seriesData[i].series,
+            repeatNumber: seriesData[i].repeatNumber,
+            weight: seriesData[i].weight,
         }));
 
         setRows(combinedRows);
     }, [exerciseData, seriesData]);
 
-    // Fetch categories
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/trainingSchema/categories`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setCategories(data);
-            } catch (error) {
-                console.error("Fetching categories failed:", error);
-            }
-        };
-
-        fetchCategories();
-    }, []);
+    const categories = {
+        "Cardio":"Cardio",
+        "Siłowy":"Silowy",
+        "Crossfit":"Crossfit",
+        "Fitness":"Fitness",
+        "Grupowy":"Grupowy"
+    };
 
     const handleDeleteRow = (targetId) => {
         setRows(rows.filter((_, id) => id !== targetId));
@@ -228,14 +223,9 @@ const DetailsTrainingPage = () => {
         e.preventDefault();
 
         const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token);
-
-        const trainingPayload = {
-            category: trainingData.category,
-            creatorUsername: decodedToken.sub
-        };
 
         let seriesId;
+        let trainingId = trainingData.id;
 
         try {
             seriesId = new Array(rows.length);
@@ -264,6 +254,7 @@ const DetailsTrainingPage = () => {
         }
 
         let trainingExercisesId;
+        let trainingExercise;
 
         try {
             trainingExercisesId = new Array(rows.length);
@@ -284,8 +275,8 @@ const DetailsTrainingPage = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                const createdExercise = await response.json();
-                trainingExercisesId[i] = createdExercise.id;
+                const createdTrainingExercise = await response.json();
+                trainingExercisesId[i] = createdTrainingExercise.id;
             }
         } catch (error) {
             console.error('Error adding trainingExercise:', error);
@@ -306,15 +297,76 @@ const DetailsTrainingPage = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                const trainingExercise = await response.json();
-                trainingExercises[i] = trainingExercise;
+                const exercise = await response.json();
+                trainingExercises[i] = exercise;
+            }
+        } catch (error) {
+            console.error('Error adding trainingExercise:', error);
+        }
+
+        try{
+            let response = await fetch(`http://localhost:8080/trainingExercise/delete/${id}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        try {
+            trainingExercisesId = new Array(rows.length);
+            for (let i = 0; i < rows.length; i++) {
+                const row = {
+                    exerciseId: rows[i].exerciseId,
+                    trainingId: id,
+                    seriesId: seriesId[i],
+                };
+                let response = await fetch('http://localhost:8080/trainingExercise/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(row),
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const createdTrainingExercise = await response.json();
+                trainingExercisesId[i] = createdTrainingExercise.id;
             }
         } catch (error) {
             console.error('Error adding trainingExercise:', error);
         }
 
         try {
-            let response = await fetch(`http://localhost:8080/training/updatete/${id}`, {
+            trainingExercises = new Array(rows.length);
+            for (let i=0; i < rows.length; i++) {
+                let response = await fetch(`http://localhost:8080/trainingExercise/${trainingExercisesId[i]}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const exercise = await response.json();
+                trainingExercises[i] = exercise;
+            }
+        } catch (error) {
+            console.error('Error getting trainingExercise:', error);
+        }
+
+        try {
+            let response = await fetch(`http://localhost:8080/training/updatete/${trainingId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -336,9 +388,11 @@ const DetailsTrainingPage = () => {
                 category: trainingData.category,
                 creatorUsername: trainingData.creatorUsername,
                 creationDate: trainingData.creationDate,
+                startTime: trainingData.startTime,
+                endTime: trainingData.endTime,
             };
 
-            let response = await fetch(`http://localhost:8080/training/update/${id}`, {
+            let response = await fetch(`http://localhost:8080/training/update/${trainingId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -346,39 +400,11 @@ const DetailsTrainingPage = () => {
                 },
                 body: JSON.stringify(row)
             })
+            alert('Training edited successfully');
+            navigate(`/all-trainings`);
         } catch (err){
             console.error('Error adding training :', err);
         }
-
-        try {
-            trainingExercisesId = new Array(rows.length);
-            for (let i=0; i < rows.length; i++) {
-                const row = {
-                    exerciseId: rows[i].exerciseId,
-                    trainingId: id,
-                    seriesId: seriesId[i],
-                };
-                let response = await fetch('http://localhost:8080/trainingExercise/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify(row),
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const createdExercise = await response.json();
-                trainingExercisesId[i] = createdExercise.id;
-            }
-            alert('Training edited successfully');
-            navigate(`/all-trainings`);
-        } catch (error) {
-            console.error('Error adding trainingExercise:', error);
-        }
-
-
 
     };
 
@@ -390,42 +416,131 @@ const DetailsTrainingPage = () => {
         });
     };
 
+    const handleReturn = () => {
+        navigate(`/all-trainings`);
+    }
 
+    const handleAddTrainingExercise = (newTrainingExercises) => {
+        console.log("newTrainingExercises: ",newTrainingExercises);
+        setTrainingExerciseData((prev) => [...prev, ...newTrainingExercises]);
+        fetchSeriesForNewExercises(newTrainingExercises);
+    }
+
+    const fetchSeriesForNewExercises = async (newTrainingExercises) => {
+        const newSeriesData = [];
+        const token = localStorage.getItem("token");
+
+        for (let exercise of newTrainingExercises) {
+            try {
+                const response = await fetch(`http://localhost:8080/series/${exercise.seriesId}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.ok) {
+                    const series = await response.json();
+                    newSeriesData.push(series);
+                }
+            } catch (error) {
+                console.error("Fetching series failed:", error);
+            }
+        }
+
+        // Update series data with the newly fetched series
+        setSeriesData((prevSeries) => [...prevSeries, ...newSeriesData]);
+    };
+
+// This effect will be triggered when `trainingExerciseData` or `seriesData` is updated
+    useEffect(() => {
+        if (!trainingExerciseData.length) return;
+
+        const fetchAllSeries = async () => {
+            const series = [];
+            for (let te of trainingExerciseData) {
+                try {
+                    const response = await fetch(`http://localhost:8080/series/${te.seriesId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if (response.ok) {
+                        const seriesItem = await response.json();
+                        series.push(seriesItem);
+                    }
+                } catch (error) {
+                    console.error("Fetching series failed:", error);
+                }
+            }
+
+            setSeriesData(series);
+        };
+
+        fetchAllSeries();
+    }, [trainingExerciseData]);  // Fetch series when trainingExerciseData changes
+
+    useEffect(() => {
+        console.log("seriesData: ", seriesData);
+        const combinedRows = exerciseData.map((exercise, i) => ({
+            exerciseId: exercise.id,
+            name: exercise.name,
+            part: exercise.part,
+            videoLink: exercise.videoLink,
+            series: seriesData[i]?.series || 0,  // Use series data for the corresponding exercise
+            repeatNumber: seriesData[i]?.repeatNumber || 0,  // Fetch repeat number from the series
+            weight: seriesData[i]?.weight || 0,  // Fetch weight from the series
+        }));
+
+        setRows(combinedRows);
+    }, [exerciseData, seriesData]);  // Update combined rows when either exerciseData or seriesData changes
 
 
     return (
-        <div className="Training">
-            <nav className="mainNavigation">
-                <Link to="/all-trainings">All Trainings</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <label>Category:</label>
-            <select
-                name="category"
-                value={trainingData.category || ''}
-                onChange={handleCategoryChange}
-            >
-                <option value="" disabled>Select a category</option>
-                {categories.map((category) => (
-                    <option key={category} value={category}>
-                        {category}
-                    </option>
-                ))}
-            </select>
-
-            <TrainingSchemaTable rows={rows} trainingExercise={exerciseData} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
-            {modalOpen && (
-                <TrainingSchemaModal
-                    closeModal={() => {
-                        setModalOpen(false);
-                        setRowToEdit(null);
-                    }}
-                    onSubmit={handleSubmit}
-                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
-                />
-            )}
-            <button type="submit" onClick={handleSubmitTraining}>Save training</button>
+        <div className="details-container">
+            <NavBar/>
+            <div className="details">
+                <label htmlFor="label-select">Kategoria:</label>
+                <select
+                    id="category-select"
+                    className="inputStyle"
+                    name="category"
+                    value={trainingData.category || ""} // Ensure controlled component with fallback for null/undefined
+                    onChange={(e) => setTrainingData({...trainingData, category: e.target.value})}>
+                    <option value="" disabled>-- Wybierz kategorię --</option>
+                    {Object.entries(categories).map(([displayCategory, internalValue]) => (
+                        <option key={internalValue} value={internalValue}>
+                            {displayCategory}
+                        </option>
+                    ))}
+                </select>
+                <TrainingSchemaTable rows={rows} trainingExercise={exerciseData} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <div className="buttons-container">
+                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
+                    {modalOpen && (
+                        <TrainingSchemaModal
+                            closeModal={() => {
+                                setModalOpen(false);
+                                setRowToEdit(null);
+                            }}
+                            onSubmit={handleSubmit}
+                            defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                        />
+                    )}
+                    <button className="btn" onClick={() => setAddSchemaModalOpen(true)}>Dodaj schemat</button>
+                    {addSchemaModalOpen && (
+                        <TrainingAddSchemaModal
+                            closeModal={() => setAddSchemaModalOpen(false)}
+                            onSubmit={handleAddTrainingExercise}
+                            mealId={id}
+                        />
+                    )}
+                    <button type="submit" className="btn" onClick={handleSubmitTraining}>Zapisz trening</button>
+                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

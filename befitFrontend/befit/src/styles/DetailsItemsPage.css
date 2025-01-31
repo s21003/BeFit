@@ -1,0 +1,101 @@
+/* DetailsItemsPage.css */
+
+.detailsItems-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    padding-top: 80px; /* Adjust for your navbar */
+}
+
+.detailsItems {
+    margin: 20px;
+    flex-grow: 1; /* Allow content to fill space */
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.detailsHeader {
+    margin-bottom: 20px;
+    text-align: center; /* Center the header text */
+}
+
+.detailsContent {
+    margin-bottom: 10px;
+    width: 100%; /* Make content fill container width */
+    max-width: 600px; /* Set a maximum width if needed */
+}
+
+.detailsContent strong {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.editForm {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputStyle,
+.editForm input,
+.editForm select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.editForm label {
+    margin-bottom: 5px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn,
+.btn-delete {
+    padding: 10px 15px;
+    background-color: #007bff; /* Default color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    min-width: 120px; /* Set a minimum width */
+}
+
+.btn:hover,
+.btn-delete:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red for delete */
+}
+
+.btn-delete:hover {
+    background-color: #c12a36; /* Darker red on hover */
+}
+
+/* Optional: Add some spacing between form elements */
+.editForm > * {
+    margin-bottom: 10px;
+}

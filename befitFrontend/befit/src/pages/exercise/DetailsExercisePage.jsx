@@ -1,6 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../helpers/UserContext";
+import "../../styles/DetailsItemsPage.css"
+import NavBar from "../../components/NavBar";
 
 const DetailsExercisePage = () => {
     let { id } = useParams();
@@ -9,9 +11,8 @@ const DetailsExercisePage = () => {
     const navigate = useNavigate();
     const [editFormData, setEditFormData] = useState({
         name: '',
-        part: null,
-        videoLink: null,
-        series: null
+        part: '',
+        videoLink: '',
     });
 
     useEffect(() => {
@@ -29,7 +30,15 @@ const DetailsExercisePage = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setExerciseDetails(data);
+                console.log("data: ",data)
+                if (data) {
+                    setExerciseDetails(data);
+                    setEditFormData({ // Set initial form data *after* fetching
+                        name: data.name,
+                        part: data.part,
+                        videoLink: data.videoLink || '', // Handle potential null value
+                    })
+                }
             } catch (error) {
                 console.error("Fetching exercise details failed: ", error);
                 setExerciseDetails(null);
@@ -43,14 +52,25 @@ const DetailsExercisePage = () => {
             name: exerciseDetails.name,
             part: exerciseDetails.part,
             videoLink: exerciseDetails.videoLink,
-            series: exerciseDetails.series
         });
     };
 
     const handleSubmitEdit = async (e) => {
         e.preventDefault();
 
-        const updatedData = { id: exerciseDetails.id, ...editFormData };
+        let enumPart = exerciseDetails.part; // Default to the original value
+
+        if (editFormData.part !== exerciseDetails.part) {
+            const selectedPartKey = Object.keys(partOptions).find(key => partOptions[key] === editFormData.part);
+            enumPart = selectedPartKey ? partOptions[selectedPartKey] : null; // Use null if no match
+        }
+
+        const updatedData = {
+            id: exerciseDetails.id,
+            ...editFormData,
+            part: enumPart // Include the enum value in the data sent to the backend
+        };
+        console.log("updatedData: ",updatedData);
 
         try {
             const token = localStorage.getItem("token");
@@ -65,7 +85,7 @@ const DetailsExercisePage = () => {
 
             if (response.ok) {
                 alert('Exercise updated successfully');
-                navigate("/all-exercises")
+                navigate("/own-exercises")
             } else {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -99,72 +119,63 @@ const DetailsExercisePage = () => {
     };
 
     const partOptions = {
-        "KlatkaPiersiowa":"0",
-        "Biceps":"1",
-        "Triceps":"2",
-        "Brzuch":"3",
-        "Plecy":"4",
-        "Barki":"5",
-        "Nogi":"6",
-        "Cardio":"7"
+        "Klatka piersiowa": "KLATKAPIERSIOWA", // Updated enum values
+        "Biceps": "BICEPS",
+        "Triceps": "TRICEPS",
+        "Brzuch": "BRZUCH",
+        "Plecy": "PLECY",
+        "Barki": "BARKI",
+        "Nogi": "NOGI",
+        "Cardio": "CARDIO",
     };
 
+    const handleReturn = () => {
+        navigate(`/own-exercises`)
+    }
+
     return (
-        <div className="mainPage">
-            {user && <h1>Hello, {user.username}</h1>}
-            <nav className="mainNavigation">
-                <Link to="/all-exercises">All Exercises</Link>
-            </nav>
-            <div className="detailsContainer">
-                <h2 className="detailsHeader">Exercise Details</h2>
+        <div className="detailsItems-container">
+            <NavBar />
+            <div className="detailsItems">
+                <h2 className="detailsHeader">Szczegóły ćwiczenia</h2>
                 {exerciseDetails ? (
                     <>
-                        <div className="detailsContent"><strong>Nazwa:</strong> {exerciseDetails.name}</div>
-                        <div className="detailsContent"><strong>Partia ciała:</strong> {exerciseDetails.part}</div>
-                        <div className="detailsContent"><strong>Link:</strong> {exerciseDetails.videoLink}</div>
-                        <div className="detailsContent"><strong>Serie:</strong> {exerciseDetails.series}</div>
+
                         {(
                             <>
-                                <button onClick={handleDelete} className="submitButton">Delete exercise</button>
-                                <button onClick={handleEdit} className="submitButton">Edit exercise</button>
                                 <form onSubmit={handleSubmitEdit}>
+                                    <strong>Nazwa ćwiczenia:</strong>
                                     <input
                                         type="text"
                                         name="name"
                                         className="inputStyle"
                                         value={editFormData.name}
                                         onChange={e => setEditFormData({...editFormData, name: e.target.value})}
-                                        placeholder="Nazwa"
                                     />
+                                    <strong>Partia ciała:</strong>
                                     <select
                                         className="inputStyle"
                                         name="part"
-                                        value={editFormData.part}
-                                        onChange={e => setEditFormData({...editFormData, part: e.target.value})}>
+                                        value={editFormData.part} // Display value
+                                        onChange={e => setEditFormData({...editFormData, part: e.target.value})}
+                                    >
                                         {Object.keys(partOptions).map(part => (
                                             <option key={part} value={part}>{part}</option>
                                         ))}
                                     </select>
+                                    <strong>Link do wideo:</strong>
                                     <input
                                         type="text"
                                         name="videoLink"
                                         className="inputStyle"
                                         value={editFormData.videoLink}
-                                        onChange={e => setEditFormData({...editFormData, videoLink: e.target.value})}
-                                        placeholder="Link"
+                                        onChange={e => setEditFormData({ ...editFormData, videoLink: e.target.value })}
                                     />
-                                    <input
-                                        className="inputStyle"
-                                        type="text"
-                                        name="series"
-                                        value={editFormData.series}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            series: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Serie"
-                                    />
-                                    <button type="submit" className="submitButton">Update Exercise</button>
+                                    <div className="buttons-container">
+                                        <button type="submit" className="btn">Zapisz zmiany</button>
+                                        <button onClick={handleDelete} className="btn-delete">Usuń ćwiczenie</button>
+                                        <button onClick={handleReturn} className="btn">Powrót</button>
+                                    </div>
                                 </form>
                             </>
                         )}

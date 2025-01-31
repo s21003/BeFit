@@ -13,11 +13,11 @@ public class TrainingExerciseService {
     @Autowired
     private TrainingExerciseRepository trainingExerciseRepository;
     public List<TrainingExercise> allTrainingExercies() { return trainingExerciseRepository.findAll(); }
-    public TrainingExercise createTrainingExercise(TrainingExercise tse){
+    public TrainingExercise createTrainingExercise(TrainingExercise te){
         TrainingExercise trainingExercise = new TrainingExercise();
-        trainingExercise.setExerciseId(tse.getExerciseId());
-        trainingExercise.setTrainingSchemaId(tse.getTrainingSchemaId());
-        trainingExercise.setSeries(tse.getSeries());
+        trainingExercise.setExerciseId(te.getExerciseId());
+        trainingExercise.setTrainingId(te.getTrainingId());
+        trainingExercise.setSeriesId(te.getSeriesId());
         trainingExerciseRepository.save(trainingExercise);
         return trainingExercise;
     }
@@ -28,16 +28,17 @@ public class TrainingExerciseService {
         trainingExerciseRepository.deleteById(id);
         return "Deleted";
     }
-    public String editTrainingExercise(TrainingExercise tse, Long id){
-        Optional<TrainingExercise> tmp = singleTrainingExercise(id);
-        if (tmp.isEmpty()){
+    public String editTrainingExercise(TrainingExercise te, Long id){
+        Optional<TrainingExercise> existingTrainingExercise = singleTrainingExercise(id);
+        if (existingTrainingExercise.isEmpty()){
             return "WrongId";
         }else{
-            TrainingExercise trainingExercise = tmp.get();
-            trainingExercise.setExerciseId(tse.getExerciseId());
-            trainingExercise.setTrainingSchemaId(tse.getTrainingSchemaId());
-            trainingExercise.setSeries(tse.getSeries());
-            trainingExerciseRepository.save(trainingExercise);
+            TrainingExercise updatedTrainingExercise = existingTrainingExercise.get();
+            updatedTrainingExercise.setExerciseId(te.getExerciseId());
+            updatedTrainingExercise.setTrainingId(te.getTrainingId());
+            updatedTrainingExercise.setSeriesId(te.getSeriesId());
+
+            trainingExerciseRepository.save(updatedTrainingExercise);
             return "Updated";
         }
     }
@@ -47,7 +48,7 @@ public class TrainingExerciseService {
         List<TrainingExercise> all = trainingExerciseRepository.findAll();
         String flag = "ERROR with delete";
         for (int i = 0; i < all.size(); i++) {
-            if (Objects.equals(all.get(i).getTrainingSchemaId(), id)){
+            if (Objects.equals(all.get(i).getTrainingId(), id)){
                 trainingExerciseRepository.deleteById(all.get(i).getId());
                 flag = "Deleted";
             } else {

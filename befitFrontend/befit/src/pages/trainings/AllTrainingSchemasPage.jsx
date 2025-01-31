@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {CustomLink} from "../../helpers/CustomLink";
-import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../../components/NavBar";
+import "../../styles/SchemaPage.css"
 
 const AllTrainingSchemasPage = () => {
     const navigate = useNavigate();
     const [trainingSchemas, setTrainingSchemas] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Corrected state declaration
-    const trainingSchemasPerPage = 5;
 
     useEffect(() => {
         const fetchTrainingSchemas = async () => {
@@ -37,91 +35,20 @@ const AllTrainingSchemasPage = () => {
         navigate(`/training-schema/${trainingSchemaId}`);
     };
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(trainingSchemas.length / trainingSchemasPerPage); i++) {
-        pageNumbers.push(i);
+    const handleAddSchema = () => {
+        navigate(`/add-training-schema`);
     }
 
-    const handleDelete = async (id, e) => {
-        e.stopPropagation(); // Prevent the row click event from firing
-
-        const token = localStorage.getItem("token");
-        let trainingSchema;
-        try{
-            let response = await fetch(`http://localhost:8080/trainingSchema/${id}`,{
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            trainingSchema = await response.json();
-        } catch (err){
-            console.log(err);
-        }
-
-        try{
-            let response = await fetch(`http://localhost:8080/trainingSchemaExercise/deleteSchema/${id}`,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-
-        try{
-            let response = await fetch(`http://localhost:8080/trainingSchema/delete`,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(trainingSchema)
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            alert('Training schema deleted successfully');
-            setTrainingSchemas(trainingSchemas.filter(schema => schema.id !== id));
-
-        } catch (err) {
-            console.log(err);
-        }
+    const handleReturn = () => {
+        navigate(`/all-trainings`);
     }
 
     return (
-        <div className="mainPage">
-            <nav className="mainNavigation">
-                <Link to="/all-training-schemas">All Training Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <CustomLink to="/add-training-schema">Add Schema</CustomLink>
+        <div className="schemaPage-container">
+            <NavBar/>
 
             {trainingSchemas.length > 0 ? (
-                <>
-
-                    <nav>
-                        <ul className="pagination">
-                            {pageNumbers.map(number => (
-                                <li key={number} className="page-item">
-                                    <button onClick={() => paginate(number)} className="page-link">
-                                        {number}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+                <div className="schemaPage">
                     <table>
                         <thead>
                         <tr>
@@ -129,7 +56,6 @@ const AllTrainingSchemasPage = () => {
                             <th>Kategoria</th>
                             <th>Pochodzenie</th>
                             <th>Data utworzenia</th>
-                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -139,17 +65,18 @@ const AllTrainingSchemasPage = () => {
                                 <td>{trainingSchema.category}</td>
                                 <td>{trainingSchema.creatorUsername}</td>
                                 <td>{trainingSchema.creationDate}</td>
-                                <td className="actions">
-                                    <BsFillTrashFill className="delete-btn" onClick={(e) => handleDelete(trainingSchema.id, e)}/>
-                                </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                </>
+                </div>
             ) : (
-                <p>No trainingSchemas available.</p>
+                <p>Brak dostępnych schematów treningów.</p>
             )}
+            <div className="button-container">
+                <button type="submit" onClick={handleAddSchema}>Dodaj schemat</button>
+                <button type="submit" onClick={handleReturn}>Powrót</button>
+            </div>
         </div>
     );
 };

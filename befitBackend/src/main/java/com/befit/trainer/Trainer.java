@@ -1,52 +1,37 @@
 package com.befit.trainer;
 
-import java.util.List;
-
-import com.befit.user.UserTrainer;
+import com.befit.user.User;
+import com.befit.userTrainer.UserTrainer;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Data
-@Table(name = "trainer")
 @Entity
 public class Trainer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
 
     @OneToMany
-    private List<UserTrainer> userTrainers;
+    private List<UserTrainer> students;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "trainer_specializations", joinColumns = @JoinColumn(name = "trainer_id"))
+    @Column(name = "specialization")
+    private List<Specialization> specializations;
 
     @Column
-    private String name;
-
-    @Column
-    private String surname;
-
-    @Column
-    private String address;
-
-    @Column
-    private String username;
-
-    @Column
-    private String password;
-
-    @ElementCollection
-    @CollectionTable
-    @Column
-    private List<String> specializations;
-
-    public Trainer(String name, String surname, String address, String username, String password, List<String> specializations) {
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.username = username;
-        this.password = password;
-        this.specializations = specializations;
-    }
+    private String description;
 }

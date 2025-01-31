@@ -1,5 +1,6 @@
 package com.befit.trainingSchemaExercise;
 
+import com.befit.mealSchemaProduct.MealSchemaProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,10 @@ public class TrainingSchemaExerciseController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTrainingSchemaExercise(@RequestBody TrainingSchemaExercise tse, @PathVariable Long id){
         return new ResponseEntity<>(trainingSchemaExerciseService.editTrainingSchemaExercise(tse,id),HttpStatus.OK);
+    }
+    @GetMapping("/trainingSchema/{id}")
+    public ResponseEntity<List<TrainingSchemaExercise>> getTrainingSchemaExerciseForTrainingSchemaId(@PathVariable Long id){
+        return new ResponseEntity<>(trainingSchemaExerciseService.getTrainingSchemaExerciseForTrainingSchemaId(id),HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Optional<TrainingSchemaExercise>> getSingleTrainingSchemaExercise(@PathVariable Long id){

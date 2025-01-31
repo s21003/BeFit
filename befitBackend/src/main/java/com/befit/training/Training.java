@@ -46,6 +46,10 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingCategory category;
 
+    @JoinColumn
+    @Nullable
+    private Long trainerId;
+
     public Training(String userUsername, LocalDateTime startTime, TrainingCategory category) {
         this.userUsername = userUsername;
         this.startTime = startTime;

@@ -1,10 +1,13 @@
 package com.befit.trainer;
 
+import com.befit.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainerService {
@@ -15,11 +18,6 @@ public class TrainerService {
     }
     public Trainer createTrainer(Trainer t){
         Trainer trainer = new Trainer();
-        trainer.setName(t.getName());
-        trainer.setSurname(t.getSurname());
-        trainer.setAddress(t.getAddress());
-        trainer.setPassword(t.getPassword());
-        trainer.setSpecializations(t.getSpecializations());
         trainerRepository.save(trainer);
         return trainer;
     }
@@ -30,32 +28,33 @@ public class TrainerService {
         trainerRepository.deleteById(id);
         return "Deleted";
     }
-    public String editTrainer(Trainer t, Long id) {
-        Optional<Trainer> tmp = singleTrainer(id);
-        if (tmp.isEmpty()) {
-            return "WrongId";
-        } else {
-            Trainer trainer = tmp.get();
-            if (trainer.getName() != t.getName()) {
-                trainer.setName(t.getName());
-            }
-            if (trainer.getSurname() != t.getSurname()) {
-                trainer.setSurname(t.getSurname());
-            }
-            if (trainer.getAddress() != t.getAddress()) {
-                trainer.setAddress(t.getAddress());
-            }
-            if (trainer.getPassword() != t.getPassword()) {
-                trainer.setPassword(t.getPassword());
-            }
-            if (trainer.getSpecializations() != t.getSpecializations()) {
-                trainer.setSpecializations(t.getSpecializations());
-            }
-            trainerRepository.save(trainer);
-            return "Updated";
+    public Trainer editTrainer(TrainerDTO t) {
+        Optional<Trainer> existingTrainer = singleTrainer(t.getId());
+        if (existingTrainer.isEmpty()) {
+            throw new IllegalArgumentException("Trainer with given ID does not exist");
         }
+
+        Trainer updatedTrainer = existingTrainer.get();
+        updatedTrainer.setDescription(t.getDescription());
+        updatedTrainer.setSpecializations(t.getSpecializations());
+
+        return trainerRepository.save(updatedTrainer); // Save and return the updated entity
     }
+
+
+
+
     public Optional<Trainer> singleTrainer(Long id){
         return trainerRepository.findById(id);
     }
+
+    public Optional<Trainer> singleTrainerByUsername(String username) {
+        return trainerRepository.findByUser_username(username);
+    }
+
+    public List<Specialization> getSpecializations() {
+        return Arrays.asList(Specialization.values());
+    }
+
+
 }

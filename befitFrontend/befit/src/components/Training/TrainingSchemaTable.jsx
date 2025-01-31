@@ -1,7 +1,6 @@
 import React from 'react';
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
-import '../../styles/Table.css'
-
+import "../../styles/SchemaTable.css"
 
 export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
     return (
@@ -9,13 +8,13 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
             <table className="table">
                 <thead>
                 <tr>
-                    <th>Exercise's name</th>
-                    <th>Body part</th>
-                    <th>Planned number of series</th>
-                    <th>Planned repetitions in a series</th>
-                    <th>Planned weight in a series</th>
-                    <th>Link to video</th>
-                    <th>Actions</th>
+                    <th>Nazwa ćwiczenia</th>
+                    <th>Paria ciała</th>
+                    <th>Planowana liczba serii</th>
+                    <th>Planowana liczba powtórzeń w serii</th>
+                    <th>Planowana waga w serii</th>
+                    <th>Link do wideo</th>
+                    <th>Akcje</th>
                 </tr>
                 </thead>
                 <tbody>

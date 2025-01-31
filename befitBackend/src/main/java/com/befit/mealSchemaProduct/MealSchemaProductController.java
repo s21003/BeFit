@@ -38,6 +38,10 @@ public class MealSchemaProductController {
     public ResponseEntity<String> updateMealSchemaProduct(@RequestBody MealSchemaProduct msp, @PathVariable Long id){
         return new ResponseEntity<>(mealSchemaProductService.editMealSchemaProduct(msp,id),HttpStatus.OK);
     }
+    @GetMapping("/mealSchema/{id}")
+    public ResponseEntity<List<MealSchemaProduct>> getMealSchemaProductsForMealSchemaId(@PathVariable Long id){
+        return new ResponseEntity<>(mealSchemaProductService.getMealSchemaProductsForMealSchemaId(id),HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Optional<MealSchemaProduct>> getSingleMealSchemaProduct(@PathVariable Long id){
         return new ResponseEntity<>(mealSchemaProductService.singleMealSchemaProduct(id),HttpStatus.OK);

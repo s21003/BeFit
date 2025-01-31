@@ -30,16 +30,16 @@ public class SeriesService {
     }
 
     public String editSeries(Series s, Long id){
-        Optional<Series> tmp = singleSeries(id);
-        if (tmp.isEmpty()){
+        Optional<Series> existingSeries = singleSeries(id);
+        if (existingSeries.isEmpty()){
             return "Wrong Id";
         }else{
-            Series series = tmp.get();
-            series.setSeries(s.getSeries());
-            series.setRepeatNumber(s.getSeries());
-            series.setWeight(s.getWeight());
+            Series updatedSeries = existingSeries.get();
+            updatedSeries.setSeries(s.getSeries());
+            updatedSeries.setRepeatNumber(s.getSeries());
+            updatedSeries.setWeight(s.getWeight());
 
-            seriesRepository.save(series);
+            seriesRepository.save(updatedSeries);
             return "Updated";
         }
     }

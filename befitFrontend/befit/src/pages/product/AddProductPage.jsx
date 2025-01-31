@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import {useNavigate, Link} from 'react-router-dom';
-import "../../styles/MainPage.css";
+import {useNavigate} from 'react-router-dom';
+import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/AddItemsPage.css"
 
 const AddProductPage = () => {
     const navigate = useNavigate();
@@ -10,7 +12,8 @@ const AddProductPage = () => {
         protein: 0.0,
         fat: 0.0,
         carbs: 0.0,
-        weight: 0.0
+        weight: 0.0,
+        creatorUsername: ''
     });
 
     const handleChange = (e) => {
@@ -19,6 +22,8 @@ const AddProductPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
+        const decodedToken = jwtDecode(token);
 
         if (!productData.name.trim()) {
             alert('Name cannot be just spaces.');
@@ -31,7 +36,8 @@ const AddProductPage = () => {
             protein: productData.protein,
             fat: productData.fat,
             carbs: productData.carbs,
-            weight: productData.weight
+            weight: productData.weight,
+            creatorUsername: decodedToken.sub
         };
 
         console.log(JSON.stringify(productPayload))
@@ -53,33 +59,44 @@ const AddProductPage = () => {
 
             if (response.ok) {
                 alert('Product added successfully');
-                navigate(`/all-products`);
+                navigate(`/own-products`);
             }
         } catch (error) {
             console.error('Error adding exchange:', error);
         }
     };
 
+    const handleReturn = () => {
+        navigate(`/own-products`);  // Use the username from the state
+    };
+
     return (
-        <div className="mainPage">
-            <nav className="mainNavigation">
-                <Link to="/all-products">All Products</Link>
-            </nav>
-            <div className="editFormContainer">0
+        <div className="addItems-container">
+            <NavBar/>
+            <div className="addItems">
                 <form onSubmit={handleSubmit} className="editForm">
+                    <label>Nazwa produktu</label>
                     <input className="inputStyle" type="text" name="name" value={productData.name}
                            onChange={handleChange} placeholder="Name" required/>
+                    <label>Kalorie</label>
                     <input className="inputStyle" type="number" step="0.1" name="kcal" value={productData.kcal}
                            onChange={handleChange} placeholder="Kcal" required/>
+                    <label>Białko</label>
                     <input className="inputStyle" type="number" step="0.1" name="protein" value={productData.protein}
                            onChange={handleChange} placeholder="Proteins" required/>
+                    <label>Tłuszcze</label>
                     <input className="inputStyle" type="number" step="0.1" name="fat" value={productData.fat}
                            onChange={handleChange} placeholder="Fats" required/>
+                    <label>Węglowodany</label>
                     <input className="inputStyle" type="number" step="0.1" name="carbs" value={productData.carbs}
                            onChange={handleChange} placeholder="Carbs" required/>
+                    <label>Waga produktu</label>
                     <input className="inputStyle" type="number" step="0.1" name="weight" value={productData.weight}
                            onChange={handleChange} placeholder="Weight" required/>
-                    <button className="submitButton" type="submit">Add Product</button>
+                    <div className="buttons-container">
+                        <button className="btn-submit" type="submit">Dodaj produkt</button>
+                        <button className="btn" onClick={handleReturn}>Powrót</button>
+                    </div>
                 </form>
             </div>
         </div>

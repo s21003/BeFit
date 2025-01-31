@@ -1,17 +1,45 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { ScheduleComponent, Day, Week, Month, Inject, ViewsDirective, ViewDirective } from '@syncfusion/ej2-react-schedule';
-import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
-import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import React, {useEffect, useState, useRef} from 'react';
+import {
+    ScheduleComponent,
+    Day,
+    Week,
+    Month,
+    Inject,
+    ViewsDirective,
+    ViewDirective
+} from '@syncfusion/ej2-react-schedule';
+import {DateTimePickerComponent} from '@syncfusion/ej2-react-calendars';
+import {DropDownListComponent} from '@syncfusion/ej2-react-dropdowns';
+import {useNavigate} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/MainPage.css"
-import { CustomLink } from "../../helpers/CustomLink";
+import {CustomLink} from "../../helpers/CustomLink";
+import {L10n, loadCldr, setCulture} from "@syncfusion/ej2-base";
+import "../../styles/SchedulePage.css"
+import plNumberData from '@syncfusion/ej2-cldr-data/main/pl/numbers.json';
+import pltimeZoneData from '@syncfusion/ej2-cldr-data/main/pl/timeZoneNames.json';
+import plGregorian from '@syncfusion/ej2-cldr-data/main/pl/ca-gregorian.json';
+import plNumberingSystem from '@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json';
+import plWeekData from '@syncfusion/ej2-cldr-data/supplemental/weekData.json';
+
+loadCldr(plNumberData, pltimeZoneData, plGregorian, plNumberingSystem, plWeekData);
+setCulture('pl');
 
 const AllTrainingsPage = () => {
     const navigate = useNavigate();
     const [trainings, setTrainings] = useState([]);
+    const [trainingExercisesMap, setTrainingExercisesMap] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [selectedTrainingId, setSelectedTrainingId] = useState(null); // Track selected training ID
     const scheduleObj = useRef(null);
+
+    const categories = {
+        "Cardio": "Cardio",
+        "Siłowy": "Silowy",
+        "Crossfit": "Crossfit",
+        "Fitness": "Fitness",
+        "Grupowy": "Grupowy"
+    };
 
     useEffect(() => {
         const fetchTrainings = async () => {
@@ -20,8 +48,6 @@ const AllTrainingsPage = () => {
             if (token) {
                 const decodedToken = jwtDecode(token);
                 const userUsername = decodedToken.sub;
-
-                console.log("User username from token:", userUsername, "   ", token);
 
                 try {
                     const response = await fetch(`http://localhost:8080/training/user/${userUsername}`, {
@@ -37,11 +63,13 @@ const AllTrainingsPage = () => {
                     const data = await response.json();
 
                     const mappedData = data.map(training => ({
-                        Id: training.id,
+                        id: training.id,
                         Subject: training.category,
                         StartTime: training.startTime,
                         EndTime: training.endTime,
-                        IsAllDay: false
+                        trainingExerciseIds: training.trainingExerciseIds,
+                        IsAllDay: false,
+                        trainerId: training.trainerId
                     }));
                     setTrainings(mappedData);
                 } catch (error) {
@@ -55,61 +83,225 @@ const AllTrainingsPage = () => {
         fetchTrainings();
     }, [navigate]);
 
-    let popupData;
+    useEffect(() => {
+        const fetchExercisesForTrainings = async () => {
+            const token = localStorage.getItem("token");
+            if (token && trainings.length > 0) {
+                try {
+                    const newTrainingExercisesMap = {};
 
-    const onPopupOpen = (args) => {
-        if (args.type === 'Editor') {
-            let statusElement = args.element.querySelector('#EventType');
-            if (statusElement) {
-                statusElement.setAttribute('name', 'EventType');
+                    for (const training of trainings) {
+                        const exercisesForTraining = [];
+
+                        for (const exerciseId of training.trainingExerciseIds) {
+                            const exerciseResponse = await fetch(
+                                `http://localhost:8080/exercise/${exerciseId.exerciseId}`,
+                                {
+                                    method: "GET",
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                        "Content-Type": "application/json",
+                                    },
+                                }
+                            );
+
+                            if (!exerciseResponse.ok) {
+                                const errorText = await exerciseResponse.text();
+                                console.error("API error:", errorText);
+                                throw new Error(`HTTP error! status: ${exerciseResponse.status}`);
+                            }
+
+                            const exercise = await exerciseResponse.json();
+
+                            const seriesResponse = await fetch(
+                                `http://localhost:8080/series/${exerciseId.seriesId}`,
+                                {
+                                    method: "GET",
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                        "Content-Type": "application/json",
+                                    },
+                                }
+                            );
+
+                            if (!seriesResponse.ok) {
+                                const errorText = await seriesResponse.text();
+                                console.error("API error:", errorText);
+                                throw new Error(`HTTP error! status: ${seriesResponse.status}`);
+                            }
+
+                            const seriesData = await seriesResponse.json();
+                            exercisesForTraining.push({
+                                exerciseId: exercise.id,
+                                name: exercise.name,
+                                series: seriesData.series,
+                                repeatNumber: seriesData.repeatNumber,
+                                weight: seriesData.weight,
+                            });
+                        }
+                        newTrainingExercisesMap[training.id] = exercisesForTraining;
+                    }
+                    setTrainingExercisesMap(newTrainingExercisesMap);
+                } catch (error) {
+                    console.error("Fetching exercises for trainings failed:", error);
+                }
             }
-            console.log("status element: ",statusElement);
-            popupData = args.data;
-        }
-    };
+        };
+
+        fetchExercisesForTrainings();
+    }, [trainings]);
 
     const editorTemplate = (props) => {
-        console.log("props editorTemlate: ",props);
-        return (props !== undefined ? (
+        if (!props) {
+            return <div>No props data available</div>;
+        }
+
+        const isNewTraining = !props.id;
+        const trainingExercises = trainingExercisesMap[props.id] || [];
+
+        const [trainer, setTrainer] = useState(null);
+
+        useEffect(() => {
+            const fetchTrainer = async () => {
+                if (props.trainerId) {  // changed TrainerId to trainerId here
+                    try {
+                        const token = localStorage.getItem("token");
+                        const response = await fetch(`http://localhost:8080/trainer/${props.trainerId}`, {  // changed TrainerId to trainerId here
+                            method: 'GET',
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                'Content-Type': 'application/json',
+                            },
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Error fetching trainer: ${response.status}`);
+                        }
+
+                        const trainerData = await response.json();
+                        setTrainer(trainerData);
+                    } catch (error) {
+                        console.error("Error fetching trainer:", error);
+                    }
+                }
+            };
+
+            fetchTrainer();
+        }, [props.trainerId]);  // Ensure to watch for changes in trainerId
+
+
+        return (
             <table className="custom-event-editor">
                 <tbody>
                 <tr>
-                    <td className="e-textlabel">Category</td>
+                    <td className="e-textlabel">Kategoria</td>
                     <td colSpan={4}>
-                        <DropDownListComponent id="Subject" placeholder='Choose category' data-name="Subject" className="e-field" dataSource={['Cardio', 'Silowy', 'Crossfit', 'Fitness', 'Grupowy']} value={props.Subject || null}></DropDownListComponent>
+                        <DropDownListComponent
+                            id="Subject"
+                            placeholder="Choose category"
+                            data-name="Subject"
+                            className="e-field"
+                            dataSource={Object.keys(categories)}
+                            value={props.Subject || null}
+                        />
                     </td>
                 </tr>
                 <tr>
-                    <td className="e-textlabel">From</td>
+                    <td className="e-textlabel">Godzina rozpoczęcia</td>
                     <td colSpan={4}>
-                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="StartTime" data-name="StartTime"
-                                                 value={new Date(props.StartTime || props.startTime)}
-                                                 className="e-field"></DateTimePickerComponent>
+                        <DateTimePickerComponent
+                            format="dd/MM/yyyy hh:mm a"
+                            id="StartTime"
+                            data-name="StartTime"
+                            value={new Date(props.StartTime || props.startTime)}
+                            className="e-field"
+                        />
                     </td>
                 </tr>
                 <tr>
-                    <td className="e-textlabel">To</td>
+                    <td className="e-textlabel">Godzina zakończenia</td>
                     <td colSpan={4}>
-                        <DateTimePickerComponent format='dd/MM/yy hh:mm a' id="EndTime" data-name="EndTime"
-                                                 value={new Date(props.EndTime || props.endTime)}
-                                                 className="e-field"></DateTimePickerComponent>
+                        <DateTimePickerComponent
+                            format="dd/MM/yyyy hh:mm a"
+                            id="EndTime"
+                            data-name="EndTime"
+                            value={new Date(props.EndTime || props.endTime)}
+                            className="e-field"
+                        />
                     </td>
                 </tr>
+                <tr>
+                    <td colSpan={5}>
+                        <table className="exercises-table">
+                            <thead>
+                            <tr>
+                                <th>Nazwa ćwiczenia</th>
+                                <th>Serie</th>
+                                <th>Powtórzenia</th>
+                                <th>Waga ciężarów</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {trainingExercises.length > 0 ? (
+                                trainingExercises.map((exercise, index) => (
+                                    <tr key={index}>
+                                        <td>{exercise.name}</td>
+                                        <td>{exercise.series}</td>
+                                        <td>{exercise.repeatNumber}</td>
+                                        <td>{exercise.weight}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4}>Brak ćwiczeń</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {/* Display Trainer's Name if available */}
+                {trainer && (
+                    <tr>
+                        <td colSpan={4}>
+                            <strong>Trener: {trainer.user.name} {trainer.user.surname}</strong>
+                        </td>
+                    </tr>
+                )}
                 </tbody>
-                <CustomLink to={`/training/${props.Id}`}>Edytuj</CustomLink>
+                <tr>
+                    <td colSpan={4} style={{textAlign: "center", marginTop: "10px"}}>
+                        {isNewTraining ? (
+                            <></>
+                        ) : (
+                            <>
+                                <button onClick={() => handleEditTraining(props.id)} className="btn-edit">
+                                    Edytuj
+                                </button>
+                                <button
+                                    onClick={() => handleAddTrainer(props.id)}
+                                    className="btn-add-trainer"
+                                >
+                                    {trainer ? "Zmień trenera" : "Dodaj trenera"}
+                                </button>
+                            </>
+                        )}
+                    </td>
+                </tr>
             </table>
-
-        ) : <div></div>);
+        );
     };
+
+
+    const eventSettings = {dataSource: trainings};
 
     const onActionComplete = async (args) => {
         if (args.requestType === 'eventCreated') {
             const eventData = args.data[0];
-            console.log("eventData: ", eventData);
             const startTime = new Date(eventData.StartTime);
-            startTime.setHours(startTime.getHours() + 1);
+            startTime.setHours(startTime.getHours() + 1); // Adjust for your desired timezone
             const endTime = new Date(eventData.EndTime);
-            endTime.setHours(endTime.getHours() + 1);
+            endTime.setHours(endTime.getHours() + 1); // Adjust for your desired timezone
 
             const startTimeISO = startTime.toISOString();
             const endTimeISO = endTime.toISOString();
@@ -131,46 +323,153 @@ const AllTrainingsPage = () => {
                     },
                     body: JSON.stringify(trainingData)
                 });
+
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const training = await response.json();
+                navigate(`/training/${training.id}`);
+                window.location.reload()
             } catch (error) {
                 console.error("Saving event failed:", error);
+            }
+        } else if (args.requestType === 'eventChanged') {
+            const eventData = args.data[0];
+            const startTime = new Date(eventData.StartTime);
+            startTime.setHours(startTime.getHours() + 1); // Adjust for your desired timezone
+            const endTime = new Date(eventData.EndTime);
+            endTime.setHours(endTime.getHours() + 1); // Adjust for your desired timezone
+
+            const startTimeISO = startTime.toISOString();
+            const endTimeISO = endTime.toISOString();
+
+            const trainingData = {
+                id: eventData.id,
+                userUsername: jwtDecode(localStorage.getItem("token")).sub,
+                category: eventData.Subject,
+                startTime: startTimeISO,
+                endTime: endTimeISO,
+            };
+
+            try {
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://localhost:8080/training/update/${eventData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(trainingData)
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                setTrainings((prevTrainings) => {
+                    return prevTrainings.map((training) =>
+                        training.id === eventData.id
+                            ? {...training, StartTime: startTimeISO, EndTime: endTimeISO}
+                            : training
+                    );
+                });
+
+                window.location.reload();
+            } catch (error) {
+                console.error("Updating training failed:", error);
+            }
+        } else if (args.requestType === 'eventRemoved') {
+            const eventData = args.data[0]; // Data of the training being deleted
+            try {
+                const token = localStorage.getItem("token");
+                const response = await fetch('http://localhost:8080/training/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({id: eventData.id}) // Send the training ID in the body
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                setTrainings((prevTrainings) => prevTrainings.filter(training => training.id !== eventData.id));
+                alert("Trening usunięty pomyślnie");
+
+                window.location.reload();
+            } catch (error) {
+                console.error("Deleting training failed:", error);
+                alert("Failed to delete the training.");
             }
         }
     };
 
-    const eventSettings = { dataSource: trainings }
+
+    const handleEditTraining = (trainingId) => {
+        navigate(`/training/${trainingId}`);
+    }
+
+    const handleAddTrainer = (trainingId) => {
+        navigate(`/add-trainer-to-training/${trainingId}`);
+    }
+
+    L10n.load({
+        'pl': {
+            'schedule': {
+                'saveButton': 'Zapisz',
+                'cancelButton': 'Anuluj',
+                'deleteButton': 'Usuń',
+                'newEvent': 'Dodaj nowy trening',
+                'editEvent': 'Edytuj trening',
+                'deleteEvent': 'Usuń trening',
+                'deleteContent': 'Czy na pewno chcesz usunąć ten trening?',
+                'delete': 'Usuń',
+                'cancel': 'Anuluj',
+                'day': 'Dzień',
+                'week': 'Tydzień',
+                'month': 'Miesiąc',
+                'today': 'Dziś',
+            },
+            'datetimepicker': {
+                'placeholder': 'Wybierz datę',
+                'today': 'Dziś'
+            }
+        }
+    });
 
     return (
-        <>
-            <NavBar />
-            <div className="training-buttons">
-                <h1>Treningi</h1>
-                <CustomLink to="/all-training-schemas"> Schematy trenigów</CustomLink>
-                <CustomLink to="/exercises">Własne ćwiczenia</CustomLink>
+        <div className="all-schedules-container">
+            <NavBar/>
+            <div className="main-content">
+                <div className="schedule-buttons">
+                    <h1>Twoje treningi</h1> {/* Heading on the left */}
+                    <div className="buttons-container"> {/* Buttons on the right */}
+                        <CustomLink to="/all-training-schemas">Schematy treningów</CustomLink>
+                        <CustomLink to="/own-exercises">Własne ćwiczenia</CustomLink>
+                    </div>
+                </div>
+                <link href="https://cdn.syncfusion.com/ej2/material-dark.css" rel="stylesheet" id="material3-dark"/>
+                <div className="scheduler-container">
+                    <ScheduleComponent
+                        firstDayOfWeek={1}
+                        ref={scheduleObj}
+                        width='100%'
+                        height='100%'
+                        currentView='Month'
+                        eventSettings={eventSettings}
+                        editorTemplate={editorTemplate}
+                        showQuickInfo={false}
+                        actionComplete={onActionComplete}
+                        timeZone="Europe/Warsaw"
+                        locale='pl'
+                    >
+                        <ViewsDirective>
+                            <ViewDirective option='Day'></ViewDirective>
+                            <ViewDirective option='Week'></ViewDirective>
+                            <ViewDirective option='Month'></ViewDirective>
+                        </ViewsDirective>
+                        <Inject services={[Day, Week, Month]}/>
+                    </ScheduleComponent>
+                </div>
             </div>
-            <div>
-                <ScheduleComponent
-                    ref={scheduleObj}
-                    width='100%'
-                    height='550px'
-                    currentView='Month'
-                    eventSettings={eventSettings}
-                    editorTemplate={editorTemplate}
-                    showQuickInfo={false}
-                    popupOpen={onPopupOpen}
-                    actionComplete={onActionComplete}
-                    timeZone="Europe/Warsaw"
-                >
-                    <ViewsDirective>
-                        <ViewDirective option='Day'></ViewDirective>
-                        <ViewDirective option='Week'></ViewDirective>
-                        <ViewDirective option='Month'></ViewDirective>
-                    </ViewsDirective>
-                    <Inject services={[Day, Week, Month]} />
-                </ScheduleComponent>
-            </div>
-        </>
-    )
+        </div>
+    );
 };
 
 export default AllTrainingsPage;

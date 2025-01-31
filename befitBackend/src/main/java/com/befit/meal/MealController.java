@@ -1,7 +1,6 @@
 package com.befit.meal;
 
-import com.befit.training.Training;
-import com.befit.training.TrainingCategory;
+import com.befit.mealProduct.MealProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +32,14 @@ public class MealController {
         return new ResponseEntity<>(mealService.editMeal(m,id),HttpStatus.OK);
     }
 
-    @GetMapping("/labels")
-    public ResponseEntity<List<MealLabel>> getCategories(){
-        return new ResponseEntity<>(mealService.getLabels(), HttpStatus.OK);
+    @PutMapping("/updateMealData/{id}")
+    public ResponseEntity<String> updateMealData(@RequestBody MealDataDTO m, @PathVariable Long id){
+        return new ResponseEntity<>(mealService.editMealData(m,id),HttpStatus.OK);
+    }
+
+    @PutMapping("/updatemp/{id}")
+    public ResponseEntity<String> updateMealSchemaProducts(@RequestBody List<MealProduct> ids, @PathVariable Long id){
+        return new ResponseEntity<>(mealService.editMealProducts(ids,id),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -1,0 +1,127 @@
+/* GoalComponent.css */
+
+.goalsTab {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.goalsTab h1 {
+    margin-top: 0px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.goalForm {
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly different background for goalForm */
+    border-radius: 8px; /* Match the border-radius of goalsTab */
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.formRow {
+    display: flex; /* Arrange Planned and Recommended side by side */
+    gap: 20px; /* Space between the columns */
+    align-items: flex-start; /* Align items to the top of the row */
+}
+
+.plannedFields,
+.recommendedFields {
+    flex: 1; /* Make both columns take equal width */
+}
+
+.goalForm label {
+    margin-bottom: 5px;
+    color: white;
+}
+
+.goalForm input,
+.goalForm select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 100%; /* Inputs take full width of their container */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.readonlyInput {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.recommendedLabel {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.tab.active {
+    background-color: #0056b3;
+}
+
+.setAsPlannedButton,
+.saveGoalButton {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    align-self: center; /* Center button horizontally */
+    width: fit-content; /* Button takes only the width it needs */
+}
+
+.setAsPlannedButton:hover,
+.saveGoalButton:hover {
+    background-color: #0056b3;
+}
+
+.dateField {
+    margin-top: 20px;
+    width: 100%; /* Date field takes full width */
+    display: flex;
+    flex-direction: column; /* Label and input stacked */
+}
+
+.dateField label {
+    margin-bottom: 5px;
+    color: white;
+}
+
+.dateField input {
+    width: 100%; /* Date input takes full width */
+    box-sizing: border-box; /* Include padding and border in width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}

@@ -30,11 +30,16 @@ public class MealSchemaProductService {
         return "Deleted";
     }
     public String editMealSchemaProduct(MealSchemaProduct msp, Long id){
-        Optional<MealSchemaProduct> tmp = singleMealSchemaProduct(id);
-        if (tmp.isEmpty()){
+        Optional<MealSchemaProduct> existingmsp = singleMealSchemaProduct(id);
+        if (existingmsp.isEmpty()){
             return "WrongId";
         }else{
-            mealSchemaProductRepository.save(msp);
+            MealSchemaProduct updatedmsp = existingmsp.get();
+            updatedmsp.setMealSchemaId(msp.getMealSchemaId());
+            updatedmsp.setProductId(msp.getProductId());
+            updatedmsp.setWeightsId(msp.getWeightsId());
+
+            mealSchemaProductRepository.save(updatedmsp);
             return "Updated";
         }
     }
@@ -52,5 +57,9 @@ public class MealSchemaProductService {
             }
         }
         return flag;
+    }
+
+    public List<MealSchemaProduct> getMealSchemaProductsForMealSchemaId(Long mealSchemaId) {
+        return mealSchemaProductRepository.findByMealSchemaId(mealSchemaId);
     }
 }

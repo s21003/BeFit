@@ -1,0 +1,122 @@
+/* SchemaDetailsPage.css */
+
+/* General styles */
+body {
+    margin: 0;
+}
+
+/* schemaDetails-container Styles */
+.schemaDetails-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    padding-top: 80px;
+}
+
+/* schemaDetails Styles */
+.schemaDetails {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.schemaDetails label {
+    margin-bottom: 5px;
+}
+
+.schemaDetails input,
+.schemaDetails select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #555;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 5px;
+}
+
+/* Table styles */
+.schemaDetails table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.schemaDetails th,
+.schemaDetails td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.schemaDetails th {
+    background-color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+}
+
+.schemaDetails tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+/* Modal styles */
+.modal-content {
+    background-color: #333;
+    color: white;
+}
+
+/* Button styles */
+.schemaDetails .btn .btn-delete{
+    padding: 8px 12px;
+
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+    display: inline-block;
+}
+
+.btn{
+    background-color: #007bff;
+}
+
+.schemaDetails .btn:hover {
+    background-color: #0056b3;
+}
+
+.button-container .btn .btn-delete{ /* This is correct for same size */
+    width: 150px;
+    text-align: center;
+}
+
+.btn-delete {  /* Targets the btn-delete class */
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c12a36;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Responsive Design (if needed) */
+@media (max-width: 768px) {
+    .schemaDetails {
+        margin: 10px;
+    }
+}

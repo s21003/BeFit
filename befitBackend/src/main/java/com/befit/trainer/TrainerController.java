@@ -1,5 +1,6 @@
 package com.befit.trainer;
 
+import com.befit.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class TrainerController {
     @Autowired
     private TrainerService trainerService;
+
     @GetMapping("/all")
     public ResponseEntity<List<Trainer>> getAllTrainers(){
         return new ResponseEntity<>(trainerService.allTrainers(), HttpStatus.OK);
@@ -26,9 +28,20 @@ public class TrainerController {
     public ResponseEntity<String> deleteTrainer(@RequestBody Trainer t){
         return new ResponseEntity<>(trainerService.dropTrainer(t.getId()),HttpStatus.OK);
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateTrainer(@RequestBody Trainer t, @PathVariable Long id){
-        return new ResponseEntity<>(trainerService.editTrainer(t,id),HttpStatus.OK);
+    @PutMapping("/update")
+    public ResponseEntity<Trainer> updateTrainer(@RequestBody TrainerDTO t) {
+        Trainer updatedTrainer = trainerService.editTrainer(t);
+        return new ResponseEntity<>(updatedTrainer, HttpStatus.OK);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Optional<Trainer>> getSingleUser(@PathVariable String username){
+        return new ResponseEntity<>(trainerService.singleTrainerByUsername(username),HttpStatus.OK);
+    }
+
+    @GetMapping("/specializations")
+    public ResponseEntity<List<Specialization>> getSpecializations(){
+        return new ResponseEntity<>(trainerService.getSpecializations(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

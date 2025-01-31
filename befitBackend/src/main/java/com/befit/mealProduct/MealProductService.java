@@ -28,11 +28,16 @@ public class MealProductService {
         return "Deleted";
     }
     public String editMealProduct(MealProduct ms, Long id){
-        Optional<MealProduct> tmp = singleMealProduct(id);
-        if (tmp.isEmpty()){
+        Optional<MealProduct> existingMealProduct = singleMealProduct(id);
+        if (existingMealProduct.isEmpty()){
             return "WrongId";
         }else{
-            mealProductRepository.save(ms);
+            MealProduct updatedMealProduct = existingMealProduct.get();
+            updatedMealProduct.setProductId(ms.getProductId());
+            updatedMealProduct.setMealId(ms.getMealId());
+            updatedMealProduct.setWeightsId(ms.getWeightsId());
+
+            mealProductRepository.save(updatedMealProduct);
             return "Updated";
         }
     }

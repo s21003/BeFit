@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {  useState } from "react";
+import {  useNavigate } from "react-router-dom";
 import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
 import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
-import '../../styles/Schema.css'
 import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/AddSchemaPage.css"
 
 const AddMealSchemaPage = () => {
     const navigate = useNavigate();
@@ -172,34 +173,40 @@ const AddMealSchemaPage = () => {
 
     };
 
+    const handleReturn = () => {
+        navigate(`/all-meal-schemas`);
+    };
+
     return (
-        <div className="Schema">
-            <nav className="mainNavigation">
-                <Link to="/all-meal-schemas">All Meal Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <label>Schema name:</label>
-            <input
-                type="text"
-                name="name"
-                value={mealSchemaData.name}
-                placeholder="Name"
-                onChange={handleChange}
-                required
-            />
-            <MealSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
-            {modalOpen && (
-                <MealSchemaModal
-                    closeModal={() => {
-                        setModalOpen(false);
-                        setRowToEdit(null);
-                    }}
-                    onSubmit={handleSubmit}
-                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
+        <div className="addSchemaPage-container">
+            <NavBar/>
+            <div className="addSchemaPage">
+                <label>Nazwa schematu:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={mealSchemaData.name}
+                    placeholder="Name"
+                    onChange={handleChange}
+                    required
                 />
-            )}
-            <button type="submit" onClick={handleSubmitSchema}>Save Schema</button>
+                <MealSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <div className="buttons-container">
+                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj</button>
+                    {modalOpen && (
+                        <MealSchemaModal
+                            closeModal={() => {
+                                setModalOpen(false);
+                                setRowToEdit(null);
+                            }}
+                            onSubmit={handleSubmit}
+                            defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                        />
+                    )}
+                    <button className="btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button className="btn" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

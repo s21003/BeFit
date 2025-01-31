@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
-import '../../styles/Schema.css';
 import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
-import {jwtDecode} from "jwt-decode";
+import NavBar from "../../components/NavBar";
+import "../../styles/SchemaDetailsPage.css"
 
 const DetailsMealSchemaPage = () => {
     let { id } = useParams();
@@ -173,11 +173,11 @@ const DetailsMealSchemaPage = () => {
         const combinedRows = schemaProductData.map((product, i) => ({
             productId: product.id,
             name: product.name,
-            kcal: product.kcal*schemaWeightsData[i].weight/100,
-            protein: product.protein*schemaWeightsData[i].weight/100,
-            fat: product.fat*schemaWeightsData[i].weight/100,
-            carbs: product.carbs*schemaWeightsData[i].weight/100,
-            weight: schemaWeightsData[i].weight,
+            kcal: Math.round(product.kcal*schemaWeightsData[i].weight/100),
+            protein: Math.round(product.protein*schemaWeightsData[i].weight/100),
+            fat: Math.round(product.fat*schemaWeightsData[i].weight/100),
+            carbs: Math.round(product.carbs*schemaWeightsData[i].weight/100),
+            weight: (schemaWeightsData[i].weight),
         }));
         setRows(combinedRows);
     }, [schemaProductData]);
@@ -288,25 +288,6 @@ const DetailsMealSchemaPage = () => {
             console.log(err);
         }
 
-        try{
-            let response = await fetch(`http://localhost:8080/mealSchema/delete`,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(mealSchema)
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            alert('Meal schema deleted successfully');
-            setMealSchemas(mealSchemas.filter(schema => schema.id !== id));
-
-        } catch (err) {
-            console.log(err);
-        }
-
         try {
             mealSchemaProductsId = new Array(rows.length);
             for (let i = 0; i < rows.length; i++) {
@@ -389,67 +370,78 @@ const DetailsMealSchemaPage = () => {
         } catch (error) {
             console.error('Error updating meal schema:', error);
         }
-
-        // try {
-        //     mealSchemaProductsId = new Array(rows.length);
-        //     for (let i=0; i < rows.length; i++) {
-        //         const row = {
-        //             productId: rows[i].productId,
-        //             mealSchemaId: id,
-        //             weightsId: weightsId[i],
-        //         };
-        //         let response = await fetch('http://localhost:8080/mealSchemaProduct/add', {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 Authorization: `Bearer ${token}`
-        //             },
-        //             body: JSON.stringify(row),
-        //         });
-        //         if (!response.ok) {
-        //             throw new Error(`HTTP error! Status: ${response.status}`);
-        //         }
-        //         const createdSchemaProduct = await response.json();
-        //         mealSchemaProductsId[i] = createdSchemaProduct.id;
-        //     }
-            alert('Meal schema edited successfully');
-            navigate(`/all-meal-schemas`);
-        // } catch (error) {
-        //     console.error('Error adding mealSchemaProduct:', error);
-        // }
-
+        alert('Meal schema edited successfully');
+        navigate(`/all-meal-schemas`);
         console.log("mealSchema: ",JSON.stringify(mealSchemaProducts))
-
     };
 
+    const handleReturn = () => {
+        navigate(`/all-meal-schemas`);
+    }
+
+    const handleDeleteSchema = async () => {
+        const confirmDelete = window.confirm("Czy jesteś pewny, że chcesz usunąć ten schemat?");
+
+        if (confirmDelete) {
+            try {
+                const token = localStorage.getItem("token");
+
+                const response = await fetch(`http://localhost:8080/mealSchema/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(mealSchemaData) // Send mealSchemaData in the body
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
+                }
+
+                alert("Schemat posiłków został usunięty.");
+                navigate("/all-meal-schemas");
+
+            } catch (error) {
+                console.error("Error deleting schema:", error);
+                alert("Wystąpił błąd podczas usuwania schematu.");
+            }
+        }
+    }
+
     return (
-        <div className="mealSchema">
-            <nav className="mainNavigation">
-                <Link to="/all-meal-schemas">All Meal Schemas</Link>
-                <Link to="/">Log out</Link>
-            </nav>
-            <label>Schema name:</label>
-            <input
-                type="text"
-                name="name"
-                value={mealSchemaData.name}
-                placeholder="Name"
-                onChange={handleChange}
-                required
-            />
-            <MealSchemaTable rows={rows} schemaProduct={schemaProductData} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-            <button className="btn" onClick={() => setModalOpen(true)}>Add</button>
-            {modalOpen && (
-                <MealSchemaModal
-                    closeModal={() => {
-                        setModalOpen(false);
-                        setRowToEdit(null);
-                    }}
-                    onSubmit={handleSubmit}
-                    defaultValue={rowToEdit !== null && rows[rowToEdit]}
+        <div className="schemaDetails-container">
+            <NavBar />
+            <div className="schemaDetails">
+                <label>Nazwa schematu:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={mealSchemaData.name}
+                    placeholder="Name"
+                    onChange={handleChange}
+                    required
                 />
-            )}
-            <button type="submit" onClick={handleSubmitSchema}>Save Schema</button>
+                <MealSchemaTable rows={rows} schemaProduct={schemaProductData} deleteRow={handleDeleteRow}
+                                 editRow={handleEditRow}/>
+                <button className="btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
+                {modalOpen && (
+                    <MealSchemaModal
+                        closeModal={() => {
+                            setModalOpen(false);
+                            setRowToEdit(null);
+                        }}
+                        onSubmit={handleSubmit}
+                        defaultValue={rowToEdit !== null && rows[rowToEdit]}
+                    />
+                )}
+                <div className="button-container">
+                    <button type="submit" className="btn" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button type="button" className="btn-delete" onClick={handleDeleteSchema}>Usuń schemat</button>
+                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                </div>
+            </div>
         </div>
     );
 };

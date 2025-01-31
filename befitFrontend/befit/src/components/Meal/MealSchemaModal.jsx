@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../../styles/Modal.css";
+import "../../styles/SchemaModal.css";
 
 export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     const [formState, setFormState] = useState(
@@ -98,13 +98,13 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
             <div className="modal">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="product">Product</label>
+                        <label htmlFor="product">Produkt</label>
                         <select
                             name="product"
                             value={formState.productId || ''}
                             onChange={handleProductChange}
                         >
-                            <option value="" disabled>Select an product</option>
+                            <option value="" disabled>Wybierz produkt</option>
                             {products.map((product) => (
                                 <option key={product.id} value={product.id}>
                                     {product.name}
@@ -114,15 +114,16 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="weight">Planned weight of product</label>
+                        <label htmlFor="weight">Planowana waga produktu</label>
                         <input type="number" name="weight" value={formState.weight} onChange={handleChange} />
                     </div>
                     <div>
-                        {(formState.kcal*formState.weight)/100}
+                        <label>kalorie:</label>
+                        {Math.round((formState.kcal*formState.weight)/100)}
                     </div>
                     {/*{errors && <div className="error" >{`Missing: ${errors}`}</div>}*/}
                     {errors && <div>{`Missing: ${errors}`}</div>}
-                    <button type="submit" className="btn" onClick={handleSubmit}>Submit</button>
+                    <button type="submit" className="btn" onClick={handleSubmit}>Zapisz</button>
                 </form>
             </div>
         </div>

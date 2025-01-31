@@ -35,21 +35,16 @@ public class TrainingSchemaService {
         return "Deleted";
     }
     public String editTrainingSchema(TrainingSchema ts, Long id){
-        Optional<TrainingSchema> tmp = singleTrainingSchema(id);
-        if (tmp.isEmpty()){
+        Optional<TrainingSchema> existingTrainingSchema = singleTrainingSchema(id);
+        if (existingTrainingSchema.isEmpty()){
             return "WrongId";
         }else{
-            TrainingSchema trainingSchema = tmp.get();
-            if (trainingSchema.getCategory() != ts.getCategory()){
-                trainingSchema.setCategory(ts.getCategory());
-            }
-            if (trainingSchema.getName() != ts.getName()){
-                trainingSchema.setName(ts.getName());
-            }
-            if (trainingSchema.getCreationDate() != ts.getCreationDate()){
-                trainingSchema.setCreationDate(ts.getCreationDate());
-            }
-            trainingSchemaRepository.save(trainingSchema);
+            TrainingSchema updatedTrainingSchema = existingTrainingSchema.get();
+            updatedTrainingSchema.setCategory(ts.getCategory());
+            updatedTrainingSchema.setName(ts.getName());
+            updatedTrainingSchema.setCreationDate(ts.getCreationDate());
+
+            trainingSchemaRepository.save(updatedTrainingSchema);
             return "Updated";
         }
     }

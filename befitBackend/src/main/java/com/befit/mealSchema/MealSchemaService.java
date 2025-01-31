@@ -33,12 +33,14 @@ public class MealSchemaService {
         return "Deleted";
     }
     public String editMealSchema(MealSchema ms, Long id){
-        Optional<MealSchema> tmp = singleMealSchema(id);
-        if(tmp.isEmpty()){
+        Optional<MealSchema> existingMealSchema = singleMealSchema(id);
+        if(existingMealSchema.isEmpty()){
             return "WrongId";
         }else{
-            MealSchema mealSchema = tmp.get();
-            mealSchemaRepository.save(mealSchema);
+            MealSchema updatedMealSchema = existingMealSchema.get();
+            updatedMealSchema.setName(ms.getName());
+
+            mealSchemaRepository.save(updatedMealSchema);
             return "Updated";
         }
     }

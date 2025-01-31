@@ -3,9 +3,8 @@ package com.befit.meal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.befit.mealProduct.MealProduct;
 import com.befit.mealSchema.MealSchema;
-import com.befit.product.Product;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,20 +27,13 @@ public class Meal {
 
     @JoinColumn
     @OneToMany
-    private List<Product> products;
-
-    @JoinColumn
-    @OneToMany
-    private List<MealSchema> mealSchemas;
+    private List<MealProduct> mealProductIds;
 
     @Column
     private LocalDateTime startTime;
 
     @Column
     private LocalDateTime endTime;
-
-    @Column
-    private String name;
 
     @Column
     private String userUsername;

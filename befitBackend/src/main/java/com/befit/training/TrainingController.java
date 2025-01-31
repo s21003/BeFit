@@ -3,6 +3,7 @@ package com.befit.training;
 import com.befit.trainingExercise.TrainingExercise;
 import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import com.befit.user.User;
+import com.befit.userTrainer.UserTrainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,13 @@ public class TrainingController {
     }
 
     @PutMapping("/updatete/{id}")
-    public ResponseEntity<String> updateTrainingSchemaExercises(@RequestBody List<TrainingExercise> ids, @PathVariable Long id){
+    public ResponseEntity<String> updateTrainingExercises(@RequestBody List<TrainingExercise> ids, @PathVariable Long id){
         return new ResponseEntity<>(trainingService.editTrainingExercises(ids,id),HttpStatus.OK);
+    }
+
+    @PutMapping("/addTrainer/{id}")
+    public ResponseEntity<String> addTrainerToTraining(@RequestBody UserTrainerDTO trainerId, @PathVariable Long id){
+        return new ResponseEntity<>(trainingService.addTrainerToTraining(trainerId,id),HttpStatus.OK);
     }
 
     @GetMapping("/user/{username}")

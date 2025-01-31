@@ -28,7 +28,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
         System.out.println("Registering WebSocket endpoint /ws");
         registry.addEndpoint("/ws")
                 .setHandshakeHandler(new CustomHandshakeHandler(jwtService, userDetailsService))
-                .setAllowedOrigins("http://localhost:3000", "http://localhost:9090")  // Update this with correct origins
+                .setAllowedOrigins("*")
                 .addInterceptors(handshakeInterceptor)
                 .withSockJS();
     }

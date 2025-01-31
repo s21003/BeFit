@@ -1,7 +1,6 @@
 import React from 'react';
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
-import '../../styles/Table.css'
-
+import "../../styles/SchemaTable.css"
 
 export const MealSchemaTable = ({ rows, deleteRow, editRow }) => {
     console.log("rows: "+rows)
@@ -11,13 +10,13 @@ export const MealSchemaTable = ({ rows, deleteRow, editRow }) => {
             <table className="table">
                 <thead>
                 <tr>
-                    <th>Product's name</th>
-                    <th>Kcal</th>
-                    <th>Protein</th>
-                    <th>Fat</th>
-                    <th>Carbs</th>
-                    <th>Weight</th>
-                    <th>Actions</th>
+                    <th>Nazwa produktu</th>
+                    <th>Kalorie</th>
+                    <th>Białko</th>
+                    <th>Tłuszcze</th>
+                    <th>Węglowodany</th>
+                    <th>Waga</th>
+                    <th>Akcje</th>
                 </tr>
                 </thead>
                 <tbody>

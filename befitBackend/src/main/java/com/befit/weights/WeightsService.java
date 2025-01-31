@@ -28,14 +28,14 @@ public class WeightsService {
     }
 
     public String editWeights(Weights w, Long id){
-        Optional<Weights> tmp = singleWeights(id);
-        if (tmp.isEmpty()){
+        Optional<Weights> existingWeights = singleWeights(id);
+        if (existingWeights.isEmpty()){
             return "Wrong Id";
         }else{
-            Weights weights = tmp.get();
-            weights.setWeight(w.getWeight());
+            Weights updatedWeights = existingWeights.get();
+            updatedWeights.setWeight(w.getWeight());
 
-            weightsRepository.save(weights);
+            weightsRepository.save(updatedWeights);
             return "Updated";
         }
     }

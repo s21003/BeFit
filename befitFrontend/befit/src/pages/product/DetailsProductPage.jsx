@@ -1,6 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../helpers/UserContext";
+import "../../styles/DetailsItemsPage.css"
+import NavBar from "../../components/NavBar";
 
 const DetailsProductPage = () => {
     let { id } = useParams();
@@ -15,13 +17,14 @@ const DetailsProductPage = () => {
         carbs: 0.0,
         weight: 0.0
     });
+    const [isEditing, setIsEditing] = useState(false); // Track edit mode
 
     useEffect(() => {
         const fetchProductDetails = async () => {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await fetch(`http://localhost:8080/product/${id}`,{
+                const response = await fetch(`http://localhost:8080/product/${id}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -35,13 +38,14 @@ const DetailsProductPage = () => {
                 setProductDetails(data);
             } catch (error) {
                 console.error("Fetching product details failed: ", error);
-                setProductDetails(null); // Handle error by setting productDetails to null
+                setProductDetails(null);
             }
         };
         fetchProductDetails();
     }, [id]);
 
     const handleEdit = () => {
+        setIsEditing(true);
         setEditFormData({
             name: productDetails.name,
             kcal: productDetails.kcal,
@@ -54,7 +58,6 @@ const DetailsProductPage = () => {
 
     const handleSubmitEdit = async (e) => {
         e.preventDefault();
-
         const updatedData = { id: productDetails.id, ...editFormData };
         const token = localStorage.getItem("token");
         try {
@@ -69,7 +72,7 @@ const DetailsProductPage = () => {
 
             if (response.ok) {
                 alert('Product updated successfully');
-                navigate("/all-products")
+                navigate("/own-products");
             } else {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -95,100 +98,107 @@ const DetailsProductPage = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 alert("Successfully deleted product");
-                navigate('/all-products')
+                navigate('/own-products');
             } catch (error) {
                 console.error("Delete product failed: ", error);
             }
         }
     };
 
+    const handleReturn = () => {
+        navigate(`/own-products`);
+    }
+
     return (
-        <div className="mainPage">
-            {user && <h1>Hello, {user.username}</h1>}
-            <nav className="mainNavigation">
-                <Link to="/all-products">All Products</Link>
-            </nav>
-            <div className="detailsContainer">
-                <h2 className="detailsHeader">Product Details</h2>
+        <div className="detailsItems-container">
+            <NavBar />
+            <div className="detailsItems">
+                <h2 className="detailsHeader">Szczegóły produktu</h2>
                 {productDetails ? (
                     <>
-                        <div className="detailsContent"><strong>Nazwa:</strong> {productDetails.name}</div>
-                        <div className="detailsContent"><strong>Kalorie:</strong> {productDetails.kcal}</div>
-                        <div className="detailsContent"><strong>Białko:</strong> {productDetails.protein}</div>
-                        <div className="detailsContent"><strong>Tłuszcze:</strong> {productDetails.fat}</div>
-                        <div className="detailsContent"><strong>Węglowodany:</strong> {productDetails.carbs}</div>
-                        <div className="detailsContent"><strong>Waga:</strong> {productDetails.weight}</div>
-                        {(
+                        {!isEditing && (
                             <>
-                                <button onClick={handleDelete} className="submitButton">Delete product</button>
-                                <button onClick={handleEdit} className="submitButton">Edit product</button>
-                                <form onSubmit={handleSubmitEdit}>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        className="inputStyle"
-                                        value={editFormData.name}
-                                        onChange={e => setEditFormData({...editFormData, name: e.target.value})}
-                                        placeholder="Nazwa"
-                                    />
-                                    <input
-                                        className="inputStyle"
-                                        type="number"
-                                        name="kcal"
-                                        value={editFormData.kcal}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            kcal: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Kalorie"
-                                    />
-                                    <input
-                                        className="inputStyle"
-                                        type="number"
-                                        name="protein"
-                                        value={editFormData.protein}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            protein: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Białko"
-                                    />
-                                    <input
-                                        className="inputStyle"
-                                        type="number"
-                                        name="fat"
-                                        value={editFormData.fat}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            fat: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Tłuszcze"
-                                    />
-                                    <input
-                                        className="inputStyle"
-                                        type="number"
-                                        name="carbs"
-                                        value={editFormData.carbs}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            carbs: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Węglowodany"
-                                    />
-                                    <input
-                                        className="inputStyle"
-                                        type="number"
-                                        name="weight"
-                                        value={editFormData.weight}
-                                        onChange={e => setEditFormData({
-                                            ...editFormData,
-                                            weight: parseFloat(e.target.value)
-                                        })}
-                                        placeholder="Waga"
-                                    />
-                                    <button type="submit" className="submitButton">Update Product</button>
-                                </form>
+                                <div className="detailsContent"><strong>Nazwa produktu:</strong> {productDetails.name}</div>
+                                <div className="detailsContent"><strong>Kalorie:</strong> {productDetails.kcal}</div>
+                                <div className="detailsContent"><strong>Białko:</strong> {productDetails.protein}</div>
+                                <div className="detailsContent"><strong>Tłuszcze:</strong> {productDetails.fat}</div>
+                                <div className="detailsContent"><strong>Węglowodany:</strong> {productDetails.carbs}</div>
+                                <div className="detailsContent"><strong>Waga:</strong> {productDetails.weight}</div>
                             </>
+                        )}
+
+                        {/* Show edit form when in edit mode */}
+                        {isEditing && (
+                            <form onSubmit={handleSubmitEdit}>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    className="inputStyle"
+                                    value={editFormData.name}
+                                    onChange={e => setEditFormData({...editFormData, name: e.target.value})}
+                                    placeholder="Nazwa"
+                                />
+                                <input
+                                    className="inputStyle"
+                                    type="number"
+                                    name="kcal"
+                                    value={editFormData.kcal}
+                                    onChange={e => setEditFormData({
+                                        ...editFormData,
+                                        kcal: parseFloat(e.target.value)
+                                    })}
+                                    placeholder="Kalorie"
+                                />
+                                <input
+                                    className="inputStyle"
+                                    type="number"
+                                    name="protein"
+                                    value={editFormData.protein}
+                                    onChange={e => setEditFormData({
+                                        ...editFormData,
+                                        protein: parseFloat(e.target.value)
+                                    })}
+                                    placeholder="Białko"
+                                />
+                                <input
+                                    className="inputStyle"
+                                    type="number"
+                                    name="fat"
+                                    value={editFormData.fat}
+                                    onChange={e => setEditFormData({
+                                        ...editFormData,
+                                        fat: parseFloat(e.target.value)
+                                    })}
+                                    placeholder="Tłuszcze"
+                                />
+                                <input
+                                    className="inputStyle"
+                                    type="number"
+                                    name="carbs"
+                                    value={editFormData.carbs}
+                                    onChange={e => setEditFormData({
+                                        ...editFormData,
+                                        carbs: parseFloat(e.target.value)
+                                    })}
+                                    placeholder="Węglowodany"
+                                />
+                                <input
+                                    className="inputStyle"
+                                    type="number"
+                                    name="weight"
+                                    value={editFormData.weight}
+                                    onChange={e => setEditFormData({
+                                        ...editFormData,
+                                        weight: parseFloat(e.target.value)
+                                    })}
+                                    placeholder="Waga"
+                                />
+                                <div className="buttons-container">
+                                    <button type="submit" className="btn">Zapisz zmiany</button>
+                                    <button onClick={handleDelete} className="btn-delete">Usuń produkt</button>
+                                    <button onClick={handleReturn} className="btn">Powrót</button>
+                                </div>
+                            </form>
                         )}
                     </>
                 ) : (
@@ -198,5 +208,6 @@ const DetailsProductPage = () => {
         </div>
     );
 };
+
 
 export default DetailsProductPage;

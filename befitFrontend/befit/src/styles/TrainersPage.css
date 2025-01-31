@@ -1,0 +1,85 @@
+/* TrainersPage.css */
+
+.trainersPage-container { /* Updated class name */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    padding-top: 80px;
+}
+
+.trainersPage { /* Updated class name */
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.trainers-section { /* This class name is still correct */
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.trainers-section h1, .trainers-section h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.trainers-section table { /* This class name is still correct */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.trainers-section th,
+.trainers-section td { /* This class name is still correct */
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trainers-section th { /* This class name is still correct */
+    background-color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+}
+
+.trainers-section tr:hover { /* This class name is still correct */
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.trainers-section button { /* This class name is still correct */
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.trainers-section button:hover { /* This class name is still correct */
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments (example) */
+@media (max-width: 768px) {
+    .trainersPage { /* Updated class name */
+        flex-direction: column;
+    }
+}
