@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/LoginPage.css";
+import "../../styles/user/LoginPage.css";
 
 const LoginPage = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -59,12 +59,12 @@ const LoginPage = () => {
         <div className="login-page">
             <div className={`login-form-container ${isVisible ? 'visible' : ''}`}>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+                    <div className="login-page-form-group">
                         {errors.username && <p className={`error ${errors.username ? 'show' : ''}`}>{errors.username}</p>}
                         <label htmlFor="username">Nazwa użytkownika:</label>
                         <input type="text" name="username" value={userDetails.username} onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="login-page-form-group">
                         {errors.password && <p className={`error ${errors.password ? 'show' : ''}`}>{errors.password}</p>}
                         <label htmlFor="password">Hasło:</label>
                         <input type="password" name="password" value={userDetails.password} onChange={handleChange} />

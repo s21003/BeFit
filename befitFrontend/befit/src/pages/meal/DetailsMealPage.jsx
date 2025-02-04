@@ -4,7 +4,7 @@ import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
 import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
 import NavBar from "../../components/NavBar";
 import {MealAddSchemaModal} from "../../components/Meal/MealAddSchemaModal";
-import "../../styles/DetailsPage.css"
+import "../../styles/scheduler/DetailsPage.css"
 
 const DetailsMealPage = () => {
     let { id } = useParams();
@@ -25,6 +25,8 @@ const DetailsMealPage = () => {
         id: 0.0,
         weight: 0.0,
     }]);
+    const [unsavedRows, setUnsavedRows] = useState([]);
+    const [isLoading, setIsLoading] = useState(true); // Add a loading state
     const [addSchemaModalOpen, setAddSchemaModalOpen] = useState(false);
     const [mealData, setMealData] = useState({
         id: 0.0,
@@ -158,24 +160,39 @@ const DetailsMealPage = () => {
             }
         };
 
+        if (!mealProductData.length) return;
+
         const fetchAllWeights = async () => {
             const weights = [];
+            const token = localStorage.getItem("token")
+
             for (let mw of mealProductData) {
-                const weight = await fetchWeights(mw.weightsId);
-                if (weight) {
-                    weights.push(weight);
+                try {
+                    if (mw.weightsId) {
+                        const response = await fetch(`http://localhost:8080/weights/${mw.weightsId}`, {
+                            method: 'GET',
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                'Content-Type': 'application/json',
+                            },
+                        });
+                        if (response.ok) {
+                            const weight = await response.json();
+                            weights.push(weight);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Fetching weights failed:", error);
                 }
             }
+
             setWeightsData(weights);
         };
 
         fetchAllWeights();
     }, [mealProductData]);
 
-
-
     useEffect(() => {
-        console.log("weightsData: ",weightsData)
         const combinedRows = productData.map((product, i) => ({
             productId: product.id,
             name: product.name,
@@ -206,11 +223,9 @@ const DetailsMealPage = () => {
         setModalOpen(true);
     };
 
-    const handleChange = (e) => {
-        setMealData({ ...mealData, [e.target.name]: e.target.value });
-    };
-
     const handleSubmit = (newRow) => {
+        setUnsavedRows(prevUnsavedRows => [...prevUnsavedRows, newRow]);
+
         rowToEdit === null
             ? setRows([...rows, newRow])
             : setRows(rows.map((currentRow, id) => {
@@ -419,18 +434,24 @@ const DetailsMealPage = () => {
         navigate(`/all-meals`);
     }
 
-    const handleLabelChange = (e) => {
-        const selectedLabel = e.target.value;
-        setMealData({
-            ...mealData,
-            label: selectedLabel
-        });
-    };
-
     const handleAddMealProducts = (newMealProducts) => {
-        console.log("after dodaj schemat: ",newMealProducts);
-        setMealProductData((prev) => [...prev, ...newMealProducts]);
-        fetchWeightsForNewProducts(newMealProducts);
+        const productsToAdd = newMealProducts.filter(newProduct =>
+            !mealProductData.some(existingProduct => existingProduct.productId === newProduct.productId)
+        );
+
+        setMealProductData((prev) => [...prev,...newMealProducts]);
+
+        fetchWeightsForNewProducts(newMealProducts)
+            .then(newWeightsData => {
+                const productsWithWeights = productsToAdd.map((product, index) => ({
+                    ...product,
+                    weight: newWeightsData[index].weight
+                }));
+                setUnsavedRows(prevUnsavedRows => [...prevUnsavedRows,...productsWithWeights]);
+            })
+            .catch(error => {
+                console.error("Fetching weights failed:", error);
+            });
     };
 
     const fetchWeightsForNewProducts = async (newMealProducts) => {
@@ -459,7 +480,6 @@ const DetailsMealPage = () => {
         setWeightsData((prevWeights) => [...prevWeights, ...newWeightsData]);
     };
 
-// This effect will be triggered when `mealProductData` or `weightsData` is updated
     useEffect(() => {
         if (!mealProductData.length) return;
 
@@ -490,8 +510,60 @@ const DetailsMealPage = () => {
     }, [mealProductData]);  // Fetch weights when mealProductData changes
 
     useEffect(() => {
-        console.log("weightsData: ", weightsData);
-        const combinedRows = productData.map((product, i) => ({
+        if (!mealProductData.length) return;
+
+        const fetchProductAndWeights = async () => {
+            setIsLoading(true); // Set loading to true while fetching
+
+            const products = [];
+            const weights = [];
+            const token = localStorage.getItem("token");
+
+            // Fetch product and weight data concurrently
+            await Promise.all(mealProductData.map(async (mp) => {
+                try {
+                    const productResponse = await fetch(`http://localhost:8080/product/${mp.productId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (productResponse.ok) {
+                        const product = await productResponse.json();
+                        products.push(product);
+                    }
+
+                    const weightResponse = await fetch(`http://localhost:8080/weights/${mp.weightsId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (weightResponse.ok) {
+                        const weight = await weightResponse.json();
+                        weights.push(weight);
+                    }
+                } catch (error) {
+                    console.error("Fetching product or weight failed:", error);
+                }
+            }));
+
+            // Update state only after fetching all products and weights
+            setProductData(products);
+            setWeightsData(weights);
+            setIsLoading(false); // Set loading to false after fetching
+        };
+
+        fetchProductAndWeights();
+    }, [mealProductData]);  // Re-fetch when mealProductData changes
+
+    useEffect(() => {
+        if (isLoading) return;
+
+        // Create a new array instead of modifying the existing one
+        const newRows = productData.map((product, i) => ({
             productId: product.id,
             name: product.name,
             kcal: Math.round(product.kcal * (weightsData[i]?.weight || 0) / 100),
@@ -501,8 +573,8 @@ const DetailsMealPage = () => {
             weight: (weightsData[i]?.weight || 0),
         }));
 
-        setRows(combinedRows);
-    }, [productData, weightsData]);
+        setRows([...newRows,...unsavedRows]);
+    }, [productData, weightsData, unsavedRows, isLoading]);
 
     return (
         <div className="details-container">
@@ -524,8 +596,8 @@ const DetailsMealPage = () => {
                 </select>
 
                 <MealSchemaTable rows={rows} product={productData} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
-                <div className="buttons-container">
-                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
+                <div className="details-buttons-container">
+                    <button className="details-add-btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
                     {modalOpen && (
                         <MealSchemaModal
                             closeModal={() => {
@@ -536,7 +608,7 @@ const DetailsMealPage = () => {
                             defaultValue={rowToEdit !== null && rows[rowToEdit]}
                         />
                     )}
-                    <button className="btn" onClick={() => setAddSchemaModalOpen(true)}>Dodaj schemat</button>
+                    <button className="details-add-btn" onClick={() => setAddSchemaModalOpen(true)}>Dodaj schemat</button>
                     {addSchemaModalOpen && (
                         <MealAddSchemaModal
                             closeModal={() => setAddSchemaModalOpen(false)}
@@ -544,8 +616,8 @@ const DetailsMealPage = () => {
                             mealId={id}
                         />
                     )}
-                    <button type="submit" className="btn" onClick={handleSubmitMeal}>Zapisz posiłek</button>
-                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                    <button className="details-save-btn" type="submit" onClick={handleSubmitMeal}>Zapisz posiłek</button>
+                    <button className="details-return-btn" type="submit" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

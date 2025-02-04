@@ -67,4 +67,8 @@ public class TrainingSchemaService {
     public Optional<TrainingSchema> singleTrainingSchema(Long id){
         return trainingSchemaRepository.findById(id);
     }
+
+    public List<TrainingSchema> getUsersTrainingSchemas(String username) {
+        return trainingSchemaRepository.findByCreatorUsername(username);
+    }
 }

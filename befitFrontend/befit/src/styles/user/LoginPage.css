@@ -43,12 +43,12 @@ html, body {
 }
 
 /* Form Group */
-.form-group {
+.login-page-form-group {
     margin-bottom: 15px;
     text-align: left;
 }
 
-.form-group label {
+.login-page-form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -56,7 +56,7 @@ html, body {
 }
 
 /* Input Fields */
-.form-group input {
+.login-page-form-group input {
     width: 100%;
     padding: 10px;
     border: none;
@@ -68,7 +68,7 @@ html, body {
 }
 
 /* Placeholder Color */
-.form-group input::placeholder {
+.login-page-form-group input::placeholder {
     color: rgba(255, 255, 255, 0.5); /* Matches HomePage */
 }
 

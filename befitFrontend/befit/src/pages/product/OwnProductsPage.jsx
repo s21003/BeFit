@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/OwnItemsPage.css"
+import "../../styles/items/OwnItemsPage.css"
 
 const OwnProductsPage = () => {
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ const OwnProductsPage = () => {
             <div className="ownItems">
                 <h2 className="ownHeader">Twoje produkty</h2>
                 {ownProducts.length > 0 ? (
-                    <>
+                    <div className="ownItems-table">
                         <table>
                             <thead>
                             <tr>
@@ -86,13 +86,13 @@ const OwnProductsPage = () => {
                             ))}
                             </tbody>
                         </table>
-                    </>
+                    </div>
                 ) : (
                     <p>Brak własnych produktów.</p>
                 )}
-                <div className="buttons-container">
-                    <button className="btn" onClick={handleAddProduct}>Dodaj produkt</button>
-                    <button className="btn" onClick={handleReturn}>Powrót</button>
+                <div className="ownItems-buttons-container">
+                    <button className="ownItems-add-btn" onClick={handleAddProduct}>Dodaj produkt</button>
+                    <button className="ownItems-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

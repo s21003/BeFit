@@ -1,6 +1,8 @@
 package com.befit.training;
 
+import com.befit.mealSchema.MealSchema;
 import com.befit.trainingExercise.TrainingExercise;
+import com.befit.trainingSchema.TrainingSchema;
 import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import com.befit.user.User;
 import com.befit.userTrainer.UserTrainerDTO;

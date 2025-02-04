@@ -1,5 +1,6 @@
 package com.befit.trainingSchema;
 
+import com.befit.mealSchema.MealSchema;
 import com.befit.training.TrainingCategory;
 import com.befit.trainingSchemaExercise.TrainingSchemaExercise;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,10 @@ public class TrainingSchemaController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<TrainingSchema>> getSingleExercise(@PathVariable Long id){
         return new ResponseEntity<>(trainingSchemaService.singleTrainingSchema(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<TrainingSchema>> getUsersTrainingSchemas(@PathVariable String username){
+        return new ResponseEntity<>(trainingSchemaService.getUsersTrainingSchemas(username),HttpStatus.OK);
     }
 }

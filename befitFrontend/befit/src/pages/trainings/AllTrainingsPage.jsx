@@ -13,9 +13,8 @@ import {DropDownListComponent} from '@syncfusion/ej2-react-dropdowns';
 import {useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import {CustomLink} from "../../helpers/CustomLink";
 import {L10n, loadCldr, setCulture} from "@syncfusion/ej2-base";
-import "../../styles/SchedulePage.css"
+import "../../styles/scheduler/SchedulePage.css"
 import plNumberData from '@syncfusion/ej2-cldr-data/main/pl/numbers.json';
 import pltimeZoneData from '@syncfusion/ej2-cldr-data/main/pl/timeZoneNames.json';
 import plGregorian from '@syncfusion/ej2-cldr-data/main/pl/ca-gregorian.json';
@@ -29,9 +28,8 @@ const AllTrainingsPage = () => {
     const navigate = useNavigate();
     const [trainings, setTrainings] = useState([]);
     const [trainingExercisesMap, setTrainingExercisesMap] = useState({});
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-    const [selectedTrainingId, setSelectedTrainingId] = useState(null); // Track selected training ID
     const scheduleObj = useRef(null);
+    const [role, setRole] = useState("");
 
     const categories = {
         "Cardio": "Cardio",
@@ -40,6 +38,13 @@ const AllTrainingsPage = () => {
         "Fitness": "Fitness",
         "Grupowy": "Grupowy"
     };
+
+    const reverseCategories = Object.fromEntries(
+        Object.entries(categories).map(([key, value]) => [value, key])
+    );
+
+    const getBackendCategory = (frontendCategory) => categories[frontendCategory] || frontendCategory;
+    const getFrontendCategory = (backendCategory) => reverseCategories[backendCategory] || backendCategory;
 
     useEffect(() => {
         const fetchTrainings = async () => {
@@ -64,7 +69,7 @@ const AllTrainingsPage = () => {
 
                     const mappedData = data.map(training => ({
                         id: training.id,
-                        Subject: training.category,
+                        Subject: getFrontendCategory(training.category), // Use Polish names here
                         StartTime: training.startTime,
                         EndTime: training.endTime,
                         trainingExerciseIds: training.trainingExerciseIds,
@@ -156,16 +161,52 @@ const AllTrainingsPage = () => {
             return <div>No props data available</div>;
         }
 
+        const dialogWrapper = document.getElementById('_dialog_wrapper');
+
+        if (dialogWrapper) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                        dialogWrapper.style.width = '60%'; // Set your desired width
+                        dialogWrapper.style.maxWidth = '700px'; // Set your desired max width
+                    }
+                });
+            });
+
+            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+
+        } else {
+            const waitForElement = setInterval(() => {
+                const dialogWrapper = document.getElementById('_dialog_wrapper');
+                if (dialogWrapper) {
+                    clearInterval(waitForElement);
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                                dialogWrapper.style.width = '60%'; // Set your desired width
+                                dialogWrapper.style.maxWidth = '600px'; // Set your desired max width
+                            }
+                        });
+                    });
+
+                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                }
+            }, 100);
+        }
+
         const isNewTraining = !props.id;
         const trainingExercises = trainingExercisesMap[props.id] || [];
 
         const [trainer, setTrainer] = useState(null);
 
         useEffect(() => {
+            const token = localStorage.getItem("token");
+            const decodedToken = jwtDecode(token);
+            setRole(decodedToken.ROLE[0].authority);
+
             const fetchTrainer = async () => {
                 if (props.trainerId) {  // changed TrainerId to trainerId here
                     try {
-                        const token = localStorage.getItem("token");
                         const response = await fetch(`http://localhost:8080/trainer/${props.trainerId}`, {  // changed TrainerId to trainerId here
                             method: 'GET',
                             headers: {
@@ -189,106 +230,148 @@ const AllTrainingsPage = () => {
             fetchTrainer();
         }, [props.trainerId]);  // Ensure to watch for changes in trainerId
 
+        const [selectedCategory, setSelectedCategory] = useState(props.Subject || ''); // Track selected category
+
+        const handleCategoryChange = (e) => {
+            setSelectedCategory(e.value);
+        };
+
+        let initialStartTime = props.StartTime ? new Date(props.StartTime) : null;
+        let initialEndTime = props.EndTime ? new Date(props.EndTime) : null;
+
+        if (isNewTraining) {
+            if (initialStartTime) {
+                initialStartTime.setHours(8, 0, 0, 0);
+
+                // Set EndTime to the same date as StartTime, but 10:00 AM
+                initialEndTime = new Date(initialStartTime); // Create a *new* Date object
+                initialEndTime.setHours(10, 0, 0, 0);
+            } else {
+                const today = new Date();
+                today.setHours(8, 0, 0, 0);
+                initialStartTime = today;
+
+                const endTime = new Date(today); // Use today's date
+                endTime.setHours(10, 0, 0, 0);
+                initialEndTime = endTime;
+            }
+        }
+
+        const [startTime, setStartTime] = useState(initialStartTime);
+        const [endTime, setEndTime] = useState(initialEndTime);
+
+        const handleStartTimeChange = (e) => {
+            setStartTime(e.value);
+        };
+
+        const handleEndTimeChange = (e) => {
+            setEndTime(e.value);
+        };
+
+        const isTrainer = role === "TRAINER";
+
 
         return (
-            <table className="custom-event-editor">
-                <tbody>
-                <tr>
-                    <td className="e-textlabel">Kategoria</td>
-                    <td colSpan={4}>
-                        <DropDownListComponent
-                            id="Subject"
-                            placeholder="Choose category"
-                            data-name="Subject"
-                            className="e-field"
-                            dataSource={Object.keys(categories)}
-                            value={props.Subject || null}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td className="e-textlabel">Godzina rozpoczęcia</td>
-                    <td colSpan={4}>
-                        <DateTimePickerComponent
-                            format="dd/MM/yyyy hh:mm a"
-                            id="StartTime"
-                            data-name="StartTime"
-                            value={new Date(props.StartTime || props.startTime)}
-                            className="e-field"
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td className="e-textlabel">Godzina zakończenia</td>
-                    <td colSpan={4}>
-                        <DateTimePickerComponent
-                            format="dd/MM/yyyy hh:mm a"
-                            id="EndTime"
-                            data-name="EndTime"
-                            value={new Date(props.EndTime || props.endTime)}
-                            className="e-field"
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={5}>
-                        <table className="exercises-table">
-                            <thead>
-                            <tr>
-                                <th>Nazwa ćwiczenia</th>
-                                <th>Serie</th>
-                                <th>Powtórzenia</th>
-                                <th>Waga ciężarów</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {trainingExercises.length > 0 ? (
-                                trainingExercises.map((exercise, index) => (
-                                    <tr key={index}>
-                                        <td>{exercise.name}</td>
-                                        <td>{exercise.series}</td>
-                                        <td>{exercise.repeatNumber}</td>
-                                        <td>{exercise.weight}</td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={4}>Brak ćwiczeń</td>
-                                </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                {/* Display Trainer's Name if available */}
-                {trainer && (
+            <div className="custom-event-editor-wrapper">
+                <table className="custom-event-editor">
+                    <thead>
                     <tr>
+                        <td className="e-textlabel">Kategoria</td>
                         <td colSpan={4}>
-                            <strong>Trener: {trainer.user.name} {trainer.user.surname}</strong>
+                            <DropDownListComponent
+                                id="Subject"
+                                placeholder="Choose category"
+                                data-name="Subject"
+                                className="e-field"
+                                dataSource={Object.keys(categories)}
+                                value={selectedCategory}
+                                change={handleCategoryChange}
+                            />
                         </td>
                     </tr>
-                )}
-                </tbody>
-                <tr>
-                    <td colSpan={4} style={{textAlign: "center", marginTop: "10px"}}>
-                        {isNewTraining ? (
-                            <></>
-                        ) : (
-                            <>
-                                <button onClick={() => handleEditTraining(props.id)} className="btn-edit">
-                                    Edytuj
-                                </button>
-                                <button
-                                    onClick={() => handleAddTrainer(props.id)}
-                                    className="btn-add-trainer"
-                                >
-                                    {trainer ? "Zmień trenera" : "Dodaj trenera"}
-                                </button>
-                            </>
-                        )}
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td className="e-textlabel">Godzina rozpoczęcia</td>
+                        <td colSpan={4}>
+                            <DateTimePickerComponent
+                                format="dd/MM/yyyy hh:mm a"
+                                id="StartTime"
+                                data-name="StartTime"
+                                value={startTime} // Use startTime state
+                                change={handleStartTimeChange} // Add change handler
+                                className="e-field"
+                            />
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td className="e-textlabel">Godzina zakończenia</td>
+                        <td colSpan={4}>
+                            <DateTimePickerComponent
+                                format="dd/MM/yyyy hh:mm a"
+                                id="EndTime"
+                                data-name="EndTime"
+                                value={endTime} // Use endTime state
+                                change={handleEndTimeChange} // Add change handler
+                                className="e-field"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={5}>
+                            <table className="editor-table">
+                                <thead>
+                                <tr>
+                                    <th>Nazwa ćwiczenia</th>
+                                    <th>Serie</th>
+                                    <th>Powtórzenia</th>
+                                    <th>Waga ciężarów</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {trainingExercises.length > 0 ? (
+                                    trainingExercises.map((exercise, index) => (
+                                        <tr key={index}>
+                                            <td>{exercise.name}</td>
+                                            <td>{exercise.series}</td>
+                                            <td>{exercise.repeatNumber}</td>
+                                            <td>{exercise.weight}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={4}>Brak ćwiczeń</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    {trainer && (
+                        <tr>
+                            <td colSpan={4}>
+                                <strong>Trener: {trainer.user.name} {trainer.user.surname}</strong>
+                            </td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+                <div>
+                    {isNewTraining ? (
+                        <></>
+                    ) : (
+                        <div className="e-footer-content">
+                            <button onClick={() => handleEditTraining(props.id)}
+                                    className="e-schedule-dialog e-control e-btn e-lib e-event-edit e-flat btn-edit">Edytuj
+                            </button>
+                            {!isTrainer ? (
+                                <button onClick={() => handleAddTrainer(props.id)}
+                                        className="e-schedule-dialog e-control e-btn e-lib e-event-edit e-flat btn-edit">{trainer ? "Zmień trenera" : "Dodaj trenera"}</button>
+                            ) : (<></>)}
+                        </div>
+                    )}
+                </div>
+            </div>
         );
     };
 
@@ -308,10 +391,12 @@ const AllTrainingsPage = () => {
 
             const trainingData = {
                 userUsername: jwtDecode(localStorage.getItem("token")).sub,
-                category: eventData.Subject,
+                category: getBackendCategory(eventData.Subject),
                 startTime: startTimeISO,
                 endTime: endTimeISO,
             };
+
+            console.log("trainingData: ", trainingData);
 
             try {
                 const token = localStorage.getItem("token");
@@ -344,7 +429,7 @@ const AllTrainingsPage = () => {
             const trainingData = {
                 id: eventData.id,
                 userUsername: jwtDecode(localStorage.getItem("token")).sub,
-                category: eventData.Subject,
+                category: getBackendCategory(eventData.Subject),
                 startTime: startTimeISO,
                 endTime: endTimeISO,
             };
@@ -426,27 +511,35 @@ const AllTrainingsPage = () => {
                 'month': 'Miesiąc',
                 'today': 'Dziś',
             },
-            'datetimepicker': {
-                'placeholder': 'Wybierz datę',
-                'today': 'Dziś'
+            datetimepicker: {
+                placeholder: 'Wybierz datę',
+                today: 'Dziś'
             }
         }
     });
 
+    const handleSchemas = () => {
+        navigate(`/all-training-schemas`)
+    }
+
+    const handleOwnExercises = () => {
+        navigate(`/own-exercises`);
+    }
+
     return (
         <div className="all-schedules-container">
             <NavBar/>
-            <div className="main-content">
-                <div className="schedule-buttons">
-                    <h1>Twoje treningi</h1> {/* Heading on the left */}
-                    <div className="buttons-container"> {/* Buttons on the right */}
-                        <CustomLink to="/all-training-schemas">Schematy treningów</CustomLink>
-                        <CustomLink to="/own-exercises">Własne ćwiczenia</CustomLink>
+            <div className="all-schedules">
+                <div className="schedule-btns">
+                    <h2>Twoje treningi</h2>
+                    <div className="schedule-buttons-container">
+                        <button className="schedule-btn" onClick={handleSchemas}>Schematy treningów</button>
+                        <button className="schedule-btn" onClick={handleOwnExercises}>Własne ćwiczenia</button>
                     </div>
                 </div>
                 <link href="https://cdn.syncfusion.com/ej2/material-dark.css" rel="stylesheet" id="material3-dark"/>
                 <div className="scheduler-container">
-                    <ScheduleComponent
+                <ScheduleComponent
                         firstDayOfWeek={1}
                         ref={scheduleObj}
                         width='100%'

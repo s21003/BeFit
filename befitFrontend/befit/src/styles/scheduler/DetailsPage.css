@@ -1,6 +1,4 @@
-/* DetailsPage.css */
 
-/* General styles */
 body {
     margin: 0;
 }
@@ -46,9 +44,10 @@ body {
 }
 
 /* Button styles */
-.details .btn {
+.details-add-btn,
+.details-save-btn,
+.details-return-btn {
     padding: 8px 12px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -58,19 +57,39 @@ body {
     display: inline-block; /* Key for width control */
 }
 
-.details .btn:hover {
+.details-add-btn {
+    background-color: #007bff;
+}
+
+.details-add-btn:hover {
     background-color: #0056b3;
 }
 
+.details-save-btn {
+    background-color: #4CAF50; /* Green */
+}
+
+.details-save-btn:hover {
+    background-color: #45a049;
+}
+
+.details-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.details-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
+}
+
 /* Same-size buttons within .buttons-container */
-.buttons-container .btn {
+.details-buttons-container .btn {
     width: 150px;
     text-align: center;
 }
 
 
 /* Container for buttons */
-.buttons-container {
+.details-buttons-container {
     display: flex;
     justify-content: center;
     gap: 10px;

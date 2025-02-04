@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/AddItemsPage.css"
+import "../../styles/items/AddItemsPage.css"
 
 const AddProductPage = () => {
     const navigate = useNavigate();
@@ -73,29 +73,30 @@ const AddProductPage = () => {
     return (
         <div className="addItems-container">
             <NavBar/>
+            <h1>Dodaj nowy produkt</h1>
             <div className="addItems">
-                <form onSubmit={handleSubmit} className="editForm">
+                <form onSubmit={handleSubmit} className="addItems-Form">
                     <label>Nazwa produktu</label>
                     <input className="inputStyle" type="text" name="name" value={productData.name}
-                           onChange={handleChange} placeholder="Name" required/>
-                    <label>Kalorie</label>
+                           onChange={handleChange} placeholder="Nazwa produktu" required/>
+                    <label>Kalorie na 100g</label>
                     <input className="inputStyle" type="number" step="0.1" name="kcal" value={productData.kcal}
                            onChange={handleChange} placeholder="Kcal" required/>
-                    <label>Białko</label>
+                    <label>Białko na 100g</label>
                     <input className="inputStyle" type="number" step="0.1" name="protein" value={productData.protein}
                            onChange={handleChange} placeholder="Proteins" required/>
-                    <label>Tłuszcze</label>
+                    <label>Tłuszcze na 100g</label>
                     <input className="inputStyle" type="number" step="0.1" name="fat" value={productData.fat}
                            onChange={handleChange} placeholder="Fats" required/>
-                    <label>Węglowodany</label>
+                    <label>Węglowodany na 100g</label>
                     <input className="inputStyle" type="number" step="0.1" name="carbs" value={productData.carbs}
                            onChange={handleChange} placeholder="Carbs" required/>
                     <label>Waga produktu</label>
                     <input className="inputStyle" type="number" step="0.1" name="weight" value={productData.weight}
                            onChange={handleChange} placeholder="Weight" required/>
-                    <div className="buttons-container">
-                        <button className="btn-submit" type="submit">Dodaj produkt</button>
-                        <button className="btn" onClick={handleReturn}>Powrót</button>
+                    <div className="addItems-buttons-container">
+                        <button className="addItems-add-btn" type="submit">Dodaj produkt</button>
+                        <button className="addItems-return-btn" onClick={handleReturn}>Powrót</button>
                     </div>
                 </form>
             </div>

@@ -1,0 +1,204 @@
+/* General container styling */
+.all-schedules-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+/* Main content container */
+.all-schedules {
+    margin-top: 64px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.schedule-btns {
+    padding: 0 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.schedule-btns h1 { /* Style h1 within schedule-btns */
+    margin: 0;
+    font-size: 24px;
+    color: white;
+}
+
+.schedule-buttons-container { /* Renamed class */
+    display: flex;
+    gap: 15px;
+}
+
+.schedule-btn { /* Renamed class and styled as button */
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap;
+    background-color: #007bff;
+    cursor: pointer; /* Make it look like a button */
+    border: none;  /* Remove default button border if needed */
+}
+
+.schedule-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.scheduler-container {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CSS for ScheduleComponent height */
+.schedule-day-view {
+    height: 90%;
+}
+
+.schedule-other-view {
+    height: 100%;
+}
+
+.editor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.editor-table th {
+    background-color: rgba(0, 0, 0, 0.6); /* Darker header background */
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    text-align: left;
+    color: white;
+}
+
+.editor-table td {
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    text-align: left;
+    vertical-align: middle;
+    color: white;
+}
+
+.editor-table .edit-button {
+    background-color: #28a745;
+}
+
+.editor-table .edit-button:hover {
+    background-color: #218838;
+}
+
+.editor-table .delete-button {
+    background-color: #dc3545;
+}
+
+.editor-table .delete-button:hover {
+    background-color: #c12a36;
+}
+
+
+.editor-daily-totals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editor-daily-totals h3 {
+    margin: 0;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+}
+
+.editor-daily-totals p {
+    margin: 0 10px;
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.editor-daily-totals p:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding-right: 15px;
+}
+
+.editor-table .editor-total-row {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly darker total row */
+}
+
+.editor-table .editor-total-row td {
+    text-align: right;
+}
+
+#event-footer #Delete {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+#event-footer #Delete:hover {
+    background-color: #c12a36 !important;
+    border-color: #c12a36 !important;
+}
+
+#event-footer #Edit {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: white !important;
+}
+
+#event-footer #Edit:hover {
+    background-color: #218838 !important;
+    border-color: #218838 !important;
+}
+
+#event-footer #Save {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+#event-footer #Save:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
+
+#event-footer #Cancel {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+}
+
+#event-footer #Cancel:hover {
+    background-color: #5c6268 !important;
+    border-color: #5c6268 !important;
+}

@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import GoalComponent from "../../components/Profile/GoalComponent";
 import ProfileComponent from "../../components/Profile/ProfileComponent";
 import NavBar from "../../components/NavBar";
-import "../../styles/ProfilePage.css"
+import "../../styles/profile/ProfilePage.css"
 
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("profile");
@@ -102,15 +102,15 @@ const ProfilePage = () => {
             <NavBar />
             <div className="profilePage">
                 <h1>Witaj, {profileData.name} {profileData.surname}</h1>
-                <div className="tabs">
+                <div className="profilePage-tabs">
                     <button
-                        className={`tabButton ${activeTab === "profile" ? "active" : ""}`}
+                        className={`profilePage-tabButton ${activeTab === "profile" ? "active" : ""}`}
                         onClick={() => setActiveTab("profile")}
                     >
                         Profil
                     </button>
                     <button
-                        className={`tabButton ${activeTab === "goals" ? "active" : ""}`}
+                        className={`profilePage-tabButton ${activeTab === "goals" ? "active" : ""}`}
                         onClick={() => {
                             setActiveTab("goals");
                             fetchGoals();
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                         Cele
                     </button>
                 </div>
-                <div className="tab-content">
+                <div className="profilePage-tab-content">
                     {activeTab === "profile" && (
                         <ProfileComponent
                             profileData={profileData}

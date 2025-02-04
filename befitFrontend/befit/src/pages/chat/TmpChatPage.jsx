@@ -1,36 +1,35 @@
-import React, { useEffect } from 'react';
-import { Client } from '@stomp/stompjs';
-import SockJS from "sockjs-client";
+import React, { useEffect, useState } from 'react';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 const TmpChatPage = () => {
+    const [messages, setMessages] = useState();
+    const [message, setMessage] = useState('');
+
     useEffect(() => {
-        // Configure STOMP client
-        const client = new Client({
-            //brokerURL: 'ws://localhost:8080/ws',
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-            reconnectDelay: 5000, // Automatically reconnect on connection loss
-            debug: (str) => console.log(str), // Debugging logs
-            onConnect: () => {
-                console.log('Connected to WebSocket');
-                client.subscribe('/topic/messages', (message) => {
-                    console.log('Message received:', message.body);
-                });
-            },
-            onStompError: (frame) => {
-                console.error('Broker error:', frame.headers['message']);
-            },
+        const socket = SockJS('http://localhost:8080/ws');
+        const stompClient = Stomp.over(socket);
+
+        const token = localStorage.getItem('token'); // Get your JWT token
+
+        stompClient.connect({ Authorization: `Bearer ${token}` }, (frame) => {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/public', (message) => {
+                setMessages(prevMessages => [...prevMessages, JSON.parse(message.body)]);
+            });
+
+            // Send a message to join the chat
+            stompClient.send("/app/chat.addUser", {}, JSON.stringify({ sender: 'user123', type: 'JOIN' }));
         });
 
-        // Activate the STOMP client
-        client.activate();
-
-        // Cleanup function
         return () => {
-            client.deactivate();
+            if (stompClient) {
+                stompClient.disconnect();
+            }
         };
-    }, []);
+    },);
 
-    return <div>WebSocket Chat Page</div>;
+    //... (rest of your chat component logic)
 };
 
 export default TmpChatPage;

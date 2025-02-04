@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
+import "../../styles/trainer/AddTrainerToTraining.css"
 
 const AddTrainerToTraining = () => {
     const { trainingId } = useParams();
@@ -13,7 +14,22 @@ const AddTrainerToTraining = () => {
     const [username, setUsername] = useState(null);
     const [training, setTraining] = useState(null);
 
-    // Fetch the username from the decoded JWT token and fetch user data
+    const specializations = {  // Correct mapping: Enum -> Polish
+        "CARDIO": "Cardio",
+        "SILOWY": "Siłowy",
+        "CROSSFIT": "Crossfit",
+        "FITNESS": "Fitness",
+        "GRUPOWY": "Grupowy",
+        "KLATKAPIERSIOWA": "Klatka Piersiowa",
+        "BICEPS": "Biceps",
+        "TRICEPS": "Triceps",
+        "BRZUCH": "Brzuch",
+        "PLECY": "Plecy",
+        "BARKI": "Barki",
+        "NOGI": "Nogi",
+        "DIETETYK": "Dietetyk"
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -43,7 +59,6 @@ const AddTrainerToTraining = () => {
                 }
                 const data = await response.json();
                 setUserId(data.id);  // Set the userId once fetched
-                console.log(userId)
             } catch (error) {
                 console.error("Fetching user by username failed: ", error);
             }
@@ -54,8 +69,6 @@ const AddTrainerToTraining = () => {
     // Fetch accepted trainers based on userId
     useEffect(() => {
         if (!userId) return;
-
-        console.log(userId)
 
         const fetchUserTrainers = async () => {
             const token = localStorage.getItem("token");
@@ -146,10 +159,7 @@ const AddTrainerToTraining = () => {
     const handleAddTrainers = async () => {
         if (selectedTrainers.length > 0) {
             const token = localStorage.getItem("token");
-            console.log(selectedTrainers);
             const trainerId = selectedTrainers[0];
-            console.log("trainerId: ",trainerId);
-            console.log("training: ",training)
 
             try {
                 const response = await fetch(`http://localhost:8080/training/addTrainer/${trainingId}`, {
@@ -182,12 +192,11 @@ const AddTrainerToTraining = () => {
     };
 
     return (
-        <div className="add-trainer-page">
+        <div className="add-trainer-page-container">
             <NavBar />
             <h2>Dodaj trenera do treningu</h2>
-
-            <div className="trainer-selection">
-                <h3>Wybierz trenerów:</h3>
+            <div className="add-trainer-page">
+                <h3>Wybierz trenera:</h3>
                 {trainers.length > 0 ? (
                     <table>
                         <thead>
@@ -213,8 +222,12 @@ const AddTrainerToTraining = () => {
                                 <td>{trainer.user.name}</td>
                                 <td>{trainer.user.surname}</td>
                                 <td>{trainer.address}</td>
-                                <td>{trainer.specializations.join(', ')}</td>
-                                <td>{trainer.description}</td>
+                                <td>
+                                    {trainer.specializations
+                                        .map((spec) => specializations[spec] || spec)
+                                        .join(', ')}
+                                </td>
+                                <td className="add-trainer-page-description-td">{trainer.description}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -224,9 +237,9 @@ const AddTrainerToTraining = () => {
                 )}
             </div>
 
-            <div className="action-buttons">
-                <button onClick={handleAddTrainers} disabled={selectedTrainers.length === 0}>Zapisz trenera</button>
-                <button onClick={handleReturn}>Powrót</button>
+            <div className="add-trainer-page-buttons-container">
+                <button className="add-trainer-page-add-btn" onClick={handleAddTrainers} >Zapisz trenera</button>
+                <button className="add-trainer-page-return-btn" onClick={handleReturn}>Powrót</button>
             </div>
         </div>
     );

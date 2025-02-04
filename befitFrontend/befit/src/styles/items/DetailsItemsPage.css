@@ -1,0 +1,119 @@
+/* DetailsItemsPage.css */
+
+.detailsItems-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    padding-top: 80px; /* Adjust for your navbar */
+}
+
+.detailsItems {
+    margin: 20px;
+    flex-grow: 1; /* Allow content to fill space */
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.detailsHeader {
+    margin-bottom: 20px;
+    text-align: center; /* Center the header text */
+    font-size: 30px;
+}
+
+.detailsItems-table {
+    width: 100%; /* Make sure the table container takes full width */
+    margin-bottom: 20px;
+    display: flex; /* Needed for align-items to work */
+    justify-content: center; /* Centers the form horizontally */
+}
+
+.detailsItemsForm {
+    width: 40%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.detailsItemsForm select {  /* Target the select element specifically */
+    background-color: #333;  /* Dark background for the select box */
+    color: white;          /* White text for options */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+}.detailsItemsForm select option {  /* Target the options within the select */
+     background-color: #222;  /* Even darker background for options to differentiate */
+     color: white;
+ }
+
+.detailsContent {
+    margin-bottom: 10px;
+    width: 100%; /* Make content fill container width */
+    max-width: 600px; /* Set a maximum width if needed */
+}
+
+.detailsContent strong {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.detailsItems-buttons-container {
+    display: flex;
+    justify-content: center; /* or flex-end, flex-start, space-between */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+.detailsItems-save-btn, .detailsItems-delete-btn, .detailsItems-return-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 160px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.detailsItems-save-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.detailsItems-save-btn:hover {
+    background-color: #45a049;
+}
+
+.detailsItems-delete-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.detailsItems-delete-btn:hover {
+    background-color: #c12a36;
+}
+
+.detailsItems-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.detailsItems-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
+}
+
+.editForm > * {
+    margin-bottom: 10px;
+}

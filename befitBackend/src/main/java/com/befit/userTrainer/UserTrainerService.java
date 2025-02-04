@@ -1,18 +1,26 @@
 package com.befit.userTrainer;
 
+import com.befit.mealSchema.MealSchema;
+import com.befit.mealSchema.MealSchemaRepository;
 import com.befit.trainer.Trainer;
+import com.befit.trainingSchema.TrainingSchema;
+import com.befit.trainingSchema.TrainingSchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserTrainerService {
-
     @Autowired
     private UserTrainerRepository userTrainerRepository;
+    @Autowired
+    private MealSchemaRepository mealSchemaRepository;
+    @Autowired
+    private TrainingSchemaRepository trainingSchemaRepository;
 
     public List<UserTrainer> allUserTrainers() {
         return userTrainerRepository.findAll();
@@ -131,4 +139,91 @@ public class UserTrainerService {
         return "Deleted successfully";
     }
 
+    public String shareMealSchemas(Long userTrainerId, List<Long> mealSchemaIds) {
+        Optional<UserTrainer> userTrainerOptional = userTrainerRepository.findById(userTrainerId);
+        if (userTrainerOptional.isPresent()) {
+            UserTrainer userTrainer = userTrainerOptional.get();
+
+            List<MealSchema> mealSchemas = mealSchemaRepository.findAllById(mealSchemaIds);
+            List<MealSchema> sharedMealSchemas = userTrainer.getSharedMealSchemas();
+
+            for (MealSchema mealSchema: mealSchemas) {
+                if (!sharedMealSchemas.contains(mealSchema)) { // Check if already present
+                    sharedMealSchemas.add(mealSchema);
+                }
+            }
+
+            userTrainerRepository.save(userTrainer);
+            return "Meal schemas shared successfully";
+        }
+        return "UserTrainer not found";
+    }
+
+    public String shareTrainingSchemas(Long userTrainerId, List<Long> trainingSchemaIds) {
+        Optional<UserTrainer> userTrainerOptional = userTrainerRepository.findById(userTrainerId);
+        if (userTrainerOptional.isPresent()) {
+            UserTrainer userTrainer = userTrainerOptional.get();
+
+            List<TrainingSchema> trainingSchemas = trainingSchemaRepository.findAllById(trainingSchemaIds); // Assuming you have TrainingSchemaRepository
+            userTrainer.setSharedTrainingSchemas(trainingSchemas);
+
+            userTrainerRepository.save(userTrainer);
+            return "Training schemas shared successfully";
+        }
+        return "UserTrainer not found";
+    }
+
+    public List<MealSchema> getSharedMealSchemasForStudent(Long userId) {
+        List<UserTrainer> userTrainers = userTrainerRepository.findByUserId(userId);
+        List<MealSchema> sharedSchemas = new ArrayList<>();
+
+        for (UserTrainer userTrainer: userTrainers) {
+            sharedSchemas.addAll(userTrainer.getSharedMealSchemas());
+        }
+
+        return sharedSchemas;
+    }
+
+    public String removeSharedMealSchema(Long userTrainerId, Long mealSchemaId) {
+        Optional<UserTrainer> userTrainerOptional = userTrainerRepository.findById(userTrainerId);
+        if (userTrainerOptional.isPresent()) {
+            UserTrainer userTrainer = userTrainerOptional.get();
+            List<MealSchema> sharedMealSchemas = userTrainer.getSharedMealSchemas();
+
+            sharedMealSchemas.removeIf(mealSchema -> mealSchema.getId() == mealSchemaId);
+
+            userTrainerRepository.save(userTrainer);
+            return "Meal schema removed successfully";
+        }
+        return "UserTrainer not found";
+    }
+
+    public String removeSharedTrainingSchema(Long userTrainerId, Long trainingSchemaId) {
+
+        System.out.println();
+        System.out.println("Usuwanko");
+        System.out.println();
+        Optional<UserTrainer> userTrainerOptional = userTrainerRepository.findById(userTrainerId);
+        if (userTrainerOptional.isPresent()) {
+            UserTrainer userTrainer = userTrainerOptional.get();
+            List<TrainingSchema> sharedTrainingSchemas = userTrainer.getSharedTrainingSchemas();
+
+            sharedTrainingSchemas.removeIf(trainingSchema -> trainingSchema.getId() == trainingSchemaId);
+
+            userTrainerRepository.save(userTrainer);
+            return "Training schema removed successfully";
+        }
+        return "UserTrainer not found";
+    }
+
+    public List<TrainingSchema> getSharedTrainingSchemasForStudent(Long userId) {
+        List<UserTrainer> userTrainers = userTrainerRepository.findByUserId(userId);
+        List<TrainingSchema> sharedSchemas = new ArrayList<>();
+
+        for (UserTrainer userTrainer: userTrainers) {
+            sharedSchemas.addAll(userTrainer.getSharedTrainingSchemas());
+        }
+
+        return sharedSchemas;
+    }
 }

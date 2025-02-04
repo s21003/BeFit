@@ -25,10 +25,6 @@ public class Training {
     private long id;
 
     @JoinColumn
-    @ManyToOne
-    private TrainingSchema trainingSchema;
-
-    @JoinColumn
     @OneToMany
     private List<TrainingExercise> trainingExerciseIds;
 

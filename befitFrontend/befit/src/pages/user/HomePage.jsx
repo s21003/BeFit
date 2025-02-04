@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import { jwtDecode } from "jwt-decode";
-import "../../styles/HomePage.css";
+import "../../styles/user/HomePage.css";
 
 const HomePage = () => {
     const [role, setRole] = useState(null);
@@ -18,6 +18,29 @@ const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [goals, setGoals] = useState(null);
+    const specializations = {
+        CARDIO: "Cardio",
+        SILOWY: "Siłowy",
+        CROSSFIT: "Crossfit",
+        FITNESS: "Fitness",
+        GRUPOWY: "Grupowy",
+        KLATKAPIERSIOWA: "Klatka piersiowa",
+        BICEPS: "Biceps",
+        TRICEPS: "Triceps",
+        BRZUCH: "Brzuch",
+        PLECY: "Plecy",
+        BARKI: "Barki",
+        NOGI: "Nogi",
+        DIETETYK: "Dietetyk"
+    };
+    const labelTranslations = {
+        "Sniadanie": "Śniadanie",
+        "DrugieSniadanie": "Drugie śniadanie",
+        "Obiad": "Obiad",
+        "Przekaska": "Przekąska",
+        "Kolacja": "Kolacja",
+    };
+
 
     const getTodayDate = () => {
         const today = new Date();
@@ -407,41 +430,20 @@ const HomePage = () => {
                     )}
                 </div>
                 {isLoggedIn && (
-                    <div className="content-container">
-                        <div className="leftSection">
+                    <div className="homePage-content-container">
+                        <div className="homePage-leftSection">
                             <div className="meals-table">
                                 <h2>Dzisiejsze posiłki</h2>
                                 <table>
-                                    <thead>
+                                    <thead className="meals-table-thead">
                                     <tr>
-                                        <th>Etykieta posiłku</th>
-                                        <th>Kalorie</th>
-                                        <th>Białko</th>
-                                        <th>Tłuszcze</th>
-                                        <th>Węglowodany</th>
+                                        <th className="meals-table-th">Etykieta posiłku</th>
+                                        <th className="meals-table-th">Kalorie</th>
+                                        <th className="meals-table-th">Białko</th>
+                                        <th className="meals-table-th">Tłuszcze</th>
+                                        <th className="meals-table-th">Węglowodany</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    {todaysMeals.length > 0 ? (
-                                        todaysMeals.map((meal) => {
-                                            const products = mealProductsMap[meal.id] || [];
-                                            const mealTotal = products.find((product) => product.name === "Total");
-                                            return (
-                                                <tr key={meal.id}>
-                                                    <td>{meal.label || "Meal"}</td>
-                                                    <td>{mealTotal?.kcal || 0}</td>
-                                                    <td>{mealTotal?.protein || 0}</td>
-                                                    <td>{mealTotal?.fat || 0}</td>
-                                                    <td>{mealTotal?.carbs || 0}</td>
-                                                </tr>
-                                            );
-                                        })
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="5">Brak posiłków na dziś</td>
-                                        </tr>
-                                    )}
-                                    </tbody>
                                     <tfoot>
                                     <tr>
                                         <td><strong>Łącznie / Cel</strong></td>
@@ -465,103 +467,141 @@ const HomePage = () => {
                                         </td>
                                     </tr>
                                     </tfoot>
+                                    <tbody className="meals-table-tbody">
+                                    {todaysMeals.length > 0 ? (
+                                        todaysMeals.map((meal) => {
+                                            const products = mealProductsMap[meal.id] || [];
+                                            const mealTotal = products.find((product) => product.name === "Total");
+                                            return (
+                                                <tr key={meal.id}>
+                                                    <td className="meals-table-tbody-td">{labelTranslations[meal.label] || meal.label}</td>
+                                                    <td className="meals-table-tbody-td">{mealTotal?.kcal || 0}</td>
+                                                    <td className="meals-table-tbody-td">{mealTotal?.protein || 0}</td>
+                                                    <td className="meals-table-tbody-td">{mealTotal?.fat || 0}</td>
+                                                    <td className="meals-table-tbody-td">{mealTotal?.carbs || 0}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5">Brak posiłków na dziś</td>
+                                        </tr>
+                                    )}
+                                    </tbody>
                                 </table>
                             </div>
 
                             {role !== "TRAINER" && (
-                                <div className="trainers-table">
+                                <div className="home-trainers-table" style={{width: '100%'}}>
                                     <h2>Twoi trenerzy</h2>
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Imię trenera</th>
-                                            <th>Nazwisko trenera</th>
-                                            <th>Specjalizacje</th>
-                                            <th>Opis</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {userTrainers && userTrainers.length > 0 ? (
-                                            userTrainers.map((trainer) => {
-                                                if (!trainer) return null;
-                                                const trainerUser = trainer.user || {};
-                                                return (
-                                                    <tr key={trainer.id}>
-                                                        <td>{trainerUser.name || "Unknown"}</td>
-                                                        <td>{trainerUser.surname || "Unknown"}</td>
-                                                        <td>{trainer.specializations ? trainer.specializations.join(", ") : "Brak specjalizacji"}</td>
-                                                        <td>{trainer.description || "Brak opisu"}</td>
-                                                    </tr>
-                                                );
-                                            })
-                                        ) : (
+                                    <div className="home-trainers-table-wrapper">
+                                        <table>
+                                            <thead>
                                             <tr>
-                                                <td colSpan="4">Brak trenerów</td>
+                                                <th>Imię trenera</th>
+                                                <th>Nazwisko trenera</th>
+                                                <th>Specjalizacje</th>
+                                                <th>Opis</th>
                                             </tr>
-                                        )}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                            {userTrainers && userTrainers.length > 0 ? (
+                                                userTrainers.map((trainer) => {
+                                                    if (!trainer) return null;
+                                                    const trainerUser = trainer.user || {};
+                                                    const displayedSpecializations = trainer.specializations
+                                                        ? trainer.specializations
+                                                            .map(spec => specializations[spec] || spec) // Translate or keep original
+                                                            .slice(0, 3) // Limit to 3 specializations
+                                                            .join(", ")
+                                                        : "Brak specjalizacji";
+
+                                                    return (
+                                                        <tr key={trainer.id}>
+                                                            <td>{trainerUser.name || "Unknown"}</td>
+                                                            <td>{trainerUser.surname || "Unknown"}</td>
+                                                            <td>{displayedSpecializations}</td>
+                                                            <td>
+                                                                {trainer.description && trainer.description.length > 100
+                                                                    ? `${trainer.description.substring(0, 100)}...`
+                                                                    : trainer.description}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="4">Brak trenerów</td>
+                                                </tr>
+                                            )}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             )}
                         </div>
 
-                        <div className="rightSection">
+                        <div className="homePage-rightSection">
                             <div className="planned-trainings-table">
                                 <h2>5 nadchodzących treningów</h2>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Data treningu</th>
-                                        <th>Kategoria</th>
-                                        {role !== "TRAINER" && <th>Trener</th>}
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {trainings.upcoming.length === 0 ? (
+                                {trainings.upcoming.length > 0 ? (
+                                    <table>
+                                        <thead>
                                         <tr>
-                                            <td colSpan="3">Brak nadchodzących treningów</td>
+                                            <th>Data treningu</th>
+                                            <th>Kategoria</th>
+                                            {role !== "TRAINER" && <th>Trener</th>}
                                         </tr>
-                                    ) : (
-                                        trainings.upcoming.map((training) => (
+                                        </thead>
+                                        <tbody>
+                                        {trainings.upcoming.map((training) => (
                                             <tr key={training.id}>
                                                 <td>{formatDate(training.startTime)}</td>
                                                 <td>{training.category}</td>
                                                 {role !== "TRAINER" &&
                                                     <td>{training.trainerName} {training.trainerSurname}</td>}
                                             </tr>
-                                        ))
-                                    )}
-                                    </tbody>
-                                </table>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p>Brak nadchodzących treningów</p>
+                                )}
                             </div>
 
                             <div className="done-trainings-table">
                                 <h2>5 ostatnich treningów</h2>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Data treningu</th>
-                                        <th>Kategoria</th>
-                                        {role !== "TRAINER" && <th>Trener</th>}
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {trainings.past.length === 0 ? (
+                                {trainings.past.length > 0 ? (
+                                    <table>
+                                        <thead>
                                         <tr>
-                                            <td colSpan="3">Brak wykonanych treningów</td>
+                                            <th>Data treningu</th>
+                                            <th>Kategoria</th>
+                                            {role !== "TRAINER" && <th>Trener</th>}
                                         </tr>
-                                    ) : (
-                                        trainings.past.map((training) => (
-                                            <tr key={training.id}>
-                                                <td>{formatDate(training.startTime)}</td>
-                                                <td>{training.category}</td>
-                                                {role !== "TRAINER" && <td>{training.trainerName} {training.trainerSurname}</td>}
+                                        </thead>
+                                        <tbody>
+                                        {trainings.past.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="3">Brak wykonanych treningów</td>
                                             </tr>
-                                        ))
-                                    )}
-                                    </tbody>
-                                </table>
+                                        ) : (
+                                            trainings.past.map((training) => (
+                                                <tr key={training.id}>
+                                                    <td>{formatDate(training.startTime)}</td>
+                                                    <td>{training.category}</td>
+                                                    {role !== "TRAINER" &&
+                                                        <td>{training.trainerName} {training.trainerSurname}</td>}
+                                                </tr>
+                                            ))
+                                        )}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                <p>Brak nadchodzących treningów</p>
+                                )}
                             </div>
+
                         </div>
                     </div>
                 )}

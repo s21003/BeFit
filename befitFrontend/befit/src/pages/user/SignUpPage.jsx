@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/SignUpPage.css"
+import "../../styles/user/SignUpPage.css"
 
 const SignUpPage = () => {
     const navigate = useNavigate();
@@ -85,11 +85,11 @@ const SignUpPage = () => {
         <div className={`signup-page ${isChangingBackground ? 'changing-background' : ''}`}>
             <div className={`login-form-container ${isVisible ? 'visible' : ''}`}>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <div className="toggle-container">
+                    <div className="signup-page-form-group">
+                        <div className="signup-page-toggle-container">
                             <span
-                                className={`toggle-label ${userDetails.role === 'USER' ? 'active' : ''}`}>Użytkownik</span>
-                            <label className="switch">
+                                className={`signup-page-toggle-label ${userDetails.role === 'USER' ? 'active' : ''}`}>Użytkownik</span>
+                            <label className="signup-page-switch">
                                 <input
                                     type="checkbox"
                                     checked={userDetails.role === 'TRAINER'}
@@ -98,29 +98,29 @@ const SignUpPage = () => {
                                 <span className="slider round"></span>
                             </label>
                             <span
-                                className={`toggle-label ${userDetails.role === 'TRAINER' ? 'active' : ''}`}>Trener</span>
+                                className={`signup-page-toggle-label ${userDetails.role === 'TRAINER' ? 'active' : ''}`}>Trener</span>
                         </div>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-page-form-group">
                         {errors.name && <p className="error show">{errors.name}</p>}
                         <label htmlFor="name">Imie</label>
                         <input type="text" name="name" value={userDetails.name} onChange={handleChange}/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-page-form-group">
                         {errors.surname && <p className="error show">{errors.surname}</p>}
                         <label htmlFor="surname">Nazwisko</label>
                         <input type="text" name="surname" value={userDetails.surname} onChange={handleChange}/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-page-form-group">
                         <label htmlFor="address">Adres</label>
                         <input type="text" name="address" value={userDetails.address} onChange={handleChange}/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-page-form-group">
                         {errors.username && <p className="error show">{errors.username}</p>}
                         <label htmlFor="username">Nazwa użytkownika</label>
                         <input type="text" name="username" value={userDetails.username} onChange={handleChange}/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-page-form-group">
                         {errors.password && <p className="error show">{errors.password}</p>}
                         <label htmlFor="password">Hasło</label>
                         <input type="password" name="password" value={userDetails.password} onChange={handleChange}/>

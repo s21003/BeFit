@@ -1,0 +1,77 @@
+/* SchemaModal.css */.share-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(34, 34, 34, 0.7); /* Dark semi-transparent background - matches your body */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.share-modal {
+    background-color: #333; /* Dark background - matches input areas */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    color: white; /* White text */
+}
+
+.schema-modal-form-group {
+    margin-bottom: 15px;
+}
+
+.schema-modal-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee; /* Slightly lighter text for labels */
+}
+
+.share-modal input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.share-modal-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px; /* Add some spacing above the buttons */
+}
+
+.share-modal-save-btn,.share-modal-cancel-btn {
+    padding: 8px 12px; /* Match the button padding from details page */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+    color: white;
+}
+
+.share-modal-save-btn {
+    background-color: #007bff; /* Blue - matches your add button */
+}
+
+.share-modal-save-btn:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+.share-modal-cancel-btn {
+    background-color: #6c757d; /* Gray - matches your return button */
+}
+
+.share-modal-cancel-btn:hover {
+    background-color: #5c6268; /* Darker gray */
+}
+
+.share-modal.schema-modal-form-group div {
+    display: flex;
+    align-items: center; /* Vertically align checkbox and label */
+    margin-bottom: 5px; /* Add some spacing between checkbox groups */
+}
+
+.share-modal input[type="checkbox"] + label { /* Style the label next to the checkbox */
+    cursor: pointer; /* Make the label clickable */
+}

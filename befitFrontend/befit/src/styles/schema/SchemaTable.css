@@ -1,11 +1,11 @@
 /* SchemaTable.css */
 
-.table-wrapper {
+.schema-table-wrapper {
     overflow-x: auto;
     margin-bottom: 15px;
 }
 
-.table {
+.schema-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -15,8 +15,8 @@
     overflow: hidden;
 }
 
-.table th,
-.table td {
+.schema-table th,
+.schema-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -26,23 +26,23 @@
     text-overflow: ellipsis;
 }
 
-.table th {
+.schema-table th {
     background-color: rgba(0, 0, 0, 0.6);
     font-weight: bold;
 }
 
-.table tr:hover {
+.schema-table tr:hover {
     background-color: rgba(255, 255, 255, 0.05);
     cursor: pointer;
 }
 
-.actions {
+.schema-actions {
     display: flex;
     gap: 5px;
     justify-content: center;
 }
 
-.delete-btn {
+.schema-delete-btn {
     color: red;
     cursor: pointer;
 }

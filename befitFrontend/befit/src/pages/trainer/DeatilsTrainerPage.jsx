@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../helpers/UserContext";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/DetailsTrainerPage.css"
+import "../../styles/trainer/DetailsTrainerPage.css"
 
 const DetailsTrainerPage = () => {
     let { id } = useParams();
@@ -216,22 +216,22 @@ const DetailsTrainerPage = () => {
             {user && <h1>Hej, {user.username}</h1>}
             <NavBar/>
             <div className="detailsTrainer">
-                <h2 className="detailsHeader">Szczegóły trenera</h2>
+                <h2 className="detailsTrainerHeader">Szczegóły trenera</h2>
                 {trainerDetails ? (
                     <>
-                        <div className="detailsContent"><strong>Imię:</strong> {trainerDetails.user.name}</div>
-                        <div className="detailsContent"><strong>Nazwisko:</strong> {trainerDetails.user.surname}</div>
-                        <div className="detailsContent"><strong>Adres:</strong> {trainerDetails.user.address}</div>
-                        <div className="detailsContent">
+                        <div className="detailsTrainerContent"><strong>Imię:</strong> {trainerDetails.user.name}</div>
+                        <div className="detailsTrainerContent"><strong>Nazwisko:</strong> {trainerDetails.user.surname}</div>
+                        <div className="detailsTrainerContent"><strong>Adres:</strong> {trainerDetails.user.address}</div>
+                        <div className="detailsTrainerContent">
                             <strong>Specjalizacje:</strong>
-                            <ul className="specializations-list">
+                            <ul className="detailsTrainer-specializations-list">
                                 {trainerDetails.specializations.map((spec, index) => (
                                     <li key={index}>{reverseSpecializations[spec] || spec}</li> // Use reverse mapping
                                 ))}
                             </ul>
                         </div>
-                        <div className="detailsContent"><strong>Opis:</strong> {trainerDetails.description}</div>
-                        <div className="requestStatus">
+                        <div className="detailsTrainerContent"><strong>Opis:</strong> {trainerDetails.description}</div>
+                        <div className="detailsTrainer-requestStatus">
                             {requestStatus === "PENDING" && <p>Twoja prośba jest w toku.</p>}
                             {requestStatus === "ACCEPTED" && <p>Twoja prośba została zaakceptowana.</p>}
                             {requestStatus === "REJECTED" &&
@@ -242,15 +242,15 @@ const DetailsTrainerPage = () => {
                     <p>Loading trainer details...</p>
                 )}
             </div>
-            <div className="buttons-container">
+            <div className="detailsTrainer-buttons-container">
                 {canSendRequest && (
-                    <button className="btn" onClick={cooperationRequest}>Prośba o współprace</button>
+                    <button className="detailsTrainer-btn" onClick={cooperationRequest}>Prośba o współprace</button>
                 )}
                 {!canSendRequest && requestStatus !== "REJECTED" && (
                     <p>Nie możesz wysłać nowej prośby o współprace do tego trenera.</p>
                 )}
-                {requestStatus === "ACCEPTED" && (<button className="btn-delete" onClick={handleDelete}>Zakończ wspólpracę</button>)}
-                <button className="btn" type="submit" onClick={handleReturn}>Powrót</button>
+                {requestStatus === "ACCEPTED" && (<button className="detailsTrainer-btn-delete" onClick={handleDelete}>Zakończ wspólpracę</button>)}
+                <button className="detailsTrainer-return-btn" type="submit" onClick={handleReturn}>Powrót</button>
             </div>
         </div>
     );

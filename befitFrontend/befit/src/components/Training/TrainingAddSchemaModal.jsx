@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import "../../styles/SchemaModal.css";
+import React, { useEffect, useState } from "react";
+import "../../styles/schema/SchemaModal.css";
+import { jwtDecode } from "jwt-decode";
 
 export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => {
     const [trainingSchemas, setTrainingSchemas] = useState([]);
@@ -9,13 +10,16 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
         const fetchTrainingSchemas = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/trainingSchema/all`, {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
+                const decodeToken = jwtDecode(token);
+
+                const response = await fetch(`http://localhost:8080/trainingSchema/username/${decodeToken.sub}`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -27,7 +31,7 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
         };
 
         fetchTrainingSchemas();
-    }, []);
+    },);
 
     const handleSchemaChange = (e) => {
         setSelectedSchemaId(parseInt(e.target.value, 10));
@@ -35,14 +39,13 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
 
     const handleAddSchemaToTraining = async () => {
         if (!selectedSchemaId) {
-            alert("Please select a schema!");
+            alert("Proszę wybrać schemat!");
             return;
         }
 
         try {
             const token = localStorage.getItem("token");
 
-            // Fetch exercises from the selected schema
             const schemaExercisesResponse = await fetch(
                 `http://localhost:8080/trainingSchemaExercise/trainingSchema/${selectedSchemaId}`,
                 {
@@ -57,28 +60,17 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
                 throw new Error("Failed to fetch schema exercises.");
             }
             const schemaExercises = await schemaExercisesResponse.json();
-            console.log("schemaExercises: ",schemaExercises);
 
-            // Process each exercise: fetch its series, create new series, and add them to the training
             const newTrainingExercises = [];
-            const existingSeries = {}; // To track already added series
-
-
-
             for (const schemaExercise of schemaExercises) {
                 const { exerciseId, seriesId } = schemaExercise;
 
-                // Skip the series if already processed
-                if (existingSeries[seriesId]) continue;
-
-                // Fetch existing series details
                 const seriesResponse = await fetch(
-                    `http://localhost:8080/series/${seriesId}`,
-                    {
+                    `http://localhost:8080/series/${seriesId}`,{
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
+                            'Content-Type': 'application/json',
                         },
                     }
                 );
@@ -86,43 +78,37 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
                     throw new Error("Failed to fetch series.");
                 }
                 const seriesData = await seriesResponse.json();
-                console.log("seriesData: ", seriesData);
 
-                // Create new series entry
                 const newSeriesResponse = await fetch(
-                    `http://localhost:8080/series/add`,
-                    {
+                    `http://localhost:8080/series/add`, {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
+                            'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
                             series: seriesData.series,
                             repeatNumber: seriesData.repeatNumber,
-                            weight: seriesData.weight,
+                            weight: seriesData.weight
                         }),
                     }
                 );
                 if (!newSeriesResponse.ok) {
-                    throw new Error("Failed to create new series.");
+                    throw new Error("Failed to add series.");
                 }
                 const newSeries = await newSeriesResponse.json();
-                console.log("newSeries: ", newSeries);
 
-                // Add the exercise to the training with the newly created series ID
                 const newTrainingExerciseResponse = await fetch(
-                    `http://localhost:8080/trainingExercise/add`,
-                    {
+                    `http://localhost:8080/trainingExercise/add`, {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
+                            'Content-Type':'application/json',
                         },
                         body: JSON.stringify({
                             trainingId,
                             exerciseId,
-                            seriesId: newSeries.id,
+                            seriesId: newSeries.id
                         }),
                     }
                 );
@@ -132,14 +118,10 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
 
                 const newTrainingExercise = await newTrainingExerciseResponse.json();
                 newTrainingExercises.push(newTrainingExercise);
-
-                // Mark series as processed
-                existingSeries[seriesId] = true;
             }
-
-            console.log(newTrainingExercises);
             onSubmit(newTrainingExercises);
             closeModal();
+
         } catch (error) {
             console.error("Error adding schema to training:", error);
         }
@@ -147,22 +129,23 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
 
     return (
         <div
-            className="modal-container"
+            className="schema-modal-container" // Use consistent class name
             onClick={(e) => {
-                if (e.target.className === "modal-container") closeModal();
+                if (e.target.className === "schema-modal-container")
+                    closeModal();
             }}
         >
-            <div className="modal">
-                <h3>Add Schema to Training</h3>
-                <div className="form-group">
-                    <label htmlFor="trainingSchema">Schema:</label>
+            <div className="schema-modal">
+                <h3>Dodaj Schemat do Treningu</h3>
+                <div className="schema-modal-form-group">
+                    <label htmlFor="trainingSchema">Schemat:</label>
                     <select
                         id="trainingSchema"
                         onChange={handleSchemaChange}
                         value={selectedSchemaId || ""}
                     >
                         <option value="" disabled>
-                            Select schema
+                            Wybierz schemat
                         </option>
                         {trainingSchemas.map((schema) => (
                             <option key={schema.id} value={schema.id}>
@@ -171,12 +154,14 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
                         ))}
                     </select>
                 </div>
-                <button className="btn" onClick={handleAddSchemaToTraining}>
-                    Dodaj schemat
-                </button>
-                <button className="btn" onClick={closeModal}>
-                    Anuluj
-                </button>
+                <div className="schema-modal-buttons-container">
+                    <button className="schema-modal-add-btn" onClick={handleAddSchemaToTraining}>
+                        Dodaj schemat
+                    </button>
+                    <button className="schema-modal-cancel-btn" onClick={closeModal}>
+                        Anuluj
+                    </button>
+                </div>
             </div>
         </div>
     );

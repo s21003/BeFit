@@ -1,8 +1,9 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../helpers/UserContext";
-import "../../styles/DetailsItemsPage.css"
+import "../../styles/items/DetailsItemsPage.css"
 import NavBar from "../../components/NavBar";
+import {jwtDecode} from "jwt-decode";
 
 const DetailsExercisePage = () => {
     let { id } = useParams();
@@ -32,12 +33,13 @@ const DetailsExercisePage = () => {
                 const data = await response.json();
                 console.log("data: ",data)
                 if (data) {
+                    const initialPart = Object.keys(partOptions).find(key => partOptions[key] === data.part); // Find the key for the initial value
                     setExerciseDetails(data);
-                    setEditFormData({ // Set initial form data *after* fetching
+                    setEditFormData({
                         name: data.name,
-                        part: data.part,
-                        videoLink: data.videoLink || '', // Handle potential null value
-                    })
+                        part: initialPart, // Set the initial part to the Polish name
+                        videoLink: data.videoLink || '',
+                    });
                 }
             } catch (error) {
                 console.error("Fetching exercise details failed: ", error);
@@ -58,19 +60,12 @@ const DetailsExercisePage = () => {
     const handleSubmitEdit = async (e) => {
         e.preventDefault();
 
-        let enumPart = exerciseDetails.part; // Default to the original value
-
-        if (editFormData.part !== exerciseDetails.part) {
-            const selectedPartKey = Object.keys(partOptions).find(key => partOptions[key] === editFormData.part);
-            enumPart = selectedPartKey ? partOptions[selectedPartKey] : null; // Use null if no match
-        }
-
         const updatedData = {
             id: exerciseDetails.id,
             ...editFormData,
-            part: enumPart // Include the enum value in the data sent to the backend
+            part: partOptions[editFormData.part] // Use partOptions to get the enum value
         };
-        console.log("updatedData: ",updatedData);
+        console.log("updatedData: ", updatedData);
 
         try {
             const token = localStorage.getItem("token");
@@ -140,10 +135,9 @@ const DetailsExercisePage = () => {
                 <h2 className="detailsHeader">Szczegóły ćwiczenia</h2>
                 {exerciseDetails ? (
                     <>
-
                         {(
-                            <>
-                                <form onSubmit={handleSubmitEdit}>
+                            <div className="detailsItems-table">
+                                <form className="detailsItemsForm" onSubmit={handleSubmitEdit}>
                                     <strong>Nazwa ćwiczenia:</strong>
                                     <input
                                         type="text"
@@ -156,11 +150,11 @@ const DetailsExercisePage = () => {
                                     <select
                                         className="inputStyle"
                                         name="part"
-                                        value={editFormData.part} // Display value
+                                        value={editFormData.part} // Use editFormData.part for value
                                         onChange={e => setEditFormData({...editFormData, part: e.target.value})}
                                     >
                                         {Object.keys(partOptions).map(part => (
-                                            <option key={part} value={part}>{part}</option>
+                                            <option key={part} value={part}>{part}</option> // Use Polish name for option value
                                         ))}
                                     </select>
                                     <strong>Link do wideo:</strong>
@@ -171,13 +165,13 @@ const DetailsExercisePage = () => {
                                         value={editFormData.videoLink}
                                         onChange={e => setEditFormData({ ...editFormData, videoLink: e.target.value })}
                                     />
-                                    <div className="buttons-container">
-                                        <button type="submit" className="btn">Zapisz zmiany</button>
-                                        <button onClick={handleDelete} className="btn-delete">Usuń ćwiczenie</button>
-                                        <button onClick={handleReturn} className="btn">Powrót</button>
+                                    <div className="detailsItems-buttons-container">
+                                        <button type="submit" className="detailsItems-save-btn">Zapisz zmiany</button>
+                                        <button onClick={handleDelete} className="detailsItems-delete-btn">Usuń ćwiczenie</button>
+                                        <button onClick={handleReturn} className="detailsItems-return-btn">Powrót</button>
                                     </div>
                                 </form>
-                            </>
+                            </div>
                         )}
                     </>
                 ) : (

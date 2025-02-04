@@ -3,51 +3,49 @@ import { useNavigate, useParams } from "react-router-dom";
 import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaModal";
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
 import NavBar from "../../components/NavBar";
-import {TrainingAddSchemaModal} from "../../components/Training/TrainingAddSchemaModal";
-import "../../styles/DetailsPage.css"
+import { TrainingAddSchemaModal } from "../../components/Training/TrainingAddSchemaModal";
+import "../../styles/scheduler/DetailsPage.css";
 
 const DetailsTrainingPage = () => {
     let { id } = useParams();
     const navigate = useNavigate();
     const [rowToEdit, setRowToEdit] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    const [rows, setRows] = useState([{
-        exerciseId: 0.0,
-        name: '',
-        series: 0.0,
-        repeatNumber: 0.0,
-        weight: 0.0,
-    }]);
+    const [rows, setRows] = useState([]);
     const [addSchemaModalOpen, setAddSchemaModalOpen] = useState(false);
     const [trainingExerciseData, setTrainingExerciseData] = useState([]);
     const [exerciseData, setExerciseData] = useState([]);
-    const [seriesData, setSeriesData] = useState([{
-        id: 0.0,
-        series: 0.0,
-        repeatNumber: 0.0,
-        weight: 0.0,
-    }]);
+    const [seriesData, setSeriesData] = useState([
+        {
+            id: 0.0,
+            series: 0.0,
+            repeatNumber: 0.0,
+            weight: 0.0,
+        },
+    ]);
+    const [unsavedRows, setUnsavedRows] = useState([]); // Add unsavedRows state
+    const [isLoading, setIsLoading] = useState(true); // Add a loading state
     const [trainingData, setTrainingData] = useState({
         id: 0.0,
-        category: '',
+        category: null,
         trainingExerciseIds: [],
         creatorUsername: '',
         startTime: null,
         endTime: null,
-        userUsername: ''
+        userUsername: '',
     });
+
 
     useEffect(() => {
         const fetchTraining = async () => {
             try {
                 const token = localStorage.getItem("token");
-                console.log("token "+token)
                 const response = await fetch(`http://localhost:8080/training/${id}`, {
-                    method: 'GET',
+                    method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
+                        "Content-Type": "application/json",
+                    },
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -66,13 +64,16 @@ const DetailsTrainingPage = () => {
         const fetchTrainingExercise = async (teId) => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/trainingExercise/${teId}`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                const response = await fetch(
+                    `http://localhost:8080/trainingExercise/${teId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
                     }
-                });
+                );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -160,12 +161,30 @@ const DetailsTrainingPage = () => {
             }
         };
 
+        if (!trainingExerciseData.length) return;
+
         const fetchAllSeries = async () => {
             const series = [];
+            const token = localStorage.getItem("token")
+
             for (let se of trainingExerciseData) {
-                const serie = await fetchSeries(se.seriesId);
-                if (serie) {
-                    series.push(serie);
+
+                try {
+                    if (se.seriesId) {
+                        const response = await fetch(`http://localhost:8080/series/${se.seriesId}`, {
+                            method: 'GET',
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                        });
+                        if (response.ok) {
+                            const seriesData = await response.json()
+                            series.push(seriesData)
+                        }
+                    }
+                } catch (error) {
+                    console.error("Fetching series failed:", error);
                 }
             }
             setSeriesData(series);
@@ -175,19 +194,20 @@ const DetailsTrainingPage = () => {
     }, [trainingExerciseData]);
 
     useEffect(() => {
+        if (isLoading) return;
+
         const combinedRows = exerciseData.map((exercise, i) => ({
             exerciseId: exercise.id,
             name: exercise.name,
             part: exercise.part,
             videoLink: exercise.videoLink,
-            seriesId: seriesData[i].id,
-            series: seriesData[i].series,
-            repeatNumber: seriesData[i].repeatNumber,
-            weight: seriesData[i].weight,
+            series: seriesData[i]?.series || 0,
+            repeatNumber: seriesData[i]?.repeatNumber || 0,
+            weight: seriesData[i]?.weight || 0,
         }));
 
-        setRows(combinedRows);
-    }, [exerciseData, seriesData]);
+        setRows([...combinedRows,...unsavedRows]);
+    }, [exerciseData, seriesData, unsavedRows, isLoading]);
 
     const categories = {
         "Cardio":"Cardio",
@@ -206,17 +226,17 @@ const DetailsTrainingPage = () => {
         setModalOpen(true);
     };
 
-    const handleChange = (e) => {
-        setTrainingData({ ...trainingData, [e.target.name]: e.target.value });
-    };
-
     const handleSubmit = (newRow) => {
+        setUnsavedRows((prevUnsavedRows) => [...prevUnsavedRows, newRow]);
+
         rowToEdit === null
             ? setRows([...rows, newRow])
-            : setRows(rows.map((currentRow, id) => {
-                if (id !== rowToEdit) return currentRow;
-                return newRow;
-            }));
+            : setRows(
+                rows.map((currentRow, id) => {
+                    if (id!== rowToEdit) return currentRow;
+                    return newRow;
+                })
+            );
     };
 
     const handleSubmitTraining = async (e) => {
@@ -408,23 +428,31 @@ const DetailsTrainingPage = () => {
 
     };
 
-    const handleCategoryChange = (e) => {
-        const selectedCategory = e.target.value;
-        setTrainingData({
-            ...trainingData,
-            category: selectedCategory
-        });
-    };
-
     const handleReturn = () => {
         navigate(`/all-trainings`);
     }
 
     const handleAddTrainingExercise = (newTrainingExercises) => {
-        console.log("newTrainingExercises: ",newTrainingExercises);
-        setTrainingExerciseData((prev) => [...prev, ...newTrainingExercises]);
-        fetchSeriesForNewExercises(newTrainingExercises);
-    }
+        const exercisesToAdd = newTrainingExercises.filter(newExercise =>
+            !trainingExerciseData.some(existingExercise => existingExercise.exerciseId === newExercise.exerciseId)
+        );
+
+        setTrainingExerciseData((prev) => [...prev,...newTrainingExercises]);
+
+        fetchSeriesForNewExercises(newTrainingExercises)
+            .then(newSeriesData => {
+                const exerciseWithSeries = exercisesToAdd.map((exercise, index) => ({
+                    ...exercise,
+                    series: newSeriesData[index].series,
+                    repeatNumber: newSeriesData[index].repeatNumber,
+                    weight: newSeriesData[index].weight,
+                }));
+                setUnsavedRows(prevUnsavedRows => [...prevUnsavedRows,...exerciseWithSeries]);
+            })
+            .catch(error => {
+                console.error("Fetching series failed:", error)
+            });
+    };
 
     const fetchSeriesForNewExercises = async (newTrainingExercises) => {
         const newSeriesData = [];
@@ -448,11 +476,9 @@ const DetailsTrainingPage = () => {
             }
         }
 
-        // Update series data with the newly fetched series
         setSeriesData((prevSeries) => [...prevSeries, ...newSeriesData]);
     };
 
-// This effect will be triggered when `trainingExerciseData` or `seriesData` is updated
     useEffect(() => {
         if (!trainingExerciseData.length) return;
 
@@ -483,8 +509,65 @@ const DetailsTrainingPage = () => {
     }, [trainingExerciseData]);  // Fetch series when trainingExerciseData changes
 
     useEffect(() => {
-        console.log("seriesData: ", seriesData);
-        const combinedRows = exerciseData.map((exercise, i) => ({
+        if (!trainingExerciseData.length) return;
+
+        const fetchExerciseAndSeries = async () => {
+            setIsLoading(true); // Set loading to true while fetching
+            const exercises = [];
+            const series = [];
+            const token = localStorage.getItem("token");
+
+            await Promise.all(
+                trainingExerciseData.map(async (te) => {
+                    try {
+                        const exerciseResponse = await fetch(
+                            `http://localhost:8080/exercise/${te.exerciseId}`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        );
+                        if (exerciseResponse.ok) {
+                            const exercise = await exerciseResponse.json();
+                            exercises.push(exercise);
+                        }
+
+                        const seriesResponse = await fetch(
+                            `http://localhost:8080/series/${te.seriesId}`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        );
+                        if (seriesResponse.ok) {
+                            const seriesItem = await seriesResponse.json();
+                            series.push(seriesItem);
+                        }
+                    } catch (error) {
+                        console.error("Fetching exercise or series failed:", error);
+                    }
+                })
+            );
+
+            setExerciseData(exercises);
+            setSeriesData(series);
+            setIsLoading(false); // Set loading to false after fetching
+        };
+
+        fetchExerciseAndSeries();
+    }, [trainingExerciseData]);
+
+
+    useEffect(() => {
+        if (isLoading) return;
+
+        const newRows = exerciseData.map((exercise, i) => ({
             exerciseId: exercise.id,
             name: exercise.name,
             part: exercise.part,
@@ -494,9 +577,8 @@ const DetailsTrainingPage = () => {
             weight: seriesData[i]?.weight || 0,  // Fetch weight from the series
         }));
 
-        setRows(combinedRows);
-    }, [exerciseData, seriesData]);  // Update combined rows when either exerciseData or seriesData changes
-
+        setRows([...newRows,...unsavedRows]);
+    }, [exerciseData, seriesData, unsavedRows, isLoading]);
 
     return (
         <div className="details-container">
@@ -516,9 +598,10 @@ const DetailsTrainingPage = () => {
                         </option>
                     ))}
                 </select>
+
                 <TrainingSchemaTable rows={rows} trainingExercise={exerciseData} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
                 <div className="buttons-container">
-                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
+                    <button className="details-add-btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
                     {modalOpen && (
                         <TrainingSchemaModal
                             closeModal={() => {
@@ -529,16 +612,16 @@ const DetailsTrainingPage = () => {
                             defaultValue={rowToEdit !== null && rows[rowToEdit]}
                         />
                     )}
-                    <button className="btn" onClick={() => setAddSchemaModalOpen(true)}>Dodaj schemat</button>
+                    <button className="details-add-btn" onClick={() => setAddSchemaModalOpen(true)}>Dodaj schemat</button>
                     {addSchemaModalOpen && (
                         <TrainingAddSchemaModal
                             closeModal={() => setAddSchemaModalOpen(false)}
                             onSubmit={handleAddTrainingExercise}
-                            mealId={id}
+                            trainingId={id}
                         />
                     )}
-                    <button type="submit" className="btn" onClick={handleSubmitTraining}>Zapisz trening</button>
-                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                    <button type="submit" className="details-save-btn" onClick={handleSubmitTraining}>Zapisz trening</button>
+                    <button type="submit" className="details-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

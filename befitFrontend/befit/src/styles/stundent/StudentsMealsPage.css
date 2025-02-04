@@ -1,0 +1,215 @@
+/* StudentsMealsPage.css */
+
+.studentsMeals-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.studentsMeals {
+    margin-top: 64px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.studentsMeals h1 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.studentsMeals-scheduler-container {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.studentsMeals-schedule-day-view {
+    height: 90%;
+}
+
+.studentsMeals-schedule-other-view {
+    height: 100%;
+}
+
+.editor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.editor-table th {
+    background-color: rgba(0, 0, 0, 0.6); /* Darker header background */
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    text-align: left;
+    color: white;
+}
+
+.editor-table td {
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    text-align: left;
+    vertical-align: middle;
+    color: white;
+}
+
+.editor-table .edit-button {
+    background-color: #28a745;
+}
+
+.editor-table .edit-button:hover {
+    background-color: #218838;
+}
+
+.editor-table .delete-button {
+    background-color: #dc3545;
+}
+
+.editor-table .delete-button:hover {
+    background-color: #c12a36;
+}
+
+
+.editor-daily-totals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editor-daily-totals h3 {
+    margin: 0;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+}
+
+.editor-daily-totals p {
+    margin: 0 10px;
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.editor-daily-totals p:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    padding-right: 15px;
+}
+
+.editor-table .editor-total-row {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly darker total row */
+}
+
+.editor-table .editor-total-row td {
+    text-align: right;
+}
+
+#event-footer #Delete {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+#event-footer #Delete:hover {
+    background-color: #c12a36 !important;
+    border-color: #c12a36 !important;
+}
+
+#event-footer #Edit {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: white !important;
+}
+
+#event-footer #Edit:hover {
+    background-color: #218838 !important;
+    border-color: #218838 !important;
+}
+
+#event-footer #Save {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+#event-footer #Save:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
+
+#event-footer #Cancel {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+}
+
+#event-footer #Cancel:hover {
+    background-color: #5c6268 !important;
+    border-color: #5c6268 !important;
+}
+
+.studentsMeals-return-btn { /* Updated class name */
+    background-color: #888;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.studentsMeals-return-btn:hover { /* Updated class name */
+    background-color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-event-editor { /* Updated class name */
+        font-size: 14px;
+    }
+
+    .custom-event-editor .e-textlabel { /* Updated class name */
+        width: 100px;
+        display: block;
+        padding-top: 0;
+    }
+
+    .custom-event-editor td { /* Updated class name */
+        display: block;
+        width: 100%;
+        padding: 4px;
+    }
+
+    .products-table th, /* Updated class name */
+    .products-table td { /* Updated class name */
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .studentsMeals-scheduler-container { /* Updated class name */
+        height: 400px;
+    }
+}

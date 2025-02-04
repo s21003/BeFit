@@ -1,0 +1,232 @@
+/* OwnStudentsPage.css */
+
+.ownStudentsPage-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    color: white;
+    font-family: sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-top: 80px;
+}
+
+.ownStudentsPage-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ownStudentsPage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.ownStudents,
+.requestsContainer {
+    flex: 1 1 45%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ownStudents h2,
+.requestsContainer h2 {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th,
+td {
+    padding: 8px;
+    border: 1px solid #444;
+    text-align: left;
+    word-break: break-word;
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Requests Styles */
+.requestsContainer-tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.requestsContainer-tabs button {
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.requestsContainer-tabs button.requestsContainer-active {
+    background-color: #0056b3;
+}
+
+.requestsContainer-tabs button:hover {
+    background-color: #0069d9;
+}
+
+.requestsList ul {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Enable flexbox on the ul */
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.requestsList li {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 90%; /* Or a specific width like 500px */ /* Make li take up most of the ul's width */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.studentsInfo {
+    display: flex; /* Use flexbox for horizontal layout */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Add some spacing between items */
+    flex-wrap: wrap; /* Allow items to wrap if necessary */
+}
+
+.studentsInfo strong {
+    font-weight: bold;
+    margin-right: 5px; /* Add spacing after the label */
+}
+
+.studentsInfo div {
+    /* You can add styling to the value part if needed */
+    white-space: nowrap; /* Prevent values from wrapping */
+}
+
+.studentsInfo div:not(:last-of-type)::after { /* Add separators */
+    content: "|";
+    margin-left: 5px;
+}
+
+.requestsList li > * { /* Style direct children of li */
+    margin-bottom: 5px; /* consistent spacing between elements */
+}
+
+.requestsList-buttons-container {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    justify-content: center; /* Center the buttons */
+}
+
+.requestsList-buttons-container button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+table button,
+.requestsList button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+    display: inline-block;
+    white-space: normal;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.ownStudents-delete {
+    text-align: center;
+    padding: 0;
+}
+
+.ownStudents-btn-delete {
+    display: inline-block;
+    background-color: #dc3545;
+    margin: 0;
+    padding: 8px;
+}
+
+.ownStudents-btn-delete:hover {
+    background-color: #c12a36;
+}
+
+
+.requestsList-accept-btn {
+    background-color: #4CAF50;
+}
+
+.requestsList-accept-btn:hover {
+    background-color: #45a049;
+}
+
+.requestsList-reject-btn {
+    background-color: #dc3545;
+}
+
+.requestsList-reject-btn:hover {
+    background-color: #c12a36;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .ownStudentsPage {
+        flex-direction: column;
+    }
+
+    .ownStudents,
+    .requestsContainer {
+        flex: 1 1 100%;
+        margin-bottom: 20px;
+    }
+
+    table button,
+    .requestsList button {
+        width: auto;
+        margin: 5px 0;
+        display: inline-block;
+    }
+
+    .studentsInfo {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .studentsInfo strong {
+        margin-right: 0; /* Remove margin on smaller screens */
+        margin-bottom: 5px; /* Add margin below the labels */
+    }
+
+    .studentsInfo div {
+        white-space: normal; /* Allow wrapping on smaller screens */
+    }
+
+    .studentsInfo div:not(:last-of-type)::after {
+        content: ""; /* Remove separators on smaller screens */
+    }
+}

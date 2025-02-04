@@ -10,6 +10,6 @@ import java.util.List;
 @Setter
 public class TrainerDTO {
     private Long id;
-    private List<Specialization> specializations;
+    private List<String> specializations;
     private String description;
 }

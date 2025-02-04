@@ -3,6 +3,7 @@ package com.befit.training;
 import com.befit.trainer.Trainer;
 import com.befit.trainer.TrainerService;
 import com.befit.trainingExercise.TrainingExercise;
+import com.befit.trainingSchema.TrainingSchema;
 import com.befit.user.User;
 import com.befit.userTrainer.UserTrainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;

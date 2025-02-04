@@ -22,6 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     margin: 20px;
+    padding: 20px;
 }
 
 .schemaDetails label {
@@ -73,45 +74,65 @@ body {
     color: white;
 }
 
-/* Button styles */
-.schemaDetails .btn .btn-delete{
-    padding: 8px 12px;
+.schemaDetails select {
+    background-color: #333; /* Darker background for the select */
+    color: white; /* White text for the select */
+}
 
+.schemaDetails select option {
+    background-color: #444; /* Slightly darker background for options */
+    color: white; /* White text for options */
+}
+
+.schemaDetails-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.schemaDetails-add-btn, /* Updated class name */
+.schemaDetails-save-btn, /* Updated class name */
+.schemaDetails-delete-btn, /* Updated class name */
+.schemaDetails-return-btn { /* Updated class name */
+    padding: 8px 12px;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 10px;
-    display: inline-block;
 }
 
-.btn{
-    background-color: #007bff;
+.schemaDetails-add-btn {
+    background-color: #007bff; /* Blue */
 }
 
-.schemaDetails .btn:hover {
-    background-color: #0056b3;
+.schemaDetails-add-btn:hover {
+    background-color: #0056b3; /* Darker blue */
 }
 
-.button-container .btn .btn-delete{ /* This is correct for same size */
-    width: 150px;
-    text-align: center;
+.schemaDetails-save-btn {
+    background-color: #4CAF50; /* Green */
 }
 
-.btn-delete {  /* Targets the btn-delete class */
-    background-color: #dc3545;
+.schemaDetails-save-btn:hover {
+    background-color: #45a049; /* Darker green */
 }
 
-.btn-delete:hover {
-    background-color: #c12a36;
+.schemaDetails-delete-btn {
+    background-color: #dc3545; /* Red */
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+.schemaDetails-delete-btn:hover {
+    background-color: #c12a36; /* Darker red */
+}
+
+.schemaDetails-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.schemaDetails-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
 }
 
 /* Responsive Design (if needed) */

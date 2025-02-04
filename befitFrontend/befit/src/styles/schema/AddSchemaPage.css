@@ -1,3 +1,5 @@
+/* AddSchemaPage.css */
+
 .addSchemaPage-container {
     display: flex;
     flex-direction: column;
@@ -40,35 +42,53 @@
     box-sizing: border-box;
 }
 
-.addSchemaPage select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 30px;
+.addSchemaPage select option {
+    background-color: #333;
+    color: white;
 }
 
-.buttons-container {
+.addSchemaPage-buttons-container { /* Updated class name */
     margin-top: 20px;
     display: flex;
     gap: 10px;
-    justify-content: center; /* Center buttons horizontally */
+    justify-content: center;
 }
 
-.btn {
+.addSchemaPage-add-btn,
+.addSchemaPage-save-btn,
+.addSchemaPage-return-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: white;
     transition: background-color 0.3s;
-    background-color: #007bff;
+    width: 180px;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.addSchemaPage-add-btn {
+    background-color: #007bff; /* Or any other color you want */
+}
+
+.addSchemaPage-add-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.addSchemaPage-save-btn {
+    background-color: #4CAF50;
+}
+
+.addSchemaPage-save-btn:hover {
+    background-color: #45a049;
+}
+
+
+.addSchemaPage-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.addSchemaPage-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
 }
 
 /* Table Styles */
@@ -88,7 +108,7 @@
 .schema-table th {
     background-color: rgba(0, 0, 0, 0.3);
     font-weight: bold;
-    text-align: center; /* Center header text */
+    text-align: center;
 }
 
 /* Modal Styles */

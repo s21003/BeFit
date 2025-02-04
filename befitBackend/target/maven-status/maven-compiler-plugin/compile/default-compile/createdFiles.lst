@@ -6,7 +6,10 @@ com\befit\meal\MealRepository.class
 com\befit\config\ApplicationConfig.class
 com\befit\trainer\Trainer.class
 com\befit\chat\Message$MessageBuilder.class
+com\befit\training\TrainingDTO.class
 com\befit\trainer\TrainerService.class
+com\befit\trainer\TrainerDTO.class
+com\befit\exercise\ExerciseDTO.class
 com\befit\product\ProductController.class
 com\befit\training\TrainingController.class
 com\befit\exercise\ExerciseController.class
@@ -28,6 +31,8 @@ com\befit\trainingExercise\TrainingExercise.class
 com\befit\user\UserService.class
 com\befit\mealProduct\MealProductController.class
 com\befit\userTrainer\RequestDTO.class
+com\befit\userTrainer\UserTrainerDTO.class
+com\befit\user\UserDTO.class
 com\befit\trainingSchema\TrainingSchemaRepository.class
 com\befit\goal\GoalController.class
 com\befit\exercise\ExerciseService.class
@@ -48,6 +53,9 @@ com\befit\config\JwtService.class
 com\befit\trainingExercise\TrainingExerciseController.class
 com\befit\auth\AuthenticationRequest.class
 com\befit\trainingExercise\TrainingExerciseRepository.class
+com\befit\meal\MealDataDTO.class
+com\befit\userTrainer\RequestStatusDTO.class
+com\befit\user\UserDataDTO.class
 com\befit\config\CustomHandshakeHandler.class
 com\befit\product\ProductService.class
 com\befit\training\TrainingService.class
@@ -59,6 +67,7 @@ com\befit\auth\RegisterRequest$RegisterRequestBuilder.class
 com\befit\mealSchema\MealSchemaController.class
 com\befit\auth\AuthenticationResponse.class
 com\befit\mealProduct\MealProductService.class
+com\befit\userTrainer\UserStudentDTO.class
 com\befit\product\ProductRepository.class
 com\befit\user\User.class
 com\befit\trainingSchemaExercise\TrainingSchemaExerciseController.class

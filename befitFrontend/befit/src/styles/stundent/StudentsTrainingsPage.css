@@ -1,0 +1,113 @@
+/* StudentsTrainingsPage.css */
+
+.studentsTrainings-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 80px;
+    background-color: #222; /* Added dark background */
+    color: white; /* Added white text color */
+}
+
+.studentsTrainings {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.studentsTrainings h1 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.custom-event-editor-wrapper { /* Updated class name */
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.custom-event-editor { /* Updated class name */
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: rgba(255,255,255, 0.05); /* Added background color to editor */
+    color: white; /* Added white text color to editor */
+}
+
+
+.custom-event-editor td { /* Updated class name */
+    padding: 8px;
+    border: 1px solid rgba(255,255,255, 0.2); /* Subtler border */
+    text-align: left;
+}
+
+.custom-event-editor .e-textlabel { /* Updated class name */
+    font-weight: bold;
+    width: 150px;
+    color: white; /* Added white text color */
+}
+
+.editor-table { /* Updated class name */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.editor-table th, /* Updated class name */
+.editor-table td { /* Updated class name */
+    padding: 8px;
+    border: 1px solid rgba(255,255,255, 0.2); /* Subtler border */
+    text-align: left;
+    color: white; /* Added white text color */
+}
+
+.editor-table th { /* Updated class name */
+    background-color: rgba(0, 0, 0, 0.3); /* Darker header background */
+    font-weight: bold;
+}
+
+.studentsTrainings-return-btn { /* Updated class name */
+    background-color: #888;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.4rem;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.studentsTrainings-return-btn:hover { /* Updated class name */
+    background-color: #666;
+}
+
+.studentsTrainings-scheduler-container { /* Updated class name */
+    width: 100%;
+    height: 550px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-event-editor { /* Updated class name */
+        font-size: 14px;
+    }
+    .custom-event-editor .e-textlabel { /* Updated class name */
+        width: 120px;
+    }
+    .editor-table th, /* Updated class name */
+    .editor-table td { /* Updated class name */
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .studentsTrainings-scheduler-container { /* Updated class name */
+        height: 400px;
+    }
+}

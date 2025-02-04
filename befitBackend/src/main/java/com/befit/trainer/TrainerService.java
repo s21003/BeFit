@@ -34,10 +34,28 @@ public class TrainerService {
             throw new IllegalArgumentException("Trainer with given ID does not exist");
         }
 
+
+        System.out.println(t.getDescription());
+        System.out.println(t.getSpecializations());
+
+
         Trainer updatedTrainer = existingTrainer.get();
         updatedTrainer.setDescription(t.getDescription());
-        updatedTrainer.setSpecializations(t.getSpecializations());
+        List<Specialization> specializations = t.getSpecializations().stream()
+                .map(spec -> {
+                    try {
+                        return Specialization.valueOf(spec);
+                    } catch (IllegalArgumentException e) {
+                        // Handle the exception appropriately
+                        System.err.println("Invalid specialization: " + spec);
+                        return null; // Or throw an exception, or use a default value
+                    }
+                })
+                .filter(spec -> spec != null) // Remove any nulls from the list if you return null in catch block
+                .collect(Collectors.toList());
 
+
+        updatedTrainer.setSpecializations(specializations);
         return trainerRepository.save(updatedTrainer); // Save and return the updated entity
     }
 

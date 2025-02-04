@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CustomLink } from "../../helpers/CustomLink";
-import { BsFillTrashFill } from "react-icons/bs";
 import NavBar from "../../components/NavBar";
-import "../../styles/SchemaPage.css"
+import "../../styles/schema/SchemaPage.css"
+import {jwtDecode} from "jwt-decode";
 
 const AllMealSchemasPage = () => {
     const navigate = useNavigate();
@@ -13,15 +12,40 @@ const AllMealSchemasPage = () => {
 
     const fetchMealSchemas = async () => {
         const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+
         try {
-            const response = await fetch(`http://localhost:8080/mealSchema/all`, {
+            const response = await fetch(`http://localhost:8080/mealSchema/username/${decodedToken.sub}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            setMealSchemas(await response.json());
+            const userSchemas = await response.json(); // Store user's schemas
+
+            const userResponse = await fetch(`http://localhost:8080/user/${decodedToken.sub}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!userResponse.ok) throw new Error(`HTTP error! Status: ${userResponse.status}`);
+            const userData = await userResponse.json();
+
+            const sharedResponse = await fetch(`http://localhost:8080/userTrainer/sharedMealSchemas/${userData.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
+            const sharedSchemas = await sharedResponse.json();
+
+            console.log("sharedSchemas: ", sharedSchemas);
+
+            setMealSchemas([...userSchemas,...sharedSchemas]); // Combine schemas
+
         } catch (error) {
             console.error("Fetching mealSchemas failed: ", error);
         }
@@ -38,7 +62,6 @@ const AllMealSchemasPage = () => {
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             setMealSchemaProduct(await response.json());
-            console.log("setMealSchemaProduct: "+mealSchemaProduct)
         } catch (error) {
             console.error("Fetching mealSchemas failed: ", error);
         }
@@ -52,6 +75,7 @@ const AllMealSchemasPage = () => {
     useEffect(() => {
         const calculateNutritionData = async () => {
             const token = localStorage.getItem("token");
+            const decodedToken = jwtDecode(token);
             let tempData = [];
             const nutritions = Array.from({ length: mealSchemas.length }, () => ({
                 kcal: 0.0,
@@ -90,7 +114,6 @@ const AllMealSchemasPage = () => {
                         mealSchemaId,
                     };
                     tempData.push(calculatedData);
-                    console.log("i: ",i,", calculatedData: ",calculatedData)
                 }
 
                 for (let i = 0; i < nutritions.length; i++) {
@@ -105,7 +128,7 @@ const AllMealSchemasPage = () => {
                         }
                     }
                 }
-                console.log("nutritions: ",nutritions)
+
                 setRows(
                     mealSchemas.map((schema, i) => ({
                         id: schema.id,
@@ -115,6 +138,7 @@ const AllMealSchemasPage = () => {
                         fat: Math.round(nutritions[i].fat),
                         carbs: Math.round(nutritions[i].carbs),
                         creationDate: schema.creationDate,
+                        creatorUsername: schema.creatorUsername === decodedToken.sub ? "Utworzone" : "Otrzymano od trenera"
                     }))
                 );
             } catch (error) {
@@ -138,7 +162,7 @@ const AllMealSchemasPage = () => {
     return (
         <div className="schemaPage-container">
             <NavBar />
-
+            <h1>Twoje schematy posiłków</h1>
             {mealSchemas.length > 0 ? (
                 <div className="schemaPage">
                     <table>
@@ -150,6 +174,7 @@ const AllMealSchemasPage = () => {
                             <th>Tłuszcze</th>
                             <th>Węglowodany</th>
                             <th>Data utworzenia</th>
+                            <th>Pochodzenie</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -161,6 +186,7 @@ const AllMealSchemasPage = () => {
                                 <td>{row.fat}</td>
                                 <td>{row.carbs}</td>
                                 <td>{row.creationDate}</td>
+                                <td>{row.creatorUsername}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -169,9 +195,9 @@ const AllMealSchemasPage = () => {
             ) : (
                 <p>Brak dostępnych schematów posiłków.</p>
             )}
-            <div className="button-container">
-                <button type="submit" onClick={handleAddSchema}>Dodaj schemat</button>
-                <button type="submit" onClick={handleReturn}>Powrót</button>
+            <div className="schemaPage-button-container">
+                <button className="schemaPage-add-btn" type="submit" onClick={handleAddSchema}>Dodaj schemat</button>
+                <button className="schemaPage-return-btn" onClick={handleReturn}>Powrót</button>
             </div>
         </div>
     );

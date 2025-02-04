@@ -42,12 +42,12 @@ html, body {
 }
 
 /* Form Group */
-.form-group {
+.signup-page-form-group {
     margin-bottom: 15px;
     text-align: left;
 }
 
-.form-group label {
+.signup-page-form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -55,7 +55,7 @@ html, body {
 }
 
 /* Input Fields */
-.form-group input {
+.signup-page-form-group input {
     width: 100%;
     padding: 10px;
     border: none;
@@ -67,7 +67,7 @@ html, body {
 }
 
 /* Placeholder Color */
-.form-group input::placeholder {
+.signup-page-form-group input::placeholder {
     color: rgba(255, 255, 255, 0.5); /* Matches LoginPage */
 }
 
@@ -101,7 +101,7 @@ button:hover {
 }
 
 /* Toggle Container */
-.toggle-container {
+.signup-page-toggle-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -109,24 +109,24 @@ button:hover {
     margin-bottom: 20px;
 }
 
-.toggle-label {
+.signup-page-toggle-label {
     color: white; /* Light gray (matches LoginPage) */
     font-weight: bold;
 }
 
-.toggle-label.active {
+.signup-page-toggle-label.active {
     color: #007bff; /* Blue color for active toggle (matches LoginPage) */
 }
 
 /* Switch (Toggle) Styles */
-.switch {
+.signup-page-switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
 
-.switch input {
+.signup-page-switch input {
     opacity: 0;
     width: 0;
     height: 0;

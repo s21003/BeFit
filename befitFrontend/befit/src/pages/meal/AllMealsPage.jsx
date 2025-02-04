@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {ScheduleComponent, Day, Week, Month, Inject, ViewsDirective, ViewDirective} from '@syncfusion/ej2-react-schedule';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import NavBar from '../../components/NavBar';
-import { CustomLink } from '../../helpers/CustomLink';
-import { jwtDecode } from 'jwt-decode';
-import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
-import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-import { L10n } from '@syncfusion/ej2-base';
-import '../../styles/SchedulePage.css';
+import {jwtDecode} from 'jwt-decode';
+import {DateTimePickerComponent} from '@syncfusion/ej2-react-calendars';
+import {DropDownListComponent} from '@syncfusion/ej2-react-dropdowns';
+import {L10n} from '@syncfusion/ej2-base';
+import '../../styles/scheduler/SchedulePage.css';
 
 const AllMealsPage = () => {
     const navigate = useNavigate();
@@ -15,7 +14,7 @@ const AllMealsPage = () => {
     const [mealProductsMap, setMealProductsMap] = useState({});
     const [currentView, setCurrentView] = useState('DAY'); // Track the current view
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Track the selected date
-    const [dailyTotals, setDailyTotals] = useState({ kcal: 0, protein: 0, fat: 0, carbs: 0 }); // Track daily totals
+    const [dailyTotals, setDailyTotals] = useState({kcal: 0, protein: 0, fat: 0, carbs: 0}); // Track daily totals
     const scheduleObj = useRef(null);
     const [goals, setGoals] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // Add a loading state
@@ -34,7 +33,6 @@ const AllMealsPage = () => {
 
     const getBackendLabel = (frontendLabel) => labelMap[frontendLabel] || frontendLabel;
     const getFrontendLabel = (backendLabel) => reverseLabelMap[backendLabel] || backendLabel;
-
 
 
     useEffect(() => {
@@ -221,6 +219,39 @@ const AllMealsPage = () => {
             return <div>No props data available</div>;
         }
 
+        const dialogWrapper = document.getElementById('_dialog_wrapper');
+
+        if (dialogWrapper) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                        dialogWrapper.style.width = '80%'; // Set your desired width
+                        dialogWrapper.style.maxWidth = '900px'; // Set your desired max width
+                    }
+                });
+            });
+
+            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+
+        } else {
+            const waitForElement = setInterval(() => {
+                const dialogWrapper = document.getElementById('_dialog_wrapper');
+                if (dialogWrapper) {
+                    clearInterval(waitForElement);
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                                dialogWrapper.style.width = '60%'; // Set your desired width
+                                dialogWrapper.style.maxWidth = '900px'; // Set your desired max width
+                            }
+                        });
+                    });
+
+                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                }
+            }, 100);
+        }
+
         const [selectedLabel, setSelectedLabel] = useState(props.Subject || '');
 
         const handleLabelChange = (e) => {
@@ -232,124 +263,118 @@ const AllMealsPage = () => {
         const totalRow = mealProducts.find((product) => product.productId === 0);
 
         return (
-            <table className="custom-event-editor">
-                <thead>
-                <tr>
-                    <td className="e-textlabel">Etykieta</td>
-                    <td colSpan={4}>
-                        <DropDownListComponent
-                            id="Subject"
-                            placeholder="Choose label"
-                            data-name="Subject"
-                            className="e-field"
-                            dataSource={Object.keys(labelMap)}
-                            value={selectedLabel}
-                            change={handleLabelChange}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td className="e-textlabel">Godzina</td>
-                    <td colSpan={4}>
-                        <DateTimePickerComponent
-                            format="dd/MM/yy hh:mm a"
-                            id="StartTime"
-                            data-name="StartTime"
-                            value={new Date(props.StartTime || props.startTime)}
-                            className="e-field"
-                        />
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td colSpan={5}>
-                        <table className="products-table">
-                            <thead>
-                            <tr>
-                                <th>Nazwa produktu</th>
-                                <th>Kalorie</th>
-                                <th>Białko</th>
-                                <th>Tłuszcze</th>
-                                <th>Węglowodany</th>
-                                <th>Waga</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {mealProducts.length > 0 ? (
-                                mealProducts.map(
-                                    (product, index) =>
-                                        product.productId !== 0 && (
-                                            <tr key={index}>
-                                                <td>{product.name}</td>
-                                                <td>{product.kcal}</td>
-                                                <td>{product.protein}</td>
-                                                <td>{product.fat}</td>
-                                                <td>{product.carbs}</td>
-                                                <td>{product.weight}</td>
-                                            </tr>
-                                        )
-                                )
-                            ) : (
-                                <tr>
-                                    <td colSpan={6}>Brak produktów</td>
-                                </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                {totalRow && (
-                    <tr className="total-row">
-                        <td>Łącznie:</td>
-                        <td>
-                            <strong>Kalorie:</strong> {totalRow.kcal}
-                        </td>
-                        <td>
-                            <strong>Białko:</strong> {totalRow.protein}
-                        </td>
-                        <td>
-                            <strong>Tłuszcze:</strong> {totalRow.fat}
-                        </td>
-                        <td>
-                            <strong>Węglowodany:</strong> {totalRow.carbs}
+            <div className="custom-event-editor-wrapper">
+                <table className="custom-event-editor">
+                    <thead>
+                    <tr>
+                        <td className="e-textlabel">Etykieta</td>
+                        <td colSpan={4}>
+                            <DropDownListComponent
+                                id="Subject"
+                                placeholder="Choose label"
+                                data-name="Subject"
+                                className="e-field"
+                                dataSource={Object.keys(labelMap)}
+                                value={selectedLabel}
+                                change={handleLabelChange}
+                            />
                         </td>
                     </tr>
-                )}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colSpan={4} style={{ textAlign: 'center', marginTop: '10px' }}>
-                        {isNewMeal ? (
-                            <></>
-                        ) : (
-                            <div className="e-footer-content">
-                                <button className="btn-edit">Edytuj</button>
-                            </div>
-                        )}
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+                    <tr>
+                        <td className="e-textlabel">Godzina</td>
+                        <td colSpan={4}>
+                            <DateTimePickerComponent
+                                format="dd/MM/yy hh:mm a"
+                                id="StartTime"
+                                data-name="StartTime"
+                                value={new Date(props.StartTime || props.startTime)}
+                                className="e-field"
+                            />
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colSpan={5}>
+                            <table className="editor-table">
+                                <thead>
+                                <tr>
+                                    <th>Nazwa produktu</th>
+                                    <th>Kalorie</th>
+                                    <th>Białko</th>
+                                    <th>Tłuszcze</th>
+                                    <th>Węglowodany</th>
+                                    <th>Waga</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {mealProducts.length > 0 ? (
+                                    mealProducts.map(
+                                        (product, index) =>
+                                            product.productId !== 0 && (
+                                                <tr key={index}>
+                                                    <td>{product.name}</td>
+                                                    <td>{product.kcal}</td>
+                                                    <td>{product.protein}</td>
+                                                    <td>{product.fat}</td>
+                                                    <td>{product.carbs}</td>
+                                                    <td>{product.weight}</td>
+                                                </tr>
+                                            )
+                                    )
+                                ) : (
+                                    <tr>
+                                        <td colSpan={6}>Brak produktów</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    {totalRow && (
+                        <tr className="editor-total-row">
+                            <td>Łącznie:</td>
+                            <td>
+                                <strong>Kalorie:</strong> {totalRow.kcal}
+                            </td>
+                            <td>
+                                <strong>Białko:</strong> {totalRow.protein}
+                            </td>
+                            <td>
+                                <strong>Tłuszcze:</strong> {totalRow.fat}
+                            </td>
+                            <td>
+                                <strong>Węglowodany:</strong> {totalRow.carbs}
+                            </td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+                <div>
+                    {isNewMeal ? (
+                        <></>
+                    ) : (
+                        <div className="e-footer-content">
+                            <button className="e-schedule-dialog e-control e-btn e-lib e-event-edit e-flat" onClick={() => handleEditMeal(props.Id)}>Edytuj</button>
+                        </div>
+                    )}
+                </div>
+            </div>
         );
     };
 
     useEffect(() => {
-        console.log('Meals:', meals); // Debugging: Log the meals array
-        console.log('Meal products map:', mealProductsMap); // Debugging: Log the meal products map
-    }, [meals, mealProductsMap]);
-
-    useEffect(() => {
-        console.log('useEffect for daily totals triggered'); // Debugging: Log when the effect runs
         if (currentView === 'DAY') {
-            console.log('Filtering meals for selected date:', selectedDate); // Debugging: Log the selected date
+
+            const selectedDateObj = new Date(selectedDate); // Create Date object from selectedDate
+            selectedDateObj.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
 
             const selectedDateMeals = meals.filter((meal) => {
-                const mealDate = (meal.StartTime.split('T')[0]);
-                console.log('Meal date:', mealDate, 'Selected date:', selectedDate);
-                return mealDate === selectedDate;
+                const mealDateObj = new Date(meal.StartTime); // Create Date object from meal.StartTime
+                mealDateObj.setHours(0, 0, 0, 0); // Set time to midnight
+
+                return mealDateObj.getTime() === selectedDateObj.getTime(); // Compare using getTime()
             });
-            console.log('Selected date meals:', selectedDateMeals);
 
             let totalKcal = 0;
             let totalProtein = 0;
@@ -358,7 +383,6 @@ const AllMealsPage = () => {
 
             selectedDateMeals.forEach((meal) => {
                 const mealProducts = mealProductsMap[meal.Id] || [];
-                console.log('Meal products for meal ID', meal.Id, ':', mealProducts); // Debugging: Log the meal products
                 const totalRow = mealProducts.find((product) => product.productId === 0);
                 if (totalRow) {
                     totalKcal += totalRow.kcal;
@@ -368,30 +392,21 @@ const AllMealsPage = () => {
                 }
             });
 
-            console.log('Calculated daily totals:', { kcal: totalKcal, protein: totalProtein, fat: totalFat, carbs: totalCarbs }); // Debugging: Log the calculated totals
-            setDailyTotals({ kcal: totalKcal, protein: totalProtein, fat: totalFat, carbs: totalCarbs });
+            setDailyTotals({kcal: totalKcal, protein: totalProtein, fat: totalFat, carbs: totalCarbs});
         }
     }, [meals, mealProductsMap, currentView, selectedDate]);
 
     const onActionComplete = async (args) => {
-        console.log('onActionComplete triggered:', args); // Debugging: Log the entire args object
-
         if (args.requestType === 'dateNavigate') {
-            console.log('Date navigation detected:', args.requestType); // Debugging: Log the request type
-
-            // Use scheduleObj.current.selectedDate if args.data is undefined
             const selectedDate = new Date(scheduleObj.current.selectedDate);
-            console.log('Selected date updated:', selectedDate); // Debugging: Log the selected date
             setSelectedDate(selectedDate); // Update the selected date
         } else if (args.requestType === 'viewNavigate' || args.requestType === 'viewChange') {
-            console.log('View navigation or change detected:', args.requestType); // Debugging: Log the request type
             const currentView = scheduleObj.current.currentView;
-            console.log('Current view:', currentView); // Debugging: Log the current view
             setCurrentView(currentView.toUpperCase()); // Update the current view state
+
 
             if (currentView === 'Day' && args.data && args.data.selectedDate) {
                 const selectedDate = new Date(args.data.selectedDate);
-                console.log('Selected date updated:', selectedDate); // Debugging: Log the selected date
                 setSelectedDate(selectedDate); // Update the selected date
             }
         } else if (args.requestType === 'eventCreated') {
@@ -462,7 +477,7 @@ const AllMealsPage = () => {
                 setMeals((prevMeals) => {
                     return prevMeals.map((meal) =>
                         meal.Id === eventData.id
-                            ? { ...meal, StartTime: startTimeISO, EndTime: endTimeISO }
+                            ? {...meal, StartTime: startTimeISO, EndTime: endTimeISO}
                             : meal
                     );
                 });
@@ -481,7 +496,7 @@ const AllMealsPage = () => {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ id: eventData.Id }),
+                    body: JSON.stringify({id: eventData.Id}),
                 });
 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -524,25 +539,28 @@ const AllMealsPage = () => {
         },
     });
 
-    const eventSettings = { dataSource: meals };
+    const eventSettings = {dataSource: meals};
 
-    const timeScale = { enable: true, interval: 60, slotCount: 1 };
+    const timeScale = {enable: true, interval: 60, slotCount: 1};
 
-    useEffect(() => {
-        console.log('Selected date updated:', selectedDate);
-    }, [selectedDate]);
 
-    console.log('Current view:', currentView, 'Height:', currentView === 'DAY' ? '90%' : '100%');
+    const handleSchemas = () => {
+        navigate(`/all-meal-schemas`)
+    }
+
+    const handleOwnProducts = () => {
+        navigate(`/own-products`);
+    }
 
     return (
         <div className="all-schedules-container">
-            <NavBar />
-            <div className="main-content">
-                <div className="schedule-buttons">
-                    <h1>Twoje posiłki</h1>
-                    <div className="buttons-container">
-                        <CustomLink to="/all-meal-schemas">Schematy posiłków</CustomLink>
-                        <CustomLink to="/own-products">Własne produkty</CustomLink>
+            <NavBar/>
+            <div className="all-schedules">
+                <div className="schedule-btns">
+                    <h2>Twoje posiłki</h2>
+                    <div className="schedule-buttons-container">
+                        <button className="schedule-btn" onClick={handleSchemas}>Schematy posiłków</button>
+                        <button className="schedule-btn" onClick={handleOwnProducts}>Własne produkty</button>
                     </div>
                 </div>
                 <link
@@ -552,10 +570,9 @@ const AllMealsPage = () => {
                 />
                 <div className="scheduler-container">
                     <ScheduleComponent
-                        key={`${currentView}`} // Force re-render when currentView or selectedDate changes
                         ref={scheduleObj}
                         width="100%"
-                        height={currentView === 'DAY' ? '90%' : '100%'} // Dynamically set height
+                        height={currentView === 'DAY' ? '100%' : '100%'}
                         currentView={currentView}
                         eventSettings={eventSettings}
                         editorTemplate={editorTemplate}
@@ -565,14 +582,14 @@ const AllMealsPage = () => {
                         actionComplete={onActionComplete}
                     >
                         <ViewsDirective>
-                            <ViewDirective option="Day" />
-                            <ViewDirective option="Week" />
-                            <ViewDirective option="Month" />
+                            <ViewDirective option="Day"/>
+                            <ViewDirective option="Week"/>
+                            <ViewDirective option="Month"/>
                         </ViewsDirective>
-                        <Inject services={[Day, Week, Month]} />
+                        <Inject services={[Day, Week, Month]}/>
                     </ScheduleComponent>
                     {currentView === 'DAY' && (
-                        <div className="daily-totals">
+                        <div className="editor-daily-totals">
                             <h3>Podsumowanie dnia: {new Date(selectedDate).toLocaleDateString('pl-PL')}</h3>
                             {isLoading ? (
                                 <p>Ładowanie danych...</p>

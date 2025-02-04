@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import "../../styles/AddItemsPage.css"
+import "../../styles/items/AddItemsPage.css"
 import NavBar from "../../components/NavBar";
 
 const AddExercisePage = () => {
@@ -83,9 +83,11 @@ const AddExercisePage = () => {
 
     return (
         <div className="addItems-container">
-            <NavBar />
+            <NavBar/>
+            <h1>Dodaj nowe ćwiczenie</h1>
             <div className="addItems">
-                <form onSubmit={handleSubmit} className="editForm">
+                <form onSubmit={handleSubmit} className="addItems-Form">
+                    <label>Nazwa ćwiczenia</label>
                     <input
                         className="inputStyle"
                         type="text"
@@ -95,6 +97,7 @@ const AddExercisePage = () => {
                         placeholder="Nazwa ćwiczenia"
                         required
                     />
+                    <label>Partia ciała</label>
                     <select
                         className="inputStyle"
                         name="part"
@@ -107,6 +110,7 @@ const AddExercisePage = () => {
                             <option key={partName} value={partName}>{partName}</option>
                         ))}
                     </select>
+                    <label>Link do wideo</label>
                     <input
                         className="inputStyle"
                         type="text"
@@ -115,9 +119,9 @@ const AddExercisePage = () => {
                         onChange={handleChange}
                         placeholder="Link do wideo (opcjonalnie)"
                     />
-                    <div className="buttons-container">
-                        <button className="btn-submit" type="submit">Dodaj ćwiczenie</button>
-                        <button className="btn" onClick={handleReturn}>Powrót</button>
+                    <div className="addItems-buttons-container">
+                        <button className="addItems-add-btn" type="submit">Dodaj ćwiczenie</button>
+                        <button className="addItems-return-btn" onClick={handleReturn}>Powrót</button>
                     </div>
                 </form>
             </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/TrainersPage.css"
+import "../../styles/trainer/TrainersPage.css"
 
 const AllTrainersPage = () => {
     const navigate = useNavigate();
@@ -117,7 +117,8 @@ const AllTrainersPage = () => {
         "Brzuch": "BRZUCH",
         "Plecy": "PLECY",
         "Barki": "BARKI",
-        "Nogi": "NOGI"
+        "Nogi": "NOGI",
+        "Dietetyk":"DIETETYK"
     };
 
     const reverseSpecializations = Object.fromEntries(
@@ -128,7 +129,7 @@ const AllTrainersPage = () => {
         <div className="trainersPage-container">
             <NavBar />
             <div className="trainersPage">
-                <div className="trainers-section left-section"> {/* Added left-section class */}
+                <div className="trainers-section left-section">
                     <h1>Wszyscy trenerzy</h1>
                     {trainers.length > 0 ? (
                         <table>

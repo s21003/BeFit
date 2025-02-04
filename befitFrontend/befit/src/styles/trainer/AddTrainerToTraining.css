@@ -1,0 +1,134 @@
+/* AddTrainerToTraining.css */
+
+.add-trainer-page-container { /* Updated class name */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222; /* Added dark background */
+    color: white; /* Added white text color */
+    padding-top: 80px; /* Adjust for navbar height */
+}
+
+.add-trainer-page { /* Updated class name */
+    padding: 20px;
+    margin: 0 20px; /* Centered the content */
+}
+
+.add-trainer-page-container h2 { /* Style the heading */
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+}
+
+.add-trainer-page h3 { /* Style the subheading */
+    margin-bottom: 10px;
+    color: white;
+}
+
+.add-trainer-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed; /* Key: Use fixed layout */
+}
+
+.add-trainer-page th,
+.add-trainer-page td {
+    padding: 10px;
+    border: 1px solid #444;
+    text-align: left;
+    color: white;
+    word-wrap: break-word; /* Allow text to wrap */
+    overflow-wrap: break-word; /* For older browsers */
+}
+
+.add-trainer-page th {
+    background-color: rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.add-trainer-page-description-td { /* Target the description cell */
+    width: 20%; /* Set width for other cells */
+}
+
+.add-trainer-page td {
+    width: 10%; /* Set width for other cells */
+}
+
+.add-trainer-page th:nth-child(1),
+.add-trainer-page td:nth-child(1) {
+    width: 7%; /* Set width for first column (checkbox) */
+    text-align: center;
+}
+
+.add-trainer-page th:nth-child(1) input[type="checkbox"], /* Target checkbox directly */
+.add-trainer-page td:nth-child(1) input[type="checkbox"] { /* Target checkbox directly */
+    transform: scale(1.5); /* Increase checkbox size */
+    margin: 0 auto; /* Center checkbox horizontally */
+    vertical-align: middle;
+}
+
+.add-trainer-page th:nth-child(2),
+.add-trainer-page td:nth-child(2) {
+    width: 10%; /* Set width for second column (name) */
+}
+
+.add-trainer-page th:nth-child(3),
+.add-trainer-page td:nth-child(3) {
+    width: 10%; /* Set width for third column (surname) */
+}
+
+.add-trainer-page th:nth-child(4),
+.add-trainer-page td:nth-child(4) {
+    width: 13%; /* Set width for fourth column (address) */
+}
+
+.add-trainer-page th:nth-child(5),
+.add-trainer-page td:nth-child(5) {
+    width: 15%; /* Set width for fifth column (specializations) */
+}
+
+.add-trainer-page th:nth-child(6),
+.add-trainer-page td:nth-child(6) {
+    width: 40%; /* Set width for sixth column (description) - 2x others */
+}
+
+.add-trainer-page th { /* Style table header cells specifically */
+    background-color: rgba(0, 0, 0, 0.3); /* Darker header background */
+    font-weight: bold;
+}
+
+.add-trainer-page-buttons-container { /* Updated class name */
+    display: flex;
+    justify-content: center; /* Align buttons to the right */
+    gap: 10px; /* Add spacing between buttons */
+}
+
+.add-trainer-page-add-btn, /* Updated class name */
+.add-trainer-page-return-btn { /* Updated class name */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Add rounded corners */
+    transition: background-color 0.3s ease; /* Add transition for hover effect */
+    max-width: 180px;
+}
+
+.add-trainer-page-add-btn { /* Updated class name */
+    background-color: #2196F3;
+    color: white;
+}
+
+.add-trainer-page-add-btn:hover { /* Updated class name */
+    background-color: #1976D2;
+}
+
+.add-trainer-page-return-btn { /* Updated class name */
+    background-color: #888; /* Gray background for return button */
+    color: white;
+}
+
+.add-trainer-page-return-btn:hover { /* Updated class name */
+    background-color: #666;
+}

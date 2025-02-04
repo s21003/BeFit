@@ -47,4 +47,9 @@ public class MealSchemaController {
     public ResponseEntity<Optional<MealSchema>> getSingleExercise(@PathVariable Long id){
         return new ResponseEntity<>(mealSchemaService.singleMealSchema(id),HttpStatus.OK);
     }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<MealSchema>> getUsersMealSchemas(@PathVariable String username){
+        return new ResponseEntity<>(mealSchemaService.getUsersMealSchemas(username),HttpStatus.OK);
+    }
 }

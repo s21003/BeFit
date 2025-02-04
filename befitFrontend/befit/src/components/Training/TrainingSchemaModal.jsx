@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../../styles/SchemaModal.css";
+import "../../styles/schema/SchemaModal.css";
 
 export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     const [formState, setFormState] = useState(
@@ -83,19 +83,19 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     }, []);
 
     return (
-        <div className="modal-container" onClick={(e) => {
-            if (e.target.className === "modal-container") closeModal();
+        <div className="schema-modal-container" onClick={(e) => {
+            if (e.target.className === "schema-modal-container") closeModal();
         }}>
-            <div className="modal">
+            <div className="schema-modal">
                 <form>
-                    <div className="form-group">
+                    <div className="schema-modal-form-group">
                         <label htmlFor="exercise">Ćwiczenie</label>
                         <select
                             name="exercise"
                             value={formState.exerciseId || ''}
                             onChange={handleExerciseChange}
                         >
-                            <option value="" disabled>Select an exercise</option>
+                            <option value="" disabled>Wybierz ćwiczenie</option>
                             {exercises.map((exercise) => (
                                 <option key={exercise.id} value={exercise.id}>
                                     {exercise.name}
@@ -103,21 +103,20 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
                             ))}
                         </select>
                     </div>
-                    <div className="form-group">
+                    <div className="schema-modal-form-group">
                         <label htmlFor="series">Planowana liczba serii</label>
                         <input type="number" name="series" value={formState.series} onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="schema-modal-form-group">
                         <label htmlFor="repeatNumber">Planowana liczba powtórzeń w serii</label>
                         <input type="number" name="repeatNumber" value={formState.repeatNumber} onChange={handleChange} />
                     </div>
-                    <div className="form-group">
+                    <div className="schema-modal-form-group">
                         <label htmlFor="weight">Planowana waga w serii</label>
                         <input type="number" name="weight" value={formState.weight} onChange={handleChange} />
                     </div>
-                    {/*{errors && <div className="error" >{`Missing: ${errors}`}</div>}*/}
                     {errors && <div>{`Missing: ${errors}`}</div>}
-                    <button type="submit" className="btn" onClick={handleSubmit}>Zapisz</button>
+                    <button type="submit" className="schema-modal-save-btn" onClick={handleSubmit}>Zapisz</button>
                 </form>
             </div>
         </div>

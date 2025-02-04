@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../../styles/SchemaModal.css";
+import "../../styles/schema/SchemaModal.css";
+import {jwtDecode} from "jwt-decode";
 
 export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
     const [mealSchemas, setMealSchemas] = useState([]);
@@ -9,7 +10,9 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
         const fetchMealSchemas = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/mealSchema/all`, {
+                const decodeToken = jwtDecode(token);
+
+                const response = await fetch(`http://localhost:8080/mealSchema/username/${decodeToken.sub}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -42,7 +45,6 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
         try {
             const token = localStorage.getItem("token");
 
-            // Fetch products from the selected schema
             const schemaProductsResponse = await fetch(
                 `http://localhost:8080/mealSchemaProduct/mealSchema/${selectedSchemaId}`,
                 {
@@ -57,9 +59,7 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
                 throw new Error("Failed to fetch schema products.");
             }
             const schemaProducts = await schemaProductsResponse.json();
-            console.log(schemaProducts);
 
-            // Process each product: fetch its weight, create a new weight, and add it to the meal
             const newMealProducts = [];
             for (const schemaProduct of schemaProducts) {
                 const { productId, weightsId } = schemaProduct;
@@ -79,9 +79,7 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
                     throw new Error("Failed to fetch weight.");
                 }
                 const weightData = await weightResponse.json();
-                console.log("weightData: ",weightData);
 
-                // Create new weight
                 const newWeightResponse = await fetch(
                     `http://localhost:8080/weights/add`,
                     {
@@ -97,7 +95,6 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
                     throw new Error("Failed to create new weight.");
                 }
                 const newWeight = await newWeightResponse.json();
-                console.log("newWeight: ",newWeight);
 
                 const newMealProductResponse = await fetch(
                     `http://localhost:8080/mealProduct/add`,
@@ -121,7 +118,6 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
                 const newMealProduct = await newMealProductResponse.json();
                 newMealProducts.push(newMealProduct);
             }
-            console.log(newMealProducts);
             onSubmit(newMealProducts);
             closeModal();
         } catch (error) {
@@ -131,14 +127,14 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
 
     return (
         <div
-            className="modal-container"
+            className="schema-modal-container"
             onClick={(e) => {
                 if (e.target.className === "modal-container") closeModal();
             }}
         >
-            <div className="modal">
+            <div className="schema-modal">
                 <h3>Dodaj Schemat do Posiłku</h3>
-                <div className="form-group">
+                <div className="schema-modal-form-group">
                     <label htmlFor="mealSchema">Schemat:</label>
                     <select
                         id="mealSchema"
@@ -155,12 +151,14 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
                         ))}
                     </select>
                 </div>
-                <button className="btn" onClick={handleAddSchemaToMeal}>
-                    Dodaj schemat
-                </button>
-                <button className="btn" onClick={closeModal}>
-                    Anuluj
-                </button>
+                <div className="schema-modal-buttons-container">
+                    <button className="schema-modal-add-btn" onClick={handleAddSchemaToMeal}>
+                        Dodaj schemat
+                    </button>
+                    <button className="schema-modal-cancel-btn" onClick={closeModal}>
+                        Anuluj
+                    </button>
+                </div>
             </div>
         </div>
     );

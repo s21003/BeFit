@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import "../../styles/OwnStundentsPage.css"
+import "../../styles/stundent/OwnStundentsPage.css"
 
 const OwnStudentPage = () => {
     const [students, setStudents] = useState([]);
@@ -81,14 +81,12 @@ const OwnStudentPage = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log(userTrainer)
         if (userTrainer.length > 0) {
             const fetchStudents = async () => {
                 try {
                     const newStudents = [];
                     for (let i = 0; i < userTrainer.length; i++) {
                         const userId = userTrainer[i].userId;
-                        console.log("userId: ",userId);
 
                         const response = await fetch(`http://localhost:8080/user/user/${userId}`, {
                             method: 'GET',
@@ -103,7 +101,6 @@ const OwnStudentPage = () => {
                         }
 
                         const data = await response.json();
-                        console.log("data: ",data)
                         const trainerData = userTrainer.find((trainer) => trainer.userId === userId);
                         if (trainerData) {
                             data.timestamp = trainerData.timestamp;  // Add timestamp from userTrainer
@@ -163,7 +160,6 @@ const OwnStudentPage = () => {
                         // Add user details to the request object
                         return { ...request, user: userData };
                     }));
-
                     setRequests(requestsWithUserDetails);
                     setIsLoading(false);
                 } catch (error) {
@@ -239,7 +235,6 @@ const OwnStudentPage = () => {
         const trainerUsername = decodedToken.sub;
 
         const trainer = await getTrainerIdFromUsername(trainerUsername);
-        console.log(trainer)
 
         const trainerPayLoad = {
             trainerId: trainer.id,
@@ -272,11 +267,11 @@ const OwnStudentPage = () => {
     }
 
     return (
-        <div className="ownStudentsPage">
+        <div className="ownStudentsPage-container">
             <NavBar />
             <h1>Moi podopieczni</h1>
-            <div className="pageContainer">
-                <div className="studentsContainer">
+            <div className="ownStudentsPage">
+                <div className="ownStudents">
                     <h2>Podopieczni</h2>
                     {students.length > 0 ? (
                         <table>
@@ -286,20 +281,18 @@ const OwnStudentPage = () => {
                                 <th>Nazwisko</th>
                                 <th>Adres</th>
                                 <th>Współpraca od</th>
-                                <th>Akcje</th>
+                                <th>Zakończ współpracę</th>
                             </tr>
                             </thead>
                             <tbody>
                             {students.map((student) => (
-                                <tr key={student.id}>
+                                <tr key={student.id} onClick={() => handleViewDetails(student.username)} style={{cursor: 'pointer'}}> {/* Added onClick and cursor style */}
                                     <td>{student.name}</td>
                                     <td>{student.surname}</td>
                                     <td>{student.address}</td>
                                     <td>{new Date(student.timestamp).toLocaleDateString()}</td>
-                                    <td>
-                                        {/* Add Actions buttons */}
-                                        <button className="btn" onClick={() => handleViewDetails(student.username)}>Zobacz szczegóły</button>
-                                        <button className="btn-delete" onClick={() => handleDeleteStudent(student.id)}>Zakończ współracę</button>
+                                    <td className="ownStudents-delete">
+                                        <button className="ownStudents-btn-delete" onClick={() => handleDeleteStudent(student.id)}>Zakończ</button>
                                     </td>
                                 </tr>
                             ))}
@@ -312,21 +305,21 @@ const OwnStudentPage = () => {
 
                 <div className="requestsContainer">
                     <h2>Prośby o współprace</h2>
-                    <div className="tabs">
+                    <div className="requestsContainer-tabs">
                         <button
-                            className={selectedTab === "pending" ? "active" : ""}
+                            className={selectedTab === "pending" ? "requestsContainer-active" : ""}
                             onClick={() => handleTabChange("pending")}
                         >
                             W toku
                         </button>
                         <button
-                            className={selectedTab === "accepted" ? "active" : ""}
+                            className={selectedTab === "accepted" ? "requestsContainer-active" : ""}
                             onClick={() => handleTabChange("accepted")}
                         >
                             Zaakceptowane
                         </button>
                         <button
-                            className={selectedTab === "rejected" ? "active" : ""}
+                            className={selectedTab === "rejected" ? "requestsContainer-active" : ""}
                             onClick={() => handleTabChange("rejected")}
                         >
                             Odrzucone
@@ -334,35 +327,55 @@ const OwnStudentPage = () => {
                     </div>
 
                     <div className="requestsList">
-                        {sortedRequests[selectedTab].length > 0 ? (
+                        {isLoading ? ( // Display loading message
+                            <p>Loading requests...</p>
+                        ) : sortedRequests[selectedTab]?.length > 0 ? (
                             <ul>
                                 {sortedRequests[selectedTab].map((request) => (
                                     <li key={request.id}>
                                         {request.status === "PENDING" ? (
-                                            <>
-                                                <strong>Request ID:</strong> {request.id} <br/>
-                                                <strong>Status:</strong> {request.status} <br/>
-                                                <button
-                                                    onClick={() => handleRequestStatusChange(request.id, "ACCEPTED")}
-                                                >
-                                                    Accept
-                                                </button>
-                                                <button
-                                                    onClick={() => handleRequestStatusChange(request.id, "REJECTED")}
-                                                >
-                                                    Reject
-                                                </button>
-                                            </>
+                                            <div>
+                                                <div className="studentsInfo">
+                                                    <strong>Imie:</strong>
+                                                    <div>{request.user.name}</div>
+                                                    <strong>Nazwisko:</strong>
+                                                    <div>{request.user.surname}</div>
+                                                    <strong>Adres:</strong>
+                                                    <div>{request.user.address}</div>
+                                                </div>
+                                                <div className="requestsList-buttons-container">
+                                                    <button
+                                                        className="requestsList-accept-btn"
+                                                        onClick={() => handleRequestStatusChange(request.id, "ACCEPTED")}
+                                                    >
+                                                        Zaakceptuj
+                                                    </button>
+                                                    <button
+                                                        className="requestsList-reject-btn"
+                                                        onClick={() => handleRequestStatusChange(request.id, "REJECTED")}
+                                                    >
+                                                        Odrzuć
+                                                    </button>
+                                                </div>
+                                            </div>
                                         ) : (
-                                            <>
-                                                <strong>Imię:</strong> {request.user.name} <br/>
-                                                <strong>Nazwisko:</strong> {request.user.surname} <br/>
-                                                <strong>Adres:</strong> {request.user.address} <br/>
-                                                <strong>
-                                                    {request.status === "ACCEPTED" ? "Zaakceptowano:" : "Odrzucono:"}
-                                                </strong>{" "}
-                                                {new Date(request.timestamp).toLocaleDateString()}
-                                            </>
+                                            <div>
+                                                <div className="studentsInfo">
+                                                    <strong>Imię:</strong>
+                                                    <div>{request.user.name} </div>
+                                                    <strong>Nazwisko:</strong>
+                                                    <div>{request.user.surname} </div>
+                                                    <strong>Adres:</strong>
+                                                    <div>{request.user.address}</div>
+                                                </div>
+                                                <div>
+                                                    <strong>
+                                                        {request.status === "ACCEPTED" ? "Zaakceptowano:" : "Odrzucono:"}
+                                                    </strong>{" "}
+                                                    {new Date(request.timestamp).toLocaleDateString()}
+                                                </div>
+                                            </div>
+
                                         )}
                                     </li>
                                 ))}

@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
 import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
 import NavBar from "../../components/NavBar";
-import "../../styles/SchemaDetailsPage.css"
+import "../../styles/schema/SchemaDetailsPage.css"
+import {jwtDecode} from "jwt-decode";
 
 const DetailsMealSchemaPage = () => {
     let { id } = useParams();
@@ -17,6 +18,7 @@ const DetailsMealSchemaPage = () => {
         protein: 0.0,
         carbs: 0.0,
         weight: 0.0,
+        creatorUsername: ''
     }]);
     const [mealSchemaProductData, setMealSchemaProductData] = useState([]);
     const [schemaProductData, setSchemaProductData] = useState([]);
@@ -167,17 +169,15 @@ const DetailsMealSchemaPage = () => {
         fetchAllWeights();
     }, [mealSchemaProductData]);
 
-
-
     useEffect(() => {
         const combinedRows = schemaProductData.map((product, i) => ({
             productId: product.id,
             name: product.name,
-            kcal: Math.round(product.kcal*schemaWeightsData[i].weight/100),
-            protein: Math.round(product.protein*schemaWeightsData[i].weight/100),
-            fat: Math.round(product.fat*schemaWeightsData[i].weight/100),
-            carbs: Math.round(product.carbs*schemaWeightsData[i].weight/100),
-            weight: (schemaWeightsData[i].weight),
+            kcal: Math.round(product.kcal * (schemaWeightsData[i]?.weight || 0) / 100), // Use optional chaining
+            protein: Math.round(product.protein * (schemaWeightsData[i]?.weight || 0) / 100),
+            fat: Math.round(product.fat * (schemaWeightsData[i]?.weight || 0) / 100),
+            carbs: Math.round(product.carbs * (schemaWeightsData[i]?.weight || 0) / 100),
+            weight: schemaWeightsData[i]?.weight || 0, // Use optional chaining
         }));
         setRows(combinedRows);
     }, [schemaProductData]);
@@ -220,7 +220,6 @@ const DetailsMealSchemaPage = () => {
 
         let weightsId;
         let mealSchemaId = mealSchemaData.id;
-        console.log("mealSchemaId: "+mealSchemaId)
 
         try {
             weightsId = new Array(rows.length);
@@ -253,7 +252,6 @@ const DetailsMealSchemaPage = () => {
         try {
             mealSchemaProducts = new Array(rows.length);
             for (let i=0; i < rows.length; i++) {
-                console.log("mealSchemaData.mealSchemaProductIds[i]: ",mealSchemaData.mealSchemaProductIds[i].id)
                 tmpMealSchemaProductsId = mealSchemaData.mealSchemaProductIds[i].id;
                 let response = await fetch(`http://localhost:8080/mealSchemaProduct/${tmpMealSchemaProductsId}`, {
                     method: 'GET',
@@ -267,7 +265,6 @@ const DetailsMealSchemaPage = () => {
                 }
                 const SchemaProduct = await response.json();
                 mealSchemaProducts[i] = SchemaProduct;
-                console.log("mealSchemaProducts[",i,"]: ", mealSchemaProducts[i])
             }
         } catch (error) {
             console.error('Error getting mealSchemaProduct:', error);
@@ -285,7 +282,7 @@ const DetailsMealSchemaPage = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
 
         try {
@@ -372,7 +369,6 @@ const DetailsMealSchemaPage = () => {
         }
         alert('Meal schema edited successfully');
         navigate(`/all-meal-schemas`);
-        console.log("mealSchema: ",JSON.stringify(mealSchemaProducts))
     };
 
     const handleReturn = () => {
@@ -410,22 +406,105 @@ const DetailsMealSchemaPage = () => {
         }
     }
 
+    const handleRemoveSchema = async () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+
+        try{
+            const userResponse = await fetch(
+                `http://localhost:8080/user/${decodedToken.sub}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!userResponse.ok) throw new Error(`HTTP error! Status: ${userResponse.status}`);
+            const userData = await userResponse.json();
+
+            const sharedResponse = await fetch(
+                `http://localhost:8080/userTrainer/sharedMealSchemas/${userData.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
+
+            const trainerResponse = await fetch(
+                `http://localhost:8080/user/${mealSchemaData.creatorUsername}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!trainerResponse.ok) throw new Error(`HTTP error! Status: ${trainerResponse.status}`);
+            const trainer = await trainerResponse.json();
+
+            const response = await fetch(
+                `http://localhost:8080/userTrainer/user/${userData.id}?trainerId=${trainer.id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const userTrainerData = await response.json();
+
+            const removeResponse = await fetch(
+                `http://localhost:8080/userTrainer/removeMealSchema/${userTrainerData.id}/${mealSchemaData.id}`, {
+                method: "PUT", // Changed to PUT
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (removeResponse.ok) {
+                alert("Meal schema removed successfully.");
+                navigate("/all-meal-schemas");
+            } else {
+                console.error("Error removing meal schema:", removeResponse.status);
+                alert("Failed to remove meal schema.");
+            }
+        } catch (error) {
+            console.error("Error removing schema:", error);
+            alert("Wystąpił błąd podczas usuwania schematu.");
+        }
+    }
+
+    const isShared = () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token)
+        return decodedToken.sub === mealSchemaData.creatorUsername;
+    }
+
     return (
         <div className="schemaDetails-container">
             <NavBar />
             <div className="schemaDetails">
-                <label>Nazwa schematu:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={mealSchemaData.name}
-                    placeholder="Name"
-                    onChange={handleChange}
-                    required
-                />
-                <MealSchemaTable rows={rows} schemaProduct={schemaProductData} deleteRow={handleDeleteRow}
+                {isShared ? (
+                    <>
+                        <label>Nazwa schematu:</label>
+                        <strong>{mealSchemaData.name}</strong>
+                    </>
+                ) : (
+                    <>
+                        <label>Nazwa schematu:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={mealSchemaData.name}
+                            placeholder="Name"
+                            onChange={handleChange}
+                            required
+                        />
+                    </>
+                )}
+
+                <MealSchemaTable rows={rows} schemaProduct={schemaProductData}
+                                 deleteRow={handleDeleteRow}
                                  editRow={handleEditRow}/>
-                <button className="btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
                 {modalOpen && (
                     <MealSchemaModal
                         closeModal={() => {
@@ -436,10 +515,30 @@ const DetailsMealSchemaPage = () => {
                         defaultValue={rowToEdit !== null && rows[rowToEdit]}
                     />
                 )}
-                <div className="button-container">
-                    <button type="submit" className="btn" onClick={handleSubmitSchema}>Zapisz schemat</button>
-                    <button type="button" className="btn-delete" onClick={handleDeleteSchema}>Usuń schemat</button>
-                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                <div className="schemaDetails-button-container">
+                    {isShared ? (
+                        <>
+                            <button type="button" className="schemaDetails-delete-btn"
+                                    onClick={handleRemoveSchema}>Usuń
+                                schemat
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button type="submit" className="schemaDetails-add-btn"
+                                    onClick={() => setModalOpen(true)}>Dodaj produkt
+                            </button>
+                            <button type="submit" className="schemaDetails-save-btn"
+                                    onClick={handleSubmitSchema}>Zapisz
+                                schemat
+                            </button>
+                            <button type="button" className="schemaDetails-delete-btn"
+                                    onClick={handleDeleteSchema}>Usuń
+                                schemat
+                            </button>
+                        </>
+                    )}
+                    <button className="schemaDetails-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,129 @@
+/* DetailsTrainerPage.css */
+
+.detailsTrainer-container { /* Updated class name */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    padding-top: 80px;
+    align-items: center;
+}
+
+.detailsTrainer { /* Updated class name */
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.detailsTrainerHeader { /* Updated class name */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.detailsTrainerContent { /* Updated class name */
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.detailsTrainerContent strong { /* Updated class name */
+    font-weight: bold;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+.detailsTrainer-specializations-list { /* Updated class name */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.detailsTrainer-specializations-list li { /* Updated class name */
+    margin-bottom: 5px;
+}
+
+.detailsTrainer-requestStatus { /* Updated class name */
+    margin-top: 20px;
+    text-align: center;
+}
+
+.detailsTrainer-requestStatus p { /* Updated class name */
+    color: #ffc107;
+}
+
+.detailsTrainer-buttons-container { /* Updated class name */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.detailsTrainer-btn, /* Updated class name */
+.detailsTrainer-btn-delete { /* Updated class name */
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 150px;
+    width: 150px;
+    text-align: center;
+}
+
+.detailsTrainer-btn:hover { /* Updated class name */
+    background-color: #0056b3;
+}
+
+.detailsTrainer-btn-delete { /* Updated class name */
+    background-color: #dc3545;
+}
+
+.detailsTrainer-btn-delete:hover { /* Updated class name */
+    background-color: #c12a36;
+}
+
+.detailsTrainer-return-btn { /* Updated class name */
+    padding: 10px 15px;
+    background-color: #888; /* Gray background for return button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 150px;
+    width: 150px;
+    text-align: center;
+}
+
+.detailsTrainer-return-btn:hover { /* Updated class name */
+    background-color: #666;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .detailsTrainer { /* Updated class name */
+        width: 95%;
+    }
+
+    .detailsTrainer-buttons-container { /* Updated class name */
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .detailsTrainer-btn, /* Updated class name */
+    .detailsTrainer-btn-delete, /* Updated class name */
+    .detailsTrainer-return-btn { /* Updated class name */
+        min-width: auto;
+        width: 100%;
+    }
+}

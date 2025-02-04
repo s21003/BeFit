@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import "../../styles/ProfileComponent.css"
+import "../../styles/profile/ProfileComponent.css";
 
 const ProfileComponent = ({ profileData, setProfileData }) => {
     const [editData, setEditData] = useState({});
     const [role, setRole] = useState("");
     const [changeError, setChangeError] = useState("");
 
+    // Map from ENUM to Polish name
     const specializations = {
-        "Cardio": "CARDIO",
-        "Siłowy": "SILOWY",
-        "Crossfit": "CROSSFIT",
-        "Fitness": "FITNESS",
-        "Grupowy": "GRUPOWY",
-        "Klatka piersiowa": "KLATKAPIERSIOWA",
-        "Bisceps": "BICEPS",
-        "Triceps": "TRICEPS",
-        "Brzuch": "BRZUCH",
-        "Plecy": "PLECY",
-        "Barki": "BARKI",
-        "Nogi": "NOGI"
+        CARDIO: "Cardio",
+        SILOWY: "Siłowy",
+        CROSSFIT: "Crossfit",
+        FITNESS: "Fitness",
+        GRUPOWY: "Grupowy",
+        KLATKAPIERSIOWA: "Klatka piersiowa",
+        BICEPS: "Biceps",
+        TRICEPS: "Triceps",
+        BRZUCH: "Brzuch",
+        PLECY: "Plecy",
+        BARKI: "Barki",
+        NOGI: "Nogi",
+        DIETETYK: "Dietetyk",
     };
 
+    // When the component loads, initialize editData with fetched specializations (store as ENUM keys)
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
@@ -30,6 +33,7 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
             const decodedToken = jwtDecode(token);
             setRole(decodedToken.ROLE[0].authority);
 
+            // IMPORTANT: store specializations as ENUM keys!
             setEditData({
                 id: profileData?.id,
                 name: profileData?.name || "",
@@ -39,21 +43,26 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                 password: "",
                 trainerId: 0,
                 description: profileData?.description || "",
-                specializations: profileData?.specializations || [],
+                specializations: profileData?.specializations || [], // store as ENUM keys
             });
 
             if (decodedToken.ROLE[0].authority === "TRAINER") {
                 const fetchTrainerData = async () => {
-                    const response = await fetch(`http://localhost:8080/trainer/username/${profileData.username}`, {
-                        method: "GET",
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "application/json",
-                        },
-                    });
+                    const response = await fetch(
+                        `http://localhost:8080/trainer/username/${profileData.username}`,
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
 
                     if (!response.ok) {
-                        throw new Error(`Failed to fetch trainer data! Status: ${response.status}`);
+                        throw new Error(
+                            `Failed to fetch trainer data! Status: ${response.status}`
+                        );
                     }
 
                     const trainerData = await response.json();
@@ -68,7 +77,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
 
                 fetchTrainerData();
             }
-
         } catch (error) {
             console.error("Failed to decode token:", error);
         }
@@ -95,8 +103,10 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
         const updateTrainerPayload = {
             id: editData.trainerId,
             description: editData.description,
-            specializations: editData.specializations,
+            specializations: editData.specializations, // will be the updated array of ENUM keys
         };
+
+        console.log("update: ", updateTrainerPayload);
 
         try {
             const response = await fetch("http://localhost:8080/user/updateUser", {
@@ -117,10 +127,10 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(updateTrainerPayload),
-            })
+            });
             if (!trainerResponse.ok) {
                 throw new Error(`Update trainer failed! Status: ${trainerResponse.status}`);
             }
@@ -132,49 +142,68 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
             }
 
             console.log("Profile updated successfully");
+            window.location.reload()
         } catch (error) {
             console.error("Failed to update profile:", error);
         }
-        window.location.reload();
     };
 
+    // When a specialization is selected, add its ENUM value to editData.specializations.
     const handleSpecializationChange = (e) => {
-        const selectedSpecialization = e.target.value;
-
-        if (selectedSpecialization && !editData.specializations.includes(selectedSpecialization)) {
-            setEditData({
-                ...editData,
-                specializations: [...editData.specializations, selectedSpecialization]
-            });
+        const selectedSpecializationEnum = e.target.value;
+        // Only add if not already selected.
+        if (
+            selectedSpecializationEnum &&
+            !editData.specializations.includes(selectedSpecializationEnum)
+        ) {
+            setEditData((prevData) => ({
+                ...prevData,
+                specializations: [...prevData.specializations, selectedSpecializationEnum],
+            }));
         }
     };
 
-
+    // Remove the specialization (ENUM key) from editData.specializations.
     const handleSpecializationRemove = (spec) => {
-        setEditData({
-            ...editData,
-            specializations: editData.specializations.filter((s) => s !== spec)
-        });
+        setEditData((prevData) => ({
+            ...prevData,
+            specializations: prevData.specializations.filter((s) => s !== spec),
+        }));
     };
 
     const isTrainer = role === "TRAINER";
 
     return (
         <div className="profileTab">
-            <form className="editForm">
+            <form className="profileTabForm">
                 <label>Imię:</label>
-                <input type="text" name="name" value={editData.name} onChange={(e) => handleFieldChange(e.target.name, e.target.value)} />
+                <input
+                    type="text"
+                    name="name"
+                    value={editData.name}
+                    onChange={(e) => handleFieldChange(e.target.name, e.target.value)}
+                />
 
                 <label>Nazwisko:</label>
-                <input type="text" name="surname" value={editData.surname} onChange={(e) => handleFieldChange(e.target.name, e.target.value)} />
+                <input
+                    type="text"
+                    name="surname"
+                    value={editData.surname}
+                    onChange={(e) => handleFieldChange(e.target.name, e.target.value)}
+                />
 
                 <label>Adres:</label>
-                <input type="text" name="address" value={editData.address} onChange={(e) => handleFieldChange(e.target.name, e.target.value)} />
+                <input
+                    type="text"
+                    name="address"
+                    value={editData.address}
+                    onChange={(e) => handleFieldChange(e.target.name, e.target.value)}
+                />
 
                 {changeError && <p className="error-message">{changeError}</p>}
 
                 {isTrainer && (
-                    <>
+                    <div className="specializations-container">
                         <label>Specjalizacje:</label>
                         <select
                             id="specializations-select"
@@ -183,22 +212,27 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                             value=""
                             onChange={handleSpecializationChange}
                         >
-                            <option value="" disabled>-- Wybierz specjalizacje --</option>
-                            {Object.entries(specializations).map(([displaySpecializations, internalValue]) => (
-                                !editData.specializations.includes(internalValue) && (
-                                    <option key={internalValue} value={internalValue}>
-                                        {displaySpecializations}
-                                    </option>
-                                )
-                            ))}
+                            <option value="" disabled>
+                                -- Wybierz specjalizacje --
+                            </option>
+                            {Object.entries(specializations).map(([enumValue, polishName]) =>
+                                    // Only show options not already selected.
+                                    !editData.specializations.includes(enumValue) && (
+                                        <option key={enumValue} value={enumValue}>
+                                            {polishName}
+                                        </option>
+                                    )
+                            )}
                         </select>
-
 
                         <div className="specializationTags">
                             {editData.specializations.map((spec, index) => (
                                 <div key={index} className="specializationTag">
-                                    <span>{spec}</span>
-                                    <button type="button" onClick={() => handleSpecializationRemove(spec)}>✕</button>
+                                    {/* Display the Polish name using the mapping */}
+                                    <span>{specializations[spec]}</span>
+                                    <button type="button" onClick={() => handleSpecializationRemove(spec)}>
+                                        ✕
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -208,11 +242,18 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                             value={editData.description}
                             onChange={(e) => handleFieldChange("description", e.target.value)}
                         />
-                    </>
+                    </div>
                 )}
 
-                <button type="button" onClick={handleSaveUserData}>Zapisz zmiany</button>
-
+                <div className="profileTabForm-buttons-container">
+                    <button
+                        className="profileTab-save-btn"
+                        type="button"
+                        onClick={handleSaveUserData}
+                    >
+                        Zapisz zmiany
+                    </button>
+                </div>
             </form>
         </div>
     );

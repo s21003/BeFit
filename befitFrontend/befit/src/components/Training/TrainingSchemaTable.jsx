@@ -1,11 +1,19 @@
 import React from 'react';
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
-import "../../styles/SchemaTable.css"
+import "../../styles/schema/SchemaTable.css"
+import {jwtDecode} from "jwt-decode";
 
 export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
+
+    const isShared = () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token)
+        return decodedToken.sub === rows.creatorUsername;
+    }
+
     return (
-        <div className="table-wrapper">
-            <table className="table">
+        <div className="schema-table-wrapper">
+            <table className="schema-table">
                 <thead>
                 <tr>
                     <th>Nazwa ćwiczenia</th>
@@ -14,7 +22,11 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
                     <th>Planowana liczba powtórzeń w serii</th>
                     <th>Planowana waga w serii</th>
                     <th>Link do wideo</th>
-                    <th>Akcje</th>
+                    {isShared ? (
+                        <></>
+                    ) : (
+                        <th>Akcje</th>
+                    )}
                 </tr>
                 </thead>
                 <tbody>
@@ -27,12 +39,16 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
                                 <td>{row.repeatNumber}</td>
                                 <td>{row.weight}</td>
                                 <td>{row.videoLink}</td>
-                                <td>
-                                <span className="actions">
-                                    <BsFillTrashFill className="delete-btn" onClick={() => deleteRow(id)}/>
-                                    <BsFillPencilFill onClick={() => editRow(id)}/>
-                                </span>
-                                </td>
+                                {isShared ? (
+                                    <></>
+                                ) : (
+                                    <td>
+                                        <span className="schema-actions">
+                                            <BsFillTrashFill className="schema-delete-btn" onClick={() => deleteRow(id)}/>
+                                            <BsFillPencilFill onClick={() => editRow(id)}/>
+                                        </span>
+                                    </td>
+                                )}
                             </tr>
                         );
                     })}

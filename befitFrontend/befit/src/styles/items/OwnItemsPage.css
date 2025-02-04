@@ -1,0 +1,122 @@
+/* OwnItemsPage.css */
+
+.ownItems-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #222;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    padding-top: 80px;
+}
+
+.ownItems {
+    margin: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ownHeader {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.ownItems-table {
+    width: 100%;
+    overflow-x: auto; /* Add horizontal scroll if needed */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #555;
+}
+
+th {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.ownItems-buttons-container {
+    display: flex;
+    justify-content: center; /* or flex-end, flex-start, space-between, etc. */
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+.ownItems-add-btn, .ownItems-return-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    min-width: 160px; /* Adjust as needed */
+    -webkit-appearance: none; /* Reset default button styles */
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 1rem; /* Or your preferred font size */
+}
+
+.ownItems-add-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.ownItems-add-btn:hover {
+    background-color: #45a049;
+}
+
+.ownItems-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.ownItems-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
+}
+
+.btn-video { /* Video button styles */
+    padding: 5px 10px; /* Smaller padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    font-size: 0.9rem; /* Smaller font size */
+}
+
+.btn-video:hover {
+    background-color: #45a049;
+}
+
+/* Responsive adjustments (example) */
+@media (max-width: 600px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+}

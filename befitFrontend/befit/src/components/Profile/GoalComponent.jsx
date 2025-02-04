@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import "../../styles/GoalComponent.css"
+import "../../styles/profile/GoalComponent.css"
 
 const GoalComponent = () => {
     const [goal, setGoal] = useState({
@@ -114,10 +114,10 @@ const GoalComponent = () => {
 
     return (
         <div className="goalsTab">
-            <h1>Cele</h1>
+            <h2>Cele</h2>
             <form className="goalForm" onSubmit={handleSaveGoal}>
-                <div className="formRow">
-                    <div className="plannedFields">
+                <div className="goalFormRow">
+                    <div className="goalForm-plannedFields">
                         <label>Aktualna waga</label>
                         <input
                             type="number"
@@ -168,31 +168,29 @@ const GoalComponent = () => {
                         />
                     </div>
 
-                    <div className="recommendedFields">
-                        <div className="recommendedLabel">
-                            <label>Rekomendowane przez:</label>
-                        </div>
-
+                    <div className="goalForm-recommendedFields">
                         {role !== "TRAINER" && (
                             <>
-                                <div className="tabs">
+                                <div className="recommendedLabel">
+                                    <label>Rekomendowane przez:</label>
+                                </div>
+                                <div className="goalForm-tabs">
                                     <button
                                         type="button"
-                                        className={`tab ${activeTab === "planned" ? "active" : ""}`}
+                                        className={`goalTab ${activeTab === "planned" ? "active" : ""}`}
                                         onClick={() => handleTabChange("planned")}
                                     >
                                         Befit
                                     </button>
                                     <button
                                         type="button"
-                                        className={`tab ${activeTab === "trainer" ? "active" : ""}`}
+                                        className={`goalTab ${activeTab === "trainer" ? "active" : ""}`}
                                         onClick={() => handleTabChange("trainer")}
                                     >
                                         Trenera
                                     </button>
                                 </div>
 
-                                {/* Conditional rendering for Recommended Fields */}
                                 {activeTab === "planned" && (
                                     <>
                                         <label>Rekomendowane dzienne kalorie</label>
@@ -259,20 +257,18 @@ const GoalComponent = () => {
                                     </>
                                 )}
 
-                                {/* Set as Planned button */}
-                                <button
-                                    type="button"
-                                    className="setAsPlannedButton"
-                                    onClick={handleSetAsPlanned}
-                                >
-                                    Ustaw jako planowane
-                                </button>
+                                <div className="setAsPlannedButton-buttons-container">
+                                    <button type="button" className="setAsPlannedButton" onClick={handleSetAsPlanned}>Ustaw jako planowane</button>
+                                </div>
                             </>
                         )}
 
                         {/* If user is a TRAINER, show only the read-only fields without tabs */}
                         {role === "TRAINER" && (
                             <>
+                                <div className="goalForm-recommendedLabel">
+                                <label>Rekomendowane przez Befit:</label>
+                                </div>
                                 <label>Rekomendowane dzienne kalorie</label>
                                 <input
                                     type="number"
@@ -315,7 +311,7 @@ const GoalComponent = () => {
                 </div>
 
                 {/* Planned Accomplish Date */}
-                <div className="dateField">
+                <div className="goalForm-dateField">
                     <label>Planowana data realizacji</label>
                     <input
                         type="date"

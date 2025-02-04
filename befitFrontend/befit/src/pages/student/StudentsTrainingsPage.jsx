@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import {
-    ScheduleComponent,
-    Day,
-    Week,
-    Month,
-    Inject,
-    ViewsDirective,
-    ViewDirective,
-} from "@syncfusion/ej2-react-schedule";
-import { L10n } from "@syncfusion/ej2-base";
+import {ScheduleComponent, Day, Week, Month, Inject, ViewsDirective, ViewDirective,} from "@syncfusion/ej2-react-schedule";
+import {L10n, loadCldr, setCulture} from "@syncfusion/ej2-base";
+import "../../styles/stundent/StudentsTrainingsPage.css"
+import plNumberData from '@syncfusion/ej2-cldr-data/main/pl/numbers.json';
+import pltimeZoneData from '@syncfusion/ej2-cldr-data/main/pl/timeZoneNames.json';
+import plGregorian from '@syncfusion/ej2-cldr-data/main/pl/ca-gregorian.json';
+import plNumberingSystem from '@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json';
+import plWeekData from '@syncfusion/ej2-cldr-data/supplemental/weekData.json';
+
+loadCldr(plNumberData, pltimeZoneData, plGregorian, plNumberingSystem, plWeekData);
+setCulture('pl');
 
 const StudentsTrainingsPage = () => {
     const { studentUserName } = useParams(); // Get student ID from URL
@@ -150,53 +151,94 @@ const StudentsTrainingsPage = () => {
     const editorTemplate = (props) => {
         if (!props) return <div></div>;
 
+        const dialogWrapper = document.getElementById('_dialog_wrapper');
+
+        if (dialogWrapper) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                        dialogWrapper.style.width = '60%'; // Set your desired width
+                        dialogWrapper.style.maxWidth = '700px'; // Set your desired max width
+                    }
+                });
+            });
+
+            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+
+        } else {
+            const waitForElement = setInterval(() => {
+                const dialogWrapper = document.getElementById('_dialog_wrapper');
+                if (dialogWrapper) {
+                    clearInterval(waitForElement);
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
+                                dialogWrapper.style.width = '60%'; // Set your desired width
+                                dialogWrapper.style.maxWidth = '600px'; // Set your desired max width
+                            }
+                        });
+                    });
+
+                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                }
+            }, 100);
+        }
+
         return (
-            <table className="custom-event-editor">
-                <tbody>
-                <tr>
-                    <td className="e-textlabel">Training</td>
-                    <td colSpan={4}>
-                        <span>{props.Subject}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td className="e-textlabel">From</td>
-                    <td colSpan={4}>
-                        <span>{new Date(props.StartTime).toLocaleString()}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={5}>
-                        <table className="exercises-table">
-                            <thead>
-                            <tr>
-                                <th>Nazwa ćwiczenia</th>
-                                <th>Serie</th>
-                                <th>Powtórzenia</th>
-                                <th>Waga ciężarów</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {trainingExercisesMap[props.Id] ? (
-                                trainingExercisesMap[props.Id].map((exercise, index) => (
-                                    <tr key={index}>
-                                        <td>{exercise.name}</td>
-                                        <td>{exercise.series}</td>
-                                        <td>{exercise.repeatNumber}</td>
-                                        <td>{exercise.weight}</td>
-                                    </tr>
-                                ))
-                            ) : (
+            <div className="custom-event-editor-wrapper">
+                <table className="custom-event-editor">
+                    <tbody>
+                    <tr>
+                        <td className="e-textlabel">Kategoria treningu</td>
+                        <td colSpan={4}>
+                            <span>{props.Subject}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="e-textlabel">Godzina rozpoczęcia</td>
+                        <td colSpan={4}>
+                            <span>{new Date(props.StartTime).toLocaleString()}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="e-textlabel">Godzina zakończenia</td>
+                        <td colSpan={4}>
+                            <span>{new Date(props.EndTime).toLocaleString()}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={5}>
+                            <table className="editor-table">
+                                <thead>
                                 <tr>
-                                    <td colSpan={4}>No exercises available</td>
+                                    <th>Nazwa ćwiczenia</th>
+                                    <th>Serie</th>
+                                    <th>Powtórzenia</th>
+                                    <th>Waga ciężarów</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                                </thead>
+                                <tbody>
+                                {trainingExercisesMap[props.Id] ? (
+                                    trainingExercisesMap[props.Id].map((exercise, index) => (
+                                        <tr key={index}>
+                                            <td>{exercise.name}</td>
+                                            <td>{exercise.series}</td>
+                                            <td>{exercise.repeatNumber}</td>
+                                            <td>{exercise.weight}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={4}>No exercises available</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         );
     };
 
@@ -205,25 +247,25 @@ const StudentsTrainingsPage = () => {
             args.target.classList.contains('e-work-cells') ||
             args.target.classList.contains('e-header-cells'); // checking whether the cell is empty or not
 
-        if (( args.type === 'Editor') && isEmptyCell) {
+        if ((args.type === 'Editor') && isEmptyCell) {
             args.cancel = true;
             args.element.querySelector(".e-footer-content").style.display = "none";
         }
 
-        if (( args.type === 'Editor')) {
+        if ((args.type === 'Editor')) {
             args.cancel = false;
             args.element.querySelector(".e-footer-content").style.display = "none";
         }
     };
 
     L10n.load({
-        'en-US': {
+        'pl': {
             'schedule': {
-                'saveButton': '', // Remove Save button text
-                'cancelButton': '', // Keep Cancel button text
-                'deleteButton': '', // Remove Delete button text
+                'saveButton': '',
+                'cancelButton': '',
+                'deleteButton': '',
                 'newEvent': '',
-                'editEvent': ''
+                'editEvent': 'Szczegóły treningu'
             },
         }
     });
@@ -233,29 +275,35 @@ const StudentsTrainingsPage = () => {
     };
 
     return (
-        <div>
+        <div className="studentsTrainings-container">
             <NavBar/>
-            <h1>Treningi podopiecznego</h1>
-            <ScheduleComponent
-                width="100%"
-                height="550px"
-                currentView="Month"
-                eventSettings={eventSettings}
-                editorTemplate={editorTemplate}
-                showQuickInfo={false}
-                popupOpen={onPopupOpen}
-                timeScale={{enable: true, interval: 60, slotCount: 1}}
-                timezone="Europe/Warsaw"
-            >
-                <ViewsDirective>
-                    <ViewDirective option="Day" readonly={true}/>
-                    <ViewDirective option="Week" readonly={true}/>
-                    <ViewDirective option="Month" readonly={false}/>
-                </ViewsDirective>
-                <Inject services={[Day, Week, Month]}/>
-            </ScheduleComponent>
-            <button onClick={handleReturn}>Powrót</button>
-
+            <div className="studentsTrainings">
+                <h1>Treningi podopiecznego</h1>
+                <link href="https://cdn.syncfusion.com/ej2/material-dark.css" rel="stylesheet" id="material3-dark"/>
+                <div className="studentsTrainings-scheduler-container">
+                    <ScheduleComponent
+                        firstDayOfWeek={1}
+                        width="100%"
+                        height="100%"
+                        currentView="Month"
+                        eventSettings={eventSettings}
+                        editorTemplate={editorTemplate}
+                        showQuickInfo={false}
+                        popupOpen={onPopupOpen}
+                        timeScale={{enable: true, interval: 60, slotCount: 1}}
+                        timezone="Europe/Warsaw"
+                        locale='pl'
+                    >
+                    <ViewsDirective>
+                            <ViewDirective option="Day" readonly={true}/>
+                            <ViewDirective option="Week" readonly={true}/>
+                            <ViewDirective option="Month" readonly={false}/>
+                        </ViewsDirective>
+                        <Inject services={[Day, Week, Month]}/>
+                    </ScheduleComponent>
+                </div>
+                <button className="studentsTrainings-return-btn" onClick={handleReturn}>Powrót</button>
+            </div>
         </div>
     );
 };

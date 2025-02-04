@@ -12,6 +12,6 @@ public enum Specialization {
     BRZUCH,
     PLECY,
     BARKI,
-    NOGI
-
+    NOGI,
+    DIETETYK,
 }

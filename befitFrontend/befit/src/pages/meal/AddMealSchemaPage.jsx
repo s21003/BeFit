@@ -4,7 +4,7 @@ import { MealSchemaModal } from "../../components/Meal/MealSchemaModal";
 import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/AddSchemaPage.css"
+import "../../styles/schema/AddSchemaPage.css"
 
 const AddMealSchemaPage = () => {
     const navigate = useNavigate();
@@ -186,13 +186,13 @@ const AddMealSchemaPage = () => {
                     type="text"
                     name="name"
                     value={mealSchemaData.name}
-                    placeholder="Name"
+                    placeholder="Nazwa schematu"
                     onChange={handleChange}
                     required
                 />
                 <MealSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
-                <div className="buttons-container">
-                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj</button>
+                <div className="addSchemaPage-buttons-container">
+                    <button className="addSchemaPage-add-btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
                     {modalOpen && (
                         <MealSchemaModal
                             closeModal={() => {
@@ -203,8 +203,8 @@ const AddMealSchemaPage = () => {
                             defaultValue={rowToEdit !== null && rows[rowToEdit]}
                         />
                     )}
-                    <button className="btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
-                    <button className="btn" onClick={handleReturn}>Powrót</button>
+                    <button className="addSchemaPage-save-btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button className="addSchemaPage-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

@@ -63,4 +63,8 @@ public class MealSchemaService {
     public Optional<MealSchema> singleMealSchema(Long id){
         return mealSchemaRepository.findById(id);
     }
+
+    public List<MealSchema> getUsersMealSchemas(String username) {
+        return mealSchemaRepository.findByCreatorUsername(username);
+    }
 }

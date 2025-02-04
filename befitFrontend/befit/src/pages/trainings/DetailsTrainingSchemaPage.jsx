@@ -4,7 +4,7 @@ import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaMod
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/SchemaDetailsPage.css"
+import "../../styles/schema/SchemaDetailsPage.css"
 
 const DetailsTrainingSchemaPage = () => {
     let { id } = useParams();
@@ -410,39 +410,122 @@ const DetailsTrainingSchemaPage = () => {
         navigate(`/all-training-schemas`);
     }
 
+    const handleRemoveSchema = async () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+
+        try{
+            const userResponse = await fetch(
+                `http://localhost:8080/user/${decodedToken.sub}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!userResponse.ok) throw new Error(`HTTP error! Status: ${userResponse.status}`);
+            const userData = await userResponse.json();
+
+            const sharedResponse = await fetch(
+                `http://localhost:8080/userTrainer/sharedTrainingSchemas/${userData.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
+
+            const trainerResponse = await fetch(
+                `http://localhost:8080/user/${trainingSchemaData.creatorUsername}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!trainerResponse.ok) throw new Error(`HTTP error! Status: ${trainerResponse.status}`);
+            const trainer = await trainerResponse.json();
+
+            const response = await fetch(
+                `http://localhost:8080/userTrainer/user/${userData.id}?trainerId=${trainer.id}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const userTrainerData = await response.json();
+
+            const removeResponse = await fetch(
+                `http://localhost:8080/userTrainer/removeTrainingSchema/${userTrainerData.id}/${trainingSchemaData.id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (removeResponse.ok) {
+                alert("Training schema removed successfully.");
+                navigate("/all-training-schemas");
+            } else {
+                console.error("Error removing training schema:", removeResponse.status);
+                alert("Failed to remove training schema.");
+            }
+        } catch (error) {
+            console.error("Error removing schema:", error);
+            alert("Wystąpił błąd podczas usuwania schematu.");
+        }
+
+    }
+
+    const isShared = () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token)
+        return decodedToken.sub === trainingSchemaData.creatorUsername;
+    }
 
     return (
         <div className="schemaDetails-container">
             <NavBar/>
             <div className="schemaDetails">
-                <label>Nazwa schematu:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={trainingSchemaData.name}
-                    placeholder="Name"
-                    onChange={handleChange}
-                    required
-                />
-                <label htmlFor="category-select">Kategoria:</label>
-                <select
-                    id="category-select"
-                    className="inputStyle"
-                    name="category"
-                    value={trainingSchemaData.category || ""}
-                    onChange={(e) => setTrainingSchemaData({...trainingSchemaData, category: e.target.value})}>
-                    <option value="" disabled>-- Wybierz kategorię --</option>
-                    {Object.entries(categories).map(([displayCategory, internalValue]) => (
-                        <option key={internalValue} value={internalValue}>
-                            {displayCategory}
-                        </option>
-                    ))}
-                </select>
+                {isShared ? (
+                    <>
+                        <label>Nazwa schematu:</label>
+                        <strong>{trainingSchemaData.name}</strong>
+                        <label>Kategoria:</label>
+                        <strong>{trainingSchemaData.category}</strong>
+                    </>
+                ) : (
+                    <>
+                        <label>Nazwa schematu:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={trainingSchemaData.name}
+                            placeholder="Name"
+                            onChange={handleChange}
+                            required
+                        />
+                        <label htmlFor="category-select">Kategoria:</label>
+                        <select
+                            id="category-select"
+                            className="inputStyle"
+                            name="category"
+                            value={trainingSchemaData.category || ""}
+                            onChange={(e) => setTrainingSchemaData({...trainingSchemaData, category: e.target.value})}>
+                            <option value="" disabled>-- Wybierz kategorię --</option>
+                            {Object.entries(categories).map(([displayCategory, internalValue]) => (
+                                <option key={internalValue} value={internalValue}>
+                                    {displayCategory}
+                                </option>
+                            ))}
+                        </select>
+                    </>
+                )}
 
-                <TrainingSchemaTable rows={rows} schemaExercise={schemaExerciseData} deleteRow={handleDeleteRow}
+                <TrainingSchemaTable rows={rows} schemaExercise={schemaExerciseData}
+                                     deleteRow={handleDeleteRow}
                                      editRow={handleEditRow}/>
-                <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
-
                 {modalOpen && (
                     <TrainingSchemaModal
                         closeModal={() => {
@@ -453,14 +536,34 @@ const DetailsTrainingSchemaPage = () => {
                         defaultValue={rowToEdit !== null && rows[rowToEdit]}
                     />
                 )}
-                <div className="button-container">
-                    <button type="submit" className="btn" onClick={handleSubmitSchema}>Zapisz schemat</button>
-                    <button type="button" className="btn-delete" onClick={handleDeleteSchema}>Usuń schemat</button>
-                    <button type="submit" className="btn" onClick={handleReturn}>Powrót</button>
+                <div className="schemaDetails-button-container">
+                    {isShared ? (
+                        <>
+                            <button type="button" className="schemaDetails-delete-btn"
+                                    onClick={handleRemoveSchema}>Usuń
+                                schemat
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button type="submit" className="schemaDetails-add-btn"
+                                    onClick={() => setModalOpen(true)}>Dodaj ćwiczenie
+                            </button>
+                            <button type="submit" className="schemaDetails-save-btn"
+                                    onClick={handleSubmitSchema}>Zapisz
+                                schemat
+                            </button>
+                            <button type="button" className="schemaDetails-delete-btn"
+                                    onClick={handleDeleteSchema}>Usuń
+                                schemat
+                            </button>
+                        </>
+                    )}
+                    <button className="schemaDetails-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default DetailsTrainingSchemaPage;

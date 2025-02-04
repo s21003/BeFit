@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
+import "../../styles/stundent/StudentsGoalsPage.css"
 
 const StudentsGoalPage = () => {
     const { studentUserName } = useParams(); // Get student username from URL
@@ -116,13 +117,12 @@ const StudentsGoalPage = () => {
     };
 
     return (
-        <div className="goalsTab">
+        <div className="studentsGoalsTab">
             <NavBar />
             <h2>Cele podopiecznego</h2>
             <div className="goalForm">
-                <div className="formRow">
-                    {/* Planned Fields */}
-                    <div className="plannedFields">
+                <div className="goalFormRow">
+                    <div className="goalForm-plannedFields">
                         <label>Aktualna waga</label>
                         <input
                             type="number"
@@ -130,7 +130,6 @@ const StudentsGoalPage = () => {
                             readOnly
                             className="subtleReadOnly"
                         />
-
                         <label>Planowane dzienne kalorie</label>
                         <input
                             type="number"
@@ -146,7 +145,6 @@ const StudentsGoalPage = () => {
                             readOnly
                             className="subtleReadOnly"
                         />
-
                         <label>Planowane dzienne tłuszcze</label>
                         <input
                             type="number"
@@ -154,7 +152,6 @@ const StudentsGoalPage = () => {
                             readOnly
                             className="subtleReadOnly"
                         />
-
                         <label>Planowane dzienne węglowodany</label>
                         <input
                             type="number"
@@ -163,9 +160,7 @@ const StudentsGoalPage = () => {
                             className="subtleReadOnly"
                         />
                     </div>
-
-                    {/* Recommended Fields */}
-                    <div className="recommendedFields">
+                    <div className="goalForm-recommendedFields">
                         <label>Docelowa waga</label>
                         <input
                             type="number"
@@ -173,48 +168,41 @@ const StudentsGoalPage = () => {
                             readOnly
                             className="subtleReadOnly"
                         />
-
                         <label>Rekomendowane dzienne kalorie</label>
                         <input
                             type="number"
                             value={goal.recommendedDailyKcal || ""}
                             name="recommendedDailyKcal"
                             onChange={handleInputChange}
-                            placeholder={goal.recommendedDailyKcal || "Enter kcal"}
+                            placeholder={goal.recommendedDailyKcal || "Wprowadź kalorie"}
                         />
-
                         <label>Rekomendowane dzienne białko</label>
                         <input
                             type="number"
                             value={goal.recommendedDailyProteins || ""}
                             name="recommendedDailyProteins"
                             onChange={handleInputChange}
-                            placeholder={goal.recommendedDailyProteins || "Enter proteins"}
+                            placeholder={goal.recommendedDailyProteins || "Wprowadź białko"}
                         />
-
-                        <label>RRekomendowane dzienne tłuszcze</label>
+                        <label>Rekomendowane dzienne tłuszcze</label>
                         <input
                             type="number"
                             value={goal.recommendedDailyFats || ""}
                             name="recommendedDailyFats"
                             onChange={handleInputChange}
-                            placeholder={goal.recommendedDailyFats || "Enter fats"}
+                            placeholder={goal.recommendedDailyFats || "Wprowadź tłuszcze"}
                         />
-
                         <label>Rekomendowane dzienne węglowodany</label>
                         <input
                             type="number"
                             value={goal.recommendedDailyCarbs || ""}
                             name="recommendedDailyCarbs"
                             onChange={handleInputChange}
-                            placeholder={goal.recommendedDailyCarbs || "Enter carbs"}
+                            placeholder={goal.recommendedDailyCarbs || "Wprowadź węglowodany"}
                         />
                     </div>
-
                 </div>
-
-                {/* Planned Accomplish Date */}
-                <div className="dateField">
+                <div className="goalForm-dateField">
                     <label>Planowana data osiągnięcia celu</label>
                     <input
                         type="date"
@@ -223,12 +211,10 @@ const StudentsGoalPage = () => {
                         className="subtleReadOnly"
                     />
                 </div>
-
-                {/* Save Button */}
-                <button className="saveButton" onClick={saveChanges}>
-                    Zapisz
-                </button>
-                <button onClick={handleReturn}>Powrót</button>
+                <div className="goalForm-buttons-container">
+                    <button className="goalForm-btn-save" onClick={saveChanges}>Zapisz</button>
+                    <button className="goalForm-btn-return" onClick={handleReturn}>Powrót</button>
+                </div>
             </div>
         </div>
     );

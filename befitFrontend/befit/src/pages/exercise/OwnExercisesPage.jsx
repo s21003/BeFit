@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/OwnItemsPage.css"
+import "../../styles/items/OwnItemsPage.css"
 
 const OwnExercisesPage = () => {
     const navigate = useNavigate();
@@ -83,7 +83,7 @@ const OwnExercisesPage = () => {
             <div className="ownItems">
                 <h2 className="ownHeader">Twoje ćwiczenia</h2>
                 {ownExercises.length > 0 ? (
-                    <>
+                    <div className="ownItems-table">
                         <table>
                             <thead>
                             <tr>
@@ -113,14 +113,14 @@ const OwnExercisesPage = () => {
                             ))}
                             </tbody>
                         </table>
-                    </>
+                    </div>
                 ) : (
                     <p>Brak własnych ćwiczeń.</p>
 
                 )}
-                <div className="buttons-container">
-                    <button className="btn" onClick={handleAddExercise}>Dodaj ćwiczenie</button>
-                    <button className="btn" onClick={handleReturn}>Powrót</button>
+                <div className="ownItems-buttons-container">
+                    <button className="ownItems-add-btn" onClick={handleAddExercise}>Dodaj ćwiczenie</button>
+                    <button className="ownItems-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

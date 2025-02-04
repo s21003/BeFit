@@ -1,6 +1,8 @@
 package com.befit.userTrainer;
 
+import com.befit.mealSchema.MealSchema;
 import com.befit.trainer.Trainer;
+import com.befit.trainingSchema.TrainingSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,5 +84,35 @@ public class UserTrainerController {
     @DeleteMapping("/deleteTrainer/{trainerId}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long trainerId, @RequestBody UserStudentDTO student){
         return new ResponseEntity<>(userTrainerService.deleteTrainer(trainerId,student),HttpStatus.OK);
+    }
+
+    @PutMapping("/shareMealSchemas/{userTrainerId}")
+    public ResponseEntity<String> shareMealSchemas(@PathVariable Long userTrainerId, @RequestBody List<Long> mealSchemaIds) {
+        return new ResponseEntity<>(userTrainerService.shareMealSchemas(userTrainerId, mealSchemaIds), HttpStatus.OK);
+    }
+
+    @PutMapping("/shareTrainingSchemas/{userTrainerId}")
+    public ResponseEntity<String> shareTrainingSchemas(@PathVariable Long userTrainerId, @RequestBody List<Long> trainingSchemaIds) {
+        return new ResponseEntity<>(userTrainerService.shareTrainingSchemas(userTrainerId, trainingSchemaIds), HttpStatus.OK);
+    }
+
+    @GetMapping("/sharedMealSchemas/{userId}")
+    public ResponseEntity<List<MealSchema>> getSharedMealSchemasForStudent(@PathVariable Long userId) {
+        return new ResponseEntity<>(userTrainerService.getSharedMealSchemasForStudent(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/sharedTrainingSchemas/{userId}")
+    public ResponseEntity<List<TrainingSchema>> getSharedTrainingSchemasForStudent(@PathVariable Long userId) {
+        return new ResponseEntity<>(userTrainerService.getSharedTrainingSchemasForStudent(userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/removeMealSchema/{userTrainerId}/{mealSchemaId}")
+    public ResponseEntity<String> removeSharedMealSchema(@PathVariable Long userTrainerId, @PathVariable Long mealSchemaId) {
+        return new ResponseEntity<>(userTrainerService.removeSharedMealSchema(userTrainerId, mealSchemaId), HttpStatus.OK);
+    }
+
+    @PutMapping("/removeTrainingSchema/{userTrainerId}/{trainingSchemaId}")
+    public ResponseEntity<String> removeSharedTrainingSchema(@PathVariable Long userTrainerId, @PathVariable Long trainingSchemaId) {
+        return new ResponseEntity<>(userTrainerService.removeSharedTrainingSchema(userTrainerId, trainingSchemaId), HttpStatus.OK);
     }
 }

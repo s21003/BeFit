@@ -1,14 +1,12 @@
-/* DetailsStudentPage.css */
-
 .studentDetails-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
     background-color: #222;
     color: white;
     font-family: sans-serif;
-    padding: 20px; /* Add padding around the content */
-    box-sizing: border-box; /* Include padding in width/height */
+    padding: 20px;
+    margin-top: 80px; /* Adjust for navbar height */
 }
 
 .studentDetails-container h1 {
@@ -19,43 +17,68 @@
 .studentDetails {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding-top: 100px;
-    margin-bottom: 20px; /* Space between details and actions */
+    padding: 0 0 20px 30px;
+    margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .studentDetails p {
     margin-bottom: 10px;
+    font-size: 35px;
 }
 
 .studentDetails strong {
     font-weight: bold;
     color: #ddd; /* Slightly lighter color for labels */
+    font-size: 40px;
 }
 
-.studentActions {
+.studentDetails-buttons-container {
     display: flex;
     gap: 10px; /* Space between buttons */
     justify-content: center; /* Center the buttons */
     margin-bottom: 20px;
 }
 
-.btn {
+.studentDetails-btn,
+.studentDetails-return-btn,
+.studentDetails-share-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     color: white;
     transition: background-color 0.3s;
+
+}
+
+.studentDetails-btn {
     background-color: #007bff; /* Blue button */
 }
 
-.btn:hover {
+.studentDetails-btn:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
+.studentDetails-share-btn {
+    background-color: #4CAF50; /* Green */
+}
 
-/* Responsive design (adjust breakpoint as needed) */
+.studentDetails-share-btn:hover {
+    background-color: #45a049;
+}
+
+.studentDetails-return-btn {
+    background-color: #6c757d; /* Gray (or any color you prefer) */
+}
+
+.studentDetails-return-btn:hover {
+    background-color: #5c6268; /* Darker gray */
+}
+
+
+
+    /* Responsive design (adjust breakpoint as needed) */
 @media (max-width: 768px) {
     .studentActions {
         flex-direction: column; /* Stack buttons vertically */

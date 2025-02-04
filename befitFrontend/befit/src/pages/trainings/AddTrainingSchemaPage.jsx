@@ -4,7 +4,7 @@ import { TrainingSchemaModal } from "../../components/Training/TrainingSchemaMod
 import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTable";
 import {jwtDecode} from "jwt-decode";
 import NavBar from "../../components/NavBar";
-import "../../styles/AddSchemaPage.css"
+import "../../styles/schema/AddSchemaPage.css"
 
 const AddTrainingSchemaPage = () => {
     const navigate = useNavigate();
@@ -222,7 +222,7 @@ const AddTrainingSchemaPage = () => {
                     type="text"
                     name="name"
                     value={trainingSchemaData.name}
-                    placeholder="Name"
+                    placeholder="Nazwa schematu"
                     onChange={handleChange}
                     required
                 />
@@ -241,8 +241,8 @@ const AddTrainingSchemaPage = () => {
                 </select>
 
                 <TrainingSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
-                <div className="buttons-container">
-                    <button className="btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
+                <div className="addSchemaPage-buttons-container">
+                    <button className="addSchemaPage-add-btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
                     {modalOpen && (
                         <TrainingSchemaModal
                             closeModal={() => {
@@ -253,8 +253,8 @@ const AddTrainingSchemaPage = () => {
                             defaultValue={rowToEdit !== null && rows[rowToEdit]}
                         />
                     )}
-                    <button className="btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
-                    <button className="btn" type="submit" onClick={handleReturn}>Powrót</button>
+                    <button className="addSchemaPage-save-btn" type="submit" onClick={handleSubmitSchema}>Zapisz schemat</button>
+                    <button className="addSchemaPage-return-btn" onClick={handleReturn}>Powrót</button>
                 </div>
             </div>
         </div>

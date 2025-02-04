@@ -7,12 +7,13 @@
     color: white;
     padding-top: 100px;
     align-items: center; /* Center content horizontally */
+    width: 100%;
 }
 
 .profilePage {
-    width: 80%; /* Occupy most of the container width */
+    width: 100%; /* Make sure profilePage takes full width available from container */
     max-width: 900px; /* Set a maximum width */
-    margin: 20px auto; /* Center the content */
+    margin: 10px auto;
     display: flex;
     flex-direction: column; /* Align items vertically */
     align-items: center; /* Center content horizontally */
@@ -21,15 +22,16 @@
 .profilePage h1 {
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 0;
 }
 
-.tabs {
+.profilePage-tabs {
     display: flex;
     justify-content: center; /* Center the tabs */
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.tabButton {
+.profilePage-tabButton {
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -38,14 +40,17 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 0 5px; /* Add some space between tabs */
+
 }
 
-.tabButton.active {
+.profilePage-tabButton.active {
     background-color: #0056b3;
 }
 
-.tab-content {
+.profilePage-tab-content {
     width: 100%;
     max-width: 900px;
-    margin-top: 20px;
+    display: flex; /* Enable flexbox on the tab content */
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center horizontally */
 }
