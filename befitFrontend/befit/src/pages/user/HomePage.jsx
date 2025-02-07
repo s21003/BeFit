@@ -511,8 +511,8 @@ const HomePage = () => {
                                                     const trainerUser = trainer.user || {};
                                                     const displayedSpecializations = trainer.specializations
                                                         ? trainer.specializations
-                                                            .map(spec => specializations[spec] || spec) // Translate or keep original
-                                                            .slice(0, 3) // Limit to 3 specializations
+                                                            .map(spec => specializations[spec] || spec)
+                                                            .slice(0, 3)
                                                             .join(", ")
                                                         : "Brak specjalizacji";
 

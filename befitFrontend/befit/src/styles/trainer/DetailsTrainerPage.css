@@ -1,6 +1,4 @@
-/* DetailsTrainerPage.css */
-
-.detailsTrainer-container { /* Updated class name */
+.detailsTrainer-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -11,7 +9,7 @@
     align-items: center;
 }
 
-.detailsTrainer { /* Updated class name */
+.detailsTrainer {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 20px;
@@ -21,52 +19,52 @@
     margin: 20px auto;
 }
 
-.detailsTrainerHeader { /* Updated class name */
+.detailsTrainerHeader {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.detailsTrainerContent { /* Updated class name */
+.detailsTrainerContent {
     margin-bottom: 10px;
     display: flex;
     align-items: flex-start;
 }
 
-.detailsTrainerContent strong { /* Updated class name */
+.detailsTrainerContent strong {
     font-weight: bold;
     margin-right: 5px;
     white-space: nowrap;
 }
 
-.detailsTrainer-specializations-list { /* Updated class name */
+.detailsTrainer-specializations-list {
     list-style: none;
     padding: 0;
     margin: 0;
     flex: 1;
 }
 
-.detailsTrainer-specializations-list li { /* Updated class name */
+.detailsTrainer-specializations-list li {
     margin-bottom: 5px;
 }
 
-.detailsTrainer-requestStatus { /* Updated class name */
+.detailsTrainer-requestStatus {
     margin-top: 20px;
     text-align: center;
 }
 
-.detailsTrainer-requestStatus p { /* Updated class name */
+.detailsTrainer-requestStatus p {
     color: #ffc107;
 }
 
-.detailsTrainer-buttons-container { /* Updated class name */
+.detailsTrainer-buttons-container {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
 }
 
-.detailsTrainer-btn, /* Updated class name */
-.detailsTrainer-btn-delete { /* Updated class name */
+.detailsTrainer-btn,
+.detailsTrainer-btn-delete {
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -79,21 +77,21 @@
     text-align: center;
 }
 
-.detailsTrainer-btn:hover { /* Updated class name */
+.detailsTrainer-btn:hover {
     background-color: #0056b3;
 }
 
-.detailsTrainer-btn-delete { /* Updated class name */
+.detailsTrainer-btn-delete {
     background-color: #dc3545;
 }
 
-.detailsTrainer-btn-delete:hover { /* Updated class name */
+.detailsTrainer-btn-delete:hover {
     background-color: #c12a36;
 }
 
-.detailsTrainer-return-btn { /* Updated class name */
+.detailsTrainer-return-btn {
     padding: 10px 15px;
-    background-color: #888; /* Gray background for return button */
+    background-color: #888;
     color: white;
     border: none;
     border-radius: 5px;
@@ -104,25 +102,23 @@
     text-align: center;
 }
 
-.detailsTrainer-return-btn:hover { /* Updated class name */
+.detailsTrainer-return-btn:hover {
     background-color: #666;
 }
 
-
-/* Responsive adjustments */
 @media (max-width: 600px) {
-    .detailsTrainer { /* Updated class name */
+    .detailsTrainer {
         width: 95%;
     }
 
-    .detailsTrainer-buttons-container { /* Updated class name */
+    .detailsTrainer-buttons-container {
         flex-direction: column;
         align-items: center;
     }
 
-    .detailsTrainer-btn, /* Updated class name */
-    .detailsTrainer-btn-delete, /* Updated class name */
-    .detailsTrainer-return-btn { /* Updated class name */
+    .detailsTrainer-btn,
+    .detailsTrainer-btn-delete,
+    .detailsTrainer-return-btn {
         min-width: auto;
         width: 100%;
     }

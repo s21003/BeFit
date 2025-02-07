@@ -7,7 +7,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
     const [role, setRole] = useState("");
     const [changeError, setChangeError] = useState("");
 
-    // Map from ENUM to Polish name
     const specializations = {
         CARDIO: "Cardio",
         SILOWY: "Siłowy",
@@ -24,7 +23,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
         DIETETYK: "Dietetyk",
     };
 
-    // When the component loads, initialize editData with fetched specializations (store as ENUM keys)
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
@@ -33,7 +31,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
             const decodedToken = jwtDecode(token);
             setRole(decodedToken.ROLE[0].authority);
 
-            // IMPORTANT: store specializations as ENUM keys!
             setEditData({
                 id: profileData?.id,
                 name: profileData?.name || "",
@@ -43,7 +40,7 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                 password: "",
                 trainerId: 0,
                 description: profileData?.description || "",
-                specializations: profileData?.specializations || [], // store as ENUM keys
+                specializations: profileData?.specializations || [],
             });
 
             if (decodedToken.ROLE[0].authority === "TRAINER") {
@@ -103,7 +100,7 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
         const updateTrainerPayload = {
             id: editData.trainerId,
             description: editData.description,
-            specializations: editData.specializations, // will be the updated array of ENUM keys
+            specializations: editData.specializations,
         };
 
         console.log("update: ", updateTrainerPayload);
@@ -148,10 +145,8 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
         }
     };
 
-    // When a specialization is selected, add its ENUM value to editData.specializations.
     const handleSpecializationChange = (e) => {
         const selectedSpecializationEnum = e.target.value;
-        // Only add if not already selected.
         if (
             selectedSpecializationEnum &&
             !editData.specializations.includes(selectedSpecializationEnum)
@@ -163,7 +158,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
         }
     };
 
-    // Remove the specialization (ENUM key) from editData.specializations.
     const handleSpecializationRemove = (spec) => {
         setEditData((prevData) => ({
             ...prevData,
@@ -216,7 +210,6 @@ const ProfileComponent = ({ profileData, setProfileData }) => {
                                 -- Wybierz specjalizacje --
                             </option>
                             {Object.entries(specializations).map(([enumValue, polishName]) =>
-                                    // Only show options not already selected.
                                     !editData.specializations.includes(enumValue) && (
                                         <option key={enumValue} value={enumValue}>
                                             {polishName}

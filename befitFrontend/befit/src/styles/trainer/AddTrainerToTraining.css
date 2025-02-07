@@ -1,26 +1,24 @@
-/* AddTrainerToTraining.css */
-
-.add-trainer-page-container { /* Updated class name */
+.add-trainer-page-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #222; /* Added dark background */
-    color: white; /* Added white text color */
-    padding-top: 80px; /* Adjust for navbar height */
+    background-color: #222;
+    color: white;
+    padding-top: 80px;
 }
 
-.add-trainer-page { /* Updated class name */
+.add-trainer-page {
     padding: 20px;
-    margin: 0 20px; /* Centered the content */
+    margin: 0 20px;
 }
 
-.add-trainer-page-container h2 { /* Style the heading */
+.add-trainer-page-container h2 {
     text-align: center;
     color: white;
     margin-top: 40px;
 }
 
-.add-trainer-page h3 { /* Style the subheading */
+.add-trainer-page h3 {
     margin-bottom: 10px;
     color: white;
 }
@@ -29,7 +27,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    table-layout: fixed; /* Key: Use fixed layout */
+    table-layout: fixed;
 }
 
 .add-trainer-page th,
@@ -38,8 +36,8 @@
     border: 1px solid #444;
     text-align: left;
     color: white;
-    word-wrap: break-word; /* Allow text to wrap */
-    overflow-wrap: break-word; /* For older browsers */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .add-trainer-page th {
@@ -47,88 +45,88 @@
     font-weight: bold;
 }
 
-.add-trainer-page-description-td { /* Target the description cell */
-    width: 20%; /* Set width for other cells */
+.add-trainer-page-description-td {
+    width: 20%;
 }
 
 .add-trainer-page td {
-    width: 10%; /* Set width for other cells */
+    width: 10%;
 }
 
 .add-trainer-page th:nth-child(1),
 .add-trainer-page td:nth-child(1) {
-    width: 7%; /* Set width for first column (checkbox) */
+    width: 7%;
     text-align: center;
 }
 
-.add-trainer-page th:nth-child(1) input[type="checkbox"], /* Target checkbox directly */
-.add-trainer-page td:nth-child(1) input[type="checkbox"] { /* Target checkbox directly */
-    transform: scale(1.5); /* Increase checkbox size */
-    margin: 0 auto; /* Center checkbox horizontally */
+.add-trainer-page th:nth-child(1) input[type="checkbox"],
+.add-trainer-page td:nth-child(1) input[type="checkbox"] {
+    transform: scale(1.5);
+    margin: 0 auto;
     vertical-align: middle;
 }
 
 .add-trainer-page th:nth-child(2),
 .add-trainer-page td:nth-child(2) {
-    width: 10%; /* Set width for second column (name) */
+    width: 10%;
 }
 
 .add-trainer-page th:nth-child(3),
 .add-trainer-page td:nth-child(3) {
-    width: 10%; /* Set width for third column (surname) */
+    width: 10%;
 }
 
 .add-trainer-page th:nth-child(4),
 .add-trainer-page td:nth-child(4) {
-    width: 13%; /* Set width for fourth column (address) */
+    width: 13%;
 }
 
 .add-trainer-page th:nth-child(5),
 .add-trainer-page td:nth-child(5) {
-    width: 15%; /* Set width for fifth column (specializations) */
+    width: 15%;
 }
 
 .add-trainer-page th:nth-child(6),
 .add-trainer-page td:nth-child(6) {
-    width: 40%; /* Set width for sixth column (description) - 2x others */
+    width: 40%;
 }
 
-.add-trainer-page th { /* Style table header cells specifically */
-    background-color: rgba(0, 0, 0, 0.3); /* Darker header background */
+.add-trainer-page th {
+    background-color: rgba(0, 0, 0, 0.3);
     font-weight: bold;
 }
 
-.add-trainer-page-buttons-container { /* Updated class name */
+.add-trainer-page-buttons-container {
     display: flex;
-    justify-content: center; /* Align buttons to the right */
-    gap: 10px; /* Add spacing between buttons */
+    justify-content: center;
+    gap: 10px;
 }
 
-.add-trainer-page-add-btn, /* Updated class name */
-.add-trainer-page-return-btn { /* Updated class name */
+.add-trainer-page-add-btn,
+.add-trainer-page-return-btn {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Add rounded corners */
-    transition: background-color 0.3s ease; /* Add transition for hover effect */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
     max-width: 180px;
 }
 
-.add-trainer-page-add-btn { /* Updated class name */
+.add-trainer-page-add-btn {
     background-color: #2196F3;
     color: white;
 }
 
-.add-trainer-page-add-btn:hover { /* Updated class name */
+.add-trainer-page-add-btn:hover {
     background-color: #1976D2;
 }
 
-.add-trainer-page-return-btn { /* Updated class name */
-    background-color: #888; /* Gray background for return button */
+.add-trainer-page-return-btn {
+    background-color: #888;
     color: white;
 }
 
-.add-trainer-page-return-btn:hover { /* Updated class name */
+.add-trainer-page-return-btn:hover {
     background-color: #666;
 }

@@ -64,7 +64,6 @@ export const MealAddSchemaModal = ({ closeModal, onSubmit, mealId }) => {
             for (const schemaProduct of schemaProducts) {
                 const { productId, weightsId } = schemaProduct;
 
-                // Fetch existing weight
                 const weightResponse = await fetch(
                     `http://localhost:8080/weights/${weightsId}`,
                     {

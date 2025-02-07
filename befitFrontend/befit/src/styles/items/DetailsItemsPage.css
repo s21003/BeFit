@@ -1,5 +1,3 @@
-/* DetailsItemsPage.css */
-
 .detailsItems-container {
     display: flex;
     flex-direction: column;
@@ -7,28 +5,28 @@
     background-color: #222;
     font-family: 'Arial', sans-serif;
     color: white;
-    padding-top: 80px; /* Adjust for your navbar */
+    padding-top: 80px;
 }
 
 .detailsItems {
     margin: 20px;
-    flex-grow: 1; /* Allow content to fill space */
+    flex-grow: 1;
     display: flex;
-    flex-direction: column; /* Arrange content vertically */
-    align-items: center; /* Center horizontally */
+    flex-direction: column;
+    align-items: center;
 }
 
 .detailsHeader {
     margin-bottom: 20px;
-    text-align: center; /* Center the header text */
+    text-align: center;
     font-size: 30px;
 }
 
 .detailsItems-table {
-    width: 100%; /* Make sure the table container takes full width */
+    width: 100%;
     margin-bottom: 20px;
-    display: flex; /* Needed for align-items to work */
-    justify-content: center; /* Centers the form horizontally */
+    display: flex;
+    justify-content: center;
 }
 
 .detailsItemsForm {
@@ -42,22 +40,22 @@
     box-sizing: border-box;
 }
 
-.detailsItemsForm select {  /* Target the select element specifically */
-    background-color: #333;  /* Dark background for the select box */
-    color: white;          /* White text for options */
+.detailsItemsForm select {
+    background-color: #333;
+    color: white;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #555;
     border-radius: 5px;
-}.detailsItemsForm select option {  /* Target the options within the select */
-     background-color: #222;  /* Even darker background for options to differentiate */
+}.detailsItemsForm select option {
+     background-color: #222;
      color: white;
  }
 
 .detailsContent {
     margin-bottom: 10px;
-    width: 100%; /* Make content fill container width */
-    max-width: 600px; /* Set a maximum width if needed */
+    width: 100%;
+    max-width: 600px;
 }
 
 .detailsContent strong {
@@ -67,8 +65,8 @@
 
 .detailsItems-buttons-container {
     display: flex;
-    justify-content: center; /* or flex-end, flex-start, space-between */
-    gap: 10px; /* Space between buttons */
+    justify-content: center;
+    gap: 10px;
     margin-top: 20px;
 }
 
@@ -89,7 +87,7 @@
 }
 
 .detailsItems-save-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
 }
 
@@ -98,7 +96,7 @@
 }
 
 .detailsItems-delete-btn {
-    background-color: #dc3545; /* Red */
+    background-color: #dc3545;
     color: white;
 }
 
@@ -107,11 +105,11 @@
 }
 
 .detailsItems-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .detailsItems-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
 .editForm > * {

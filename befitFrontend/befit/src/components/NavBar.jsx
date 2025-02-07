@@ -44,7 +44,7 @@ export default function NavBar() {
                             {role === "TRAINER" && <CustomLink to="/own-students">Podopieczni</CustomLink>}
                             <CustomLink to="/all-meals">Posiłki</CustomLink>
                             <CustomLink to="/profile">Profil</CustomLink>
-                            <CustomLink to="/tmpChat">Czat</CustomLink>
+                            <CustomLink to="/chat">Czat</CustomLink>
                             <button className="logout-button" onClick={handleLogout}>
                                 Wyloguj
                             </button>

@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../helpers/UserContext";
+import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
 import "../../styles/trainer/DetailsTrainerPage.css"
@@ -13,9 +12,9 @@ const DetailsTrainerPage = () => {
         specializations: [],
         description: '',
     });
-    const [requestStatus, setRequestStatus] = useState(null); // Store request status
+    const [requestStatus, setRequestStatus] = useState(null);
     const [requestTimestamp, setRequestTimestamp] = useState(null);
-    const [canSendRequest, setCanSendRequest] = useState(true); // Flag to enable/disable the button
+    const [canSendRequest, setCanSendRequest] = useState(true);
     const navigate = useNavigate();
 
     const specializations = {
@@ -59,7 +58,7 @@ const DetailsTrainerPage = () => {
 
     useEffect(() => {
         const checkRequestStatus = async () => {
-            if (!trainerDetails.id) return; // Wait until trainerDetails is populated
+            if (!trainerDetails.id) return;
 
             const token = localStorage.getItem("token");
             const decodedToken = jwtDecode(token);
@@ -113,7 +112,7 @@ const DetailsTrainerPage = () => {
         };
 
         checkRequestStatus();
-    }, [trainerDetails]); // Re-run when trainerDetails changes
+    }, [trainerDetails]);
 
 
     const formatTimestamp = (timestamp) => {
@@ -207,7 +206,7 @@ const DetailsTrainerPage = () => {
         navigate(`/all-trainers`);
     }
 
-    const reverseSpecializations = Object.fromEntries( // Create reverse mapping
+    const reverseSpecializations = Object.fromEntries(
         Object.entries(specializations).map(([key, value]) => [value, key])
     );
 
@@ -226,7 +225,7 @@ const DetailsTrainerPage = () => {
                             <strong>Specjalizacje:</strong>
                             <ul className="detailsTrainer-specializations-list">
                                 {trainerDetails.specializations.map((spec, index) => (
-                                    <li key={index}>{reverseSpecializations[spec] || spec}</li> // Use reverse mapping
+                                    <li key={index}>{reverseSpecializations[spec] || spec}</li>
                                 ))}
                             </ul>
                         </div>

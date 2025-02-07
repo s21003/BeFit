@@ -30,7 +30,6 @@ const DetailsTrainingSchemaPage = () => {
         "Grupowy":"Grupowy"
     }
 
-    // Fetch the training schema data
     useEffect(() => {
         const fetchSchema = async () => {
             try {
@@ -55,7 +54,6 @@ const DetailsTrainingSchemaPage = () => {
         fetchSchema();
     }, [id]);
 
-    // Fetch the training schema exercises
     useEffect(() => {
         if (!trainingSchemaData.trainingSchemaExerciseIds.length) return;
 
@@ -94,7 +92,6 @@ const DetailsTrainingSchemaPage = () => {
         fetchAllTrainingSchemaExercises();
     }, [trainingSchemaData]);
 
-    // Fetch exercises based on training schema exercise data
     useEffect(() => {
         if (!trainingSchemaExerciseData.length) return;
 
@@ -133,7 +130,6 @@ const DetailsTrainingSchemaPage = () => {
         fetchAllExercises();
     }, [trainingSchemaExerciseData]);
 
-    // Fetch series based on training schema exercise data
     useEffect(() => {
         if (!trainingSchemaExerciseData.length) return;
 
@@ -376,7 +372,7 @@ const DetailsTrainingSchemaPage = () => {
     };
 
     const handleDeleteSchema = async () => {
-        const confirmDelete = window.confirm("Czy jesteś pewny, że chcesz usunąć ten schemat?"); // Confirmation dialog
+        const confirmDelete = window.confirm("Czy jesteś pewny, że chcesz usunąć ten schemat?");
 
         if (confirmDelete) {
             try {
@@ -388,20 +384,20 @@ const DetailsTrainingSchemaPage = () => {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(trainingSchemaData) // Send the training schema data in the body
+                    body: JSON.stringify(trainingSchemaData)
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json(); // Try to get error details from the server
+                    const errorData = await response.json();
                     throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
                 }
 
                 alert("Schemat treningowy został usunięty.");
-                navigate("/all-training-schemas"); // Redirect after successful deletion
+                navigate("/all-training-schemas");
 
             } catch (error) {
                 console.error("Error deleting schema:", error);
-                alert("Wystąpił błąd podczas usuwania schematu."); // Show an error message to the user
+                alert("Wystąpił błąd podczas usuwania schematu.");
             }
         }
     }

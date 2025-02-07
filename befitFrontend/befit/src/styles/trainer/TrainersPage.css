@@ -1,6 +1,4 @@
-/* TrainersPage.css */
-
-.trainersPage-container { /* Updated class name */
+.trainersPage-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -11,14 +9,14 @@
     padding-top: 80px;
 }
 
-.trainersPage { /* Updated class name */
+.trainersPage {
     display: flex;
     gap: 20px;
     padding: 20px;
     flex-grow: 1;
 }
 
-.trainers-section { /* This class name is still correct */
+.trainers-section {
     flex: 1;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -32,7 +30,7 @@
     margin-bottom: 15px;
 }
 
-.trainers-section table { /* This class name is still correct */
+.trainers-section table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
@@ -42,7 +40,7 @@
 }
 
 .trainers-section th,
-.trainers-section td { /* This class name is still correct */
+.trainers-section td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -52,17 +50,17 @@
     text-overflow: ellipsis;
 }
 
-.trainers-section th { /* This class name is still correct */
+.trainers-section th {
     background-color: rgba(0, 0, 0, 0.6);
     font-weight: bold;
 }
 
-.trainers-section tr:hover { /* This class name is still correct */
+.trainers-section tr:hover {
     background-color: rgba(255, 255, 255, 0.05);
     cursor: pointer;
 }
 
-.trainers-section button { /* This class name is still correct */
+.trainers-section button {
     padding: 8px 12px;
     background-color: #007bff;
     color: white;
@@ -73,13 +71,12 @@
     margin: 0 5px;
 }
 
-.trainers-section button:hover { /* This class name is still correct */
+.trainers-section button:hover {
     background-color: #0056b3;
 }
 
-/* Responsive adjustments (example) */
 @media (max-width: 768px) {
-    .trainersPage { /* Updated class name */
+    .trainersPage {
         flex-direction: column;
     }
 }

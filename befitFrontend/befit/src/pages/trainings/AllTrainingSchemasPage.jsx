@@ -42,7 +42,7 @@ const AllTrainingSchemasPage = () => {
                 if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
                 const sharedSchemas = await sharedResponse.json();
 
-                setTrainingSchemas([...userSchemas,...sharedSchemas]); // Combine schemas
+                setTrainingSchemas([...userSchemas,...sharedSchemas]);
             } catch (error) {
                 console.error("Fetching trainingSchemas failed: ", error);
             }

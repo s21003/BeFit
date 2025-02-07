@@ -48,11 +48,11 @@ const OwnProductsPage = () => {
     };
 
     const handleAddProduct = () => {
-        navigate(`/add-product`);  // Use the username from the state
+        navigate(`/add-product`);
     };
 
     const handleReturn = () => {
-        navigate(`/all-meals`);  // Use the username from the state
+        navigate(`/all-meals`);
     };
 
     return (

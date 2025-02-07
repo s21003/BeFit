@@ -1,12 +1,12 @@
 .studentDetails-container {
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
     background-color: #222;
     color: white;
     font-family: sans-serif;
     padding: 20px;
-    margin-top: 80px; /* Adjust for navbar height */
+    margin-top: 80px;
 }
 
 .studentDetails-container h1 {
@@ -29,14 +29,14 @@
 
 .studentDetails strong {
     font-weight: bold;
-    color: #ddd; /* Slightly lighter color for labels */
+    color: #ddd;
     font-size: 40px;
 }
 
 .studentDetails-buttons-container {
     display: flex;
-    gap: 10px; /* Space between buttons */
-    justify-content: center; /* Center the buttons */
+    gap: 10px;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
@@ -53,15 +53,15 @@
 }
 
 .studentDetails-btn {
-    background-color: #007bff; /* Blue button */
+    background-color: #007bff;
 }
 
 .studentDetails-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 .studentDetails-share-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 .studentDetails-share-btn:hover {
@@ -69,19 +69,16 @@
 }
 
 .studentDetails-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .studentDetails-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-
-
-    /* Responsive design (adjust breakpoint as needed) */
 @media (max-width: 768px) {
     .studentActions {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: center; /* Center buttons horizontally */
+        flex-direction: column;
+        align-items: center;
     }
 }

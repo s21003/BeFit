@@ -69,7 +69,7 @@ const AllTrainingsPage = () => {
 
                     const mappedData = data.map(training => ({
                         id: training.id,
-                        Subject: getFrontendCategory(training.category), // Use Polish names here
+                        Subject: getFrontendCategory(training.category),
                         StartTime: training.startTime,
                         EndTime: training.endTime,
                         trainingExerciseIds: training.trainingExerciseIds,
@@ -166,14 +166,14 @@ const AllTrainingsPage = () => {
         if (dialogWrapper) {
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                        dialogWrapper.style.width = '60%'; // Set your desired width
-                        dialogWrapper.style.maxWidth = '700px'; // Set your desired max width
+                    if (mutation.attributeName === 'style') {
+                        dialogWrapper.style.width = '60%';
+                        dialogWrapper.style.maxWidth = '700px';
                     }
                 });
             });
 
-            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+            observer.observe(dialogWrapper, { attributes: true });
 
         } else {
             const waitForElement = setInterval(() => {
@@ -182,14 +182,14 @@ const AllTrainingsPage = () => {
                     clearInterval(waitForElement);
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
-                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                                dialogWrapper.style.width = '60%'; // Set your desired width
-                                dialogWrapper.style.maxWidth = '600px'; // Set your desired max width
+                            if (mutation.attributeName === 'style') {
+                                dialogWrapper.style.width = '60%';
+                                dialogWrapper.style.maxWidth = '600px';
                             }
                         });
                     });
 
-                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                    observer.observe(dialogWrapper, { attributes: true });
                 }
             }, 100);
         }
@@ -205,9 +205,9 @@ const AllTrainingsPage = () => {
             setRole(decodedToken.ROLE[0].authority);
 
             const fetchTrainer = async () => {
-                if (props.trainerId) {  // changed TrainerId to trainerId here
+                if (props.trainerId) {
                     try {
-                        const response = await fetch(`http://localhost:8080/trainer/${props.trainerId}`, {  // changed TrainerId to trainerId here
+                        const response = await fetch(`http://localhost:8080/trainer/${props.trainerId}`, {
                             method: 'GET',
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -228,9 +228,9 @@ const AllTrainingsPage = () => {
             };
 
             fetchTrainer();
-        }, [props.trainerId]);  // Ensure to watch for changes in trainerId
+        }, [props.trainerId]);
 
-        const [selectedCategory, setSelectedCategory] = useState(props.Subject || ''); // Track selected category
+        const [selectedCategory, setSelectedCategory] = useState(props.Subject || '');
 
         const handleCategoryChange = (e) => {
             setSelectedCategory(e.value);
@@ -243,15 +243,14 @@ const AllTrainingsPage = () => {
             if (initialStartTime) {
                 initialStartTime.setHours(8, 0, 0, 0);
 
-                // Set EndTime to the same date as StartTime, but 10:00 AM
-                initialEndTime = new Date(initialStartTime); // Create a *new* Date object
+                initialEndTime = new Date(initialStartTime);
                 initialEndTime.setHours(10, 0, 0, 0);
             } else {
                 const today = new Date();
                 today.setHours(8, 0, 0, 0);
                 initialStartTime = today;
 
-                const endTime = new Date(today); // Use today's date
+                const endTime = new Date(today);
                 endTime.setHours(10, 0, 0, 0);
                 initialEndTime = endTime;
             }
@@ -296,8 +295,8 @@ const AllTrainingsPage = () => {
                                 format="dd/MM/yyyy hh:mm a"
                                 id="StartTime"
                                 data-name="StartTime"
-                                value={startTime} // Use startTime state
-                                change={handleStartTimeChange} // Add change handler
+                                value={startTime}
+                                change={handleStartTimeChange}
                                 className="e-field"
                             />
                         </td>
@@ -311,8 +310,8 @@ const AllTrainingsPage = () => {
                                 format="dd/MM/yyyy hh:mm a"
                                 id="EndTime"
                                 data-name="EndTime"
-                                value={endTime} // Use endTime state
-                                change={handleEndTimeChange} // Add change handler
+                                value={endTime}
+                                change={handleEndTimeChange}
                                 className="e-field"
                             />
                         </td>
@@ -382,9 +381,9 @@ const AllTrainingsPage = () => {
         if (args.requestType === 'eventCreated') {
             const eventData = args.data[0];
             const startTime = new Date(eventData.StartTime);
-            startTime.setHours(startTime.getHours() + 1); // Adjust for your desired timezone
+            startTime.setHours(startTime.getHours() + 1);
             const endTime = new Date(eventData.EndTime);
-            endTime.setHours(endTime.getHours() + 1); // Adjust for your desired timezone
+            endTime.setHours(endTime.getHours() + 1);
 
             const startTimeISO = startTime.toISOString();
             const endTimeISO = endTime.toISOString();
@@ -419,9 +418,9 @@ const AllTrainingsPage = () => {
         } else if (args.requestType === 'eventChanged') {
             const eventData = args.data[0];
             const startTime = new Date(eventData.StartTime);
-            startTime.setHours(startTime.getHours() + 1); // Adjust for your desired timezone
+            startTime.setHours(startTime.getHours() + 1);
             const endTime = new Date(eventData.EndTime);
-            endTime.setHours(endTime.getHours() + 1); // Adjust for your desired timezone
+            endTime.setHours(endTime.getHours() + 1);
 
             const startTimeISO = startTime.toISOString();
             const endTimeISO = endTime.toISOString();
@@ -460,7 +459,7 @@ const AllTrainingsPage = () => {
                 console.error("Updating training failed:", error);
             }
         } else if (args.requestType === 'eventRemoved') {
-            const eventData = args.data[0]; // Data of the training being deleted
+            const eventData = args.data[0];
             try {
                 const token = localStorage.getItem("token");
                 const response = await fetch('http://localhost:8080/training/delete', {
@@ -469,7 +468,7 @@ const AllTrainingsPage = () => {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
                     },
-                    body: JSON.stringify({id: eventData.id}) // Send the training ID in the body
+                    body: JSON.stringify({id: eventData.id})
                 });
 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

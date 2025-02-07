@@ -49,6 +49,7 @@ com\befit\mealSchemaProduct\MealSchemaProductRepository.class
 com\befit\series\SeriesRepository.class
 com\befit\meal\MealLabel.class
 com\befit\auth\AuthenticationController.class
+com\befit\chat\MessageRepository.class
 com\befit\config\JwtService.class
 com\befit\trainingExercise\TrainingExerciseController.class
 com\befit\auth\AuthenticationRequest.class
@@ -56,10 +57,9 @@ com\befit\trainingExercise\TrainingExerciseRepository.class
 com\befit\meal\MealDataDTO.class
 com\befit\userTrainer\RequestStatusDTO.class
 com\befit\user\UserDataDTO.class
-com\befit\config\CustomHandshakeHandler.class
 com\befit\product\ProductService.class
+com\befit\chat\ErrorResponse.class
 com\befit\training\TrainingService.class
-com\befit\config\WebsocketHandshakeInterceptor.class
 com\befit\mealSchema\MealSchemaRepository.class
 com\befit\trainer\Specialization.class
 com\befit\goal\Goal.class
@@ -68,6 +68,7 @@ com\befit\mealSchema\MealSchemaController.class
 com\befit\auth\AuthenticationResponse.class
 com\befit\mealProduct\MealProductService.class
 com\befit\userTrainer\UserStudentDTO.class
+com\befit\config\AsyncConfig.class
 com\befit\product\ProductRepository.class
 com\befit\user\User.class
 com\befit\trainingSchemaExercise\TrainingSchemaExerciseController.class
@@ -77,10 +78,10 @@ com\befit\trainingSchema\TrainingSchema.class
 com\befit\product\Product.class
 com\befit\trainingSchemaExercise\TrainingSchemaExercise.class
 com\befit\userTrainer\CooperationStatus.class
+com\befit\chat\MessageService.class
 com\befit\trainingSchema\TrainingSchemaController.class
 com\befit\mealSchema\MealSchemaService.class
 com\befit\user\Role.class
-com\befit\config\JwtChannelInterceptor.class
 com\befit\goal\GoalService.class
 com\befit\mealProduct\MealProduct.class
 com\befit\config\JwtAuthenticationFilter.class
@@ -94,7 +95,6 @@ com\befit\userTrainer\UserTrainerService.class
 com\befit\userTrainer\UserTrainer.class
 com\befit\user\UserDetailsServiceImpl.class
 com\befit\weights\WeightsController.class
-com\befit\config\WebsocketConfig.class
 com\befit\mealSchemaProduct\MealSchemaProductController.class
 com\befit\training\TrainingCategory.class
 com\befit\chat\Message.class

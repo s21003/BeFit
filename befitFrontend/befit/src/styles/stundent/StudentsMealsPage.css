@@ -1,5 +1,3 @@
-/* StudentsMealsPage.css */
-
 .studentsMeals-container {
     display: flex;
     flex-direction: column;
@@ -50,17 +48,17 @@
 }
 
 .editor-table th {
-    background-color: rgba(0, 0, 0, 0.6); /* Darker header background */
+    background-color: rgba(0, 0, 0, 0.6);
     font-weight: bold;
     padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    border: 1px solid rgba(255, 255, 255, 0.2);
     text-align: left;
     color: white;
 }
 
 .editor-table td {
     padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    border: 1px solid rgba(255, 255, 255, 0.2);
     text-align: left;
     vertical-align: middle;
     color: white;
@@ -115,7 +113,7 @@
 
 .editor-table .editor-total-row {
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.3); /* Slightly darker total row */
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .editor-table .editor-total-row td {
@@ -166,7 +164,7 @@
     border-color: #5c6268 !important;
 }
 
-.studentsMeals-return-btn { /* Updated class name */
+.studentsMeals-return-btn {
     background-color: #888;
     border: none;
     color: white;
@@ -181,35 +179,34 @@
     transition: background-color 0.3s ease;
 }
 
-.studentsMeals-return-btn:hover { /* Updated class name */
+.studentsMeals-return-btn:hover {
     background-color: #666;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    .custom-event-editor { /* Updated class name */
+    .custom-event-editor {
         font-size: 14px;
     }
 
-    .custom-event-editor .e-textlabel { /* Updated class name */
+    .custom-event-editor .e-textlabel {
         width: 100px;
         display: block;
         padding-top: 0;
     }
 
-    .custom-event-editor td { /* Updated class name */
+    .custom-event-editor td {
         display: block;
         width: 100%;
         padding: 4px;
     }
 
-    .products-table th, /* Updated class name */
-    .products-table td { /* Updated class name */
+    .products-table th,
+    .products-table td {
         padding: 6px;
         font-size: 14px;
     }
 
-    .studentsMeals-scheduler-container { /* Updated class name */
+    .studentsMeals-scheduler-container {
         height: 400px;
     }
 }

@@ -23,8 +23,8 @@ const DetailsTrainingPage = () => {
             weight: 0.0,
         },
     ]);
-    const [unsavedRows, setUnsavedRows] = useState([]); // Add unsavedRows state
-    const [isLoading, setIsLoading] = useState(true); // Add a loading state
+    const [unsavedRows, setUnsavedRows] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [trainingData, setTrainingData] = useState({
         id: 0.0,
         category: null,
@@ -506,13 +506,13 @@ const DetailsTrainingPage = () => {
         };
 
         fetchAllSeries();
-    }, [trainingExerciseData]);  // Fetch series when trainingExerciseData changes
+    }, [trainingExerciseData]);
 
     useEffect(() => {
         if (!trainingExerciseData.length) return;
 
         const fetchExerciseAndSeries = async () => {
-            setIsLoading(true); // Set loading to true while fetching
+            setIsLoading(true);
             const exercises = [];
             const series = [];
             const token = localStorage.getItem("token");
@@ -557,7 +557,7 @@ const DetailsTrainingPage = () => {
 
             setExerciseData(exercises);
             setSeriesData(series);
-            setIsLoading(false); // Set loading to false after fetching
+            setIsLoading(false);
         };
 
         fetchExerciseAndSeries();
@@ -572,9 +572,9 @@ const DetailsTrainingPage = () => {
             name: exercise.name,
             part: exercise.part,
             videoLink: exercise.videoLink,
-            series: seriesData[i]?.series || 0,  // Use series data for the corresponding exercise
-            repeatNumber: seriesData[i]?.repeatNumber || 0,  // Fetch repeat number from the series
-            weight: seriesData[i]?.weight || 0,  // Fetch weight from the series
+            series: seriesData[i]?.series || 0,
+            repeatNumber: seriesData[i]?.repeatNumber || 0,
+            weight: seriesData[i]?.weight || 0,
         }));
 
         setRows([...newRows,...unsavedRows]);
@@ -589,7 +589,7 @@ const DetailsTrainingPage = () => {
                     id="category-select"
                     className="inputStyle"
                     name="category"
-                    value={trainingData.category || ""} // Ensure controlled component with fallback for null/undefined
+                    value={trainingData.category || ""}
                     onChange={(e) => setTrainingData({...trainingData, category: e.target.value})}>
                     <option value="" disabled>-- Wybierz kategorię --</option>
                     {Object.entries(categories).map(([displayCategory, internalValue]) => (

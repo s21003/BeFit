@@ -12,12 +12,12 @@ const AllMealsPage = () => {
     const navigate = useNavigate();
     const [meals, setMeals] = useState([]);
     const [mealProductsMap, setMealProductsMap] = useState({});
-    const [currentView, setCurrentView] = useState('DAY'); // Track the current view
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Track the selected date
-    const [dailyTotals, setDailyTotals] = useState({kcal: 0, protein: 0, fat: 0, carbs: 0}); // Track daily totals
+    const [currentView, setCurrentView] = useState('DAY');
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const [dailyTotals, setDailyTotals] = useState({kcal: 0, protein: 0, fat: 0, carbs: 0});
     const scheduleObj = useRef(null);
     const [goals, setGoals] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Add a loading state
+    const [isLoading, setIsLoading] = useState(true);
 
     const labelMap = {
         Śniadanie: 'Sniadanie',
@@ -61,7 +61,7 @@ const AllMealsPage = () => {
             } catch (error) {
                 console.error("Fetching goals failed: ", error);
             } finally {
-                setIsLoading(false); // Set loading to false after fetching
+                setIsLoading(false);
             }
         };
 
@@ -178,7 +178,6 @@ const AllMealsPage = () => {
                             });
                         }
 
-                        // Add total row
                         productsForMeal.push({
                             productId: 0,
                             name: 'Total',
@@ -224,14 +223,14 @@ const AllMealsPage = () => {
         if (dialogWrapper) {
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                        dialogWrapper.style.width = '80%'; // Set your desired width
-                        dialogWrapper.style.maxWidth = '900px'; // Set your desired max width
+                    if (mutation.attributeName === 'style') {
+                        dialogWrapper.style.width = '80%';
+                        dialogWrapper.style.maxWidth = '900px';
                     }
                 });
             });
 
-            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+            observer.observe(dialogWrapper, { attributes: true });
 
         } else {
             const waitForElement = setInterval(() => {
@@ -240,14 +239,14 @@ const AllMealsPage = () => {
                     clearInterval(waitForElement);
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
-                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                                dialogWrapper.style.width = '60%'; // Set your desired width
-                                dialogWrapper.style.maxWidth = '900px'; // Set your desired max width
+                            if (mutation.attributeName === 'style') {
+                                dialogWrapper.style.width = '60%';
+                                dialogWrapper.style.maxWidth = '900px';
                             }
                         });
                     });
 
-                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                    observer.observe(dialogWrapper, { attributes: true });
                 }
             }, 100);
         }
@@ -366,14 +365,14 @@ const AllMealsPage = () => {
     useEffect(() => {
         if (currentView === 'DAY') {
 
-            const selectedDateObj = new Date(selectedDate); // Create Date object from selectedDate
-            selectedDateObj.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+            const selectedDateObj = new Date(selectedDate);
+            selectedDateObj.setHours(0, 0, 0, 0);
 
             const selectedDateMeals = meals.filter((meal) => {
-                const mealDateObj = new Date(meal.StartTime); // Create Date object from meal.StartTime
-                mealDateObj.setHours(0, 0, 0, 0); // Set time to midnight
+                const mealDateObj = new Date(meal.StartTime);
+                mealDateObj.setHours(0, 0, 0, 0);
 
-                return mealDateObj.getTime() === selectedDateObj.getTime(); // Compare using getTime()
+                return mealDateObj.getTime() === selectedDateObj.getTime();
             });
 
             let totalKcal = 0;
@@ -399,15 +398,15 @@ const AllMealsPage = () => {
     const onActionComplete = async (args) => {
         if (args.requestType === 'dateNavigate') {
             const selectedDate = new Date(scheduleObj.current.selectedDate);
-            setSelectedDate(selectedDate); // Update the selected date
+            setSelectedDate(selectedDate);
         } else if (args.requestType === 'viewNavigate' || args.requestType === 'viewChange') {
             const currentView = scheduleObj.current.currentView;
-            setCurrentView(currentView.toUpperCase()); // Update the current view state
+            setCurrentView(currentView.toUpperCase());
 
 
             if (currentView === 'Day' && args.data && args.data.selectedDate) {
                 const selectedDate = new Date(args.data.selectedDate);
-                setSelectedDate(selectedDate); // Update the selected date
+                setSelectedDate(selectedDate);
             }
         } else if (args.requestType === 'eventCreated') {
             const eventData = args.data[0];

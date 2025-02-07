@@ -16,8 +16,8 @@ const GoalComponent = () => {
         recommendedDailyFats: 0.0,
         recommendedDailyCarbs: 0.0,
     });
-    const [activeTab, setActiveTab] = useState("planned"); // Tab state to manage which tab is active
-    const [role, setRole] = useState(""); // State to store user role
+    const [activeTab, setActiveTab] = useState("planned");
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         fetchGoal();
@@ -54,7 +54,7 @@ const GoalComponent = () => {
         if (token) {
             try {
                 const decodedToken = jwtDecode(token);
-                const userRole = decodedToken.ROLE[0].authority; // Assuming role is in ROLE array
+                const userRole = decodedToken.ROLE[0].authority;
                 setRole(userRole);
             } catch (error) {
                 console.error("Failed to decode token:", error);

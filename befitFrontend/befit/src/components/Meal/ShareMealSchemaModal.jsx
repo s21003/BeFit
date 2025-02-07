@@ -27,7 +27,7 @@ export const ShareMealSchemaModal = ({closeModal, onMealSchemaShared, mealSchema
                     throw new Error(`HTTP error! status: ${sharedResponse.status}`);
                 }
                 const sharedData = await sharedResponse.json();
-                setSharedMealSchemas(sharedData.sharedMealSchemas); // Extract sharedMealSchemas
+                setSharedMealSchemas(sharedData.sharedMealSchemas);
             } catch (error) {
                 console.error("Error fetching shared schemas:", error);
             }
@@ -60,7 +60,7 @@ export const ShareMealSchemaModal = ({closeModal, onMealSchemaShared, mealSchema
                             Authorization: `Bearer ${token}`,
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(updatedSharedMealSchemas), // Send updated array
+                        body: JSON.stringify(updatedSharedMealSchemas),
                     }
                 );
 

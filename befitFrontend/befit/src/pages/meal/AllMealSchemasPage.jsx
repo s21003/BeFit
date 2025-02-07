@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import "../../styles/schema/SchemaPage.css"
 import {jwtDecode} from "jwt-decode";
@@ -22,7 +22,7 @@ const AllMealSchemasPage = () => {
                 },
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            const userSchemas = await response.json(); // Store user's schemas
+            const userSchemas = await response.json();
 
             const userResponse = await fetch(`http://localhost:8080/user/${decodedToken.sub}`, {
                 headers: {
@@ -44,7 +44,7 @@ const AllMealSchemasPage = () => {
 
             console.log("sharedSchemas: ", sharedSchemas);
 
-            setMealSchemas([...userSchemas,...sharedSchemas]); // Combine schemas
+            setMealSchemas([...userSchemas,...sharedSchemas]);
 
         } catch (error) {
             console.error("Fetching mealSchemas failed: ", error);

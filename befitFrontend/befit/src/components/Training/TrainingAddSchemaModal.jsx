@@ -129,7 +129,7 @@ export const TrainingAddSchemaModal = ({ closeModal, onSubmit, trainingId }) => 
 
     return (
         <div
-            className="schema-modal-container" // Use consistent class name
+            className="schema-modal-container"
             onClick={(e) => {
                 if (e.target.className === "schema-modal-container")
                     closeModal();

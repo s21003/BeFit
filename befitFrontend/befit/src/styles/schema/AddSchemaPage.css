@@ -1,5 +1,3 @@
-/* AddSchemaPage.css */
-
 .addSchemaPage-container {
     display: flex;
     flex-direction: column;
@@ -47,7 +45,7 @@
     color: white;
 }
 
-.addSchemaPage-buttons-container { /* Updated class name */
+.addSchemaPage-buttons-container {
     margin-top: 20px;
     display: flex;
     gap: 10px;
@@ -67,11 +65,11 @@
 }
 
 .addSchemaPage-add-btn {
-    background-color: #007bff; /* Or any other color you want */
+    background-color: #007bff;
 }
 
 .addSchemaPage-add-btn:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
 }
 
 .addSchemaPage-save-btn {
@@ -84,14 +82,13 @@
 
 
 .addSchemaPage-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .addSchemaPage-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-/* Table Styles */
 .schema-table {
     width: 100%;
     border-collapse: collapse;
@@ -111,7 +108,6 @@
     text-align: center;
 }
 
-/* Modal Styles */
 .modal-overlay {
     position: fixed;
     top: 0;

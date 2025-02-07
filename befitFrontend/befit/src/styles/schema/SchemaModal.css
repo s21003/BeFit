@@ -1,16 +1,14 @@
-/* SchemaModal.css */
-
 .schema-modal-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure modal is on top */
+    z-index: 1000;
 }
 
 .schema-modal {
@@ -19,8 +17,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px; /* Adjust width as needed */
-    max-width: 90%; /* For smaller screens */
+    width: 400px;
+    max-width: 90%;
 }
 
 .schema-modal form {
@@ -48,27 +46,27 @@
 }
 
 .schema-modal-form-group select option {
-    background-color: #333; /* Darker background for options */
-    color: white; /* White text for options */
+    background-color: #333;
+    color: white;
 }
 
 .schema-modal-buttons-container {
-    display: flex; /* Use flexbox */
-    gap: 10px; /* Space between buttons */
-    justify-content: flex-end; /* Align to the right (or center, flex-start, etc.) */
-    margin-top: 10px; /* Add some top margin if needed */
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
 
 .schema-modal-buttons-container button {
-    padding: 8px 16px; /* Adjust padding as needed */
+    padding: 8px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    transition: background-color 0.3s;
 }
 
-.schema-modal-save-btn, .schema-modal-add-btn, .schema-modal-cancel-btn { /* Style the button within the modal */
+.schema-modal-save-btn, .schema-modal-add-btn, .schema-modal-cancel-btn {
     padding: 10px 15px;
     color: white;
     border: none;
@@ -78,7 +76,7 @@
 }
 
 .schema-modal-save-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 .schema-modal-add-btn, .schema-modal-cancel-btn {
@@ -86,23 +84,23 @@
 }
 
 .schema-modal-save-btn:hover {
-    background-color: #45a049; /* Darker green */
+    background-color: #45a049;
 }
 
 .schema-modal-add-btn {
-    background-color: #007bff; /* Or any other color you want */
+    background-color: #007bff;
 }
 
 .schema-modal-add-btn:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
 }
 
 .schema-modal-cancel-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .schema-modal-cancel-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
 .error {
@@ -110,9 +108,9 @@
     margin-top: 5px;
 }
 
-@media (max-width: 500px) { /* Adjust breakpoint as needed */
+@media (max-width: 500px) {
     .schema-modal-buttons-container {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: stretch; /* Buttons take full width */
+        flex-direction: column;
+        align-items: stretch;
     }
 }

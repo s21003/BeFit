@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../helpers/UserContext";
 import "../../styles/items/DetailsItemsPage.css"
 import NavBar from "../../components/NavBar";
-import {jwtDecode} from "jwt-decode";
 
 const DetailsExercisePage = () => {
     let { id } = useParams();
@@ -33,11 +32,11 @@ const DetailsExercisePage = () => {
                 const data = await response.json();
                 console.log("data: ",data)
                 if (data) {
-                    const initialPart = Object.keys(partOptions).find(key => partOptions[key] === data.part); // Find the key for the initial value
+                    const initialPart = Object.keys(partOptions).find(key => partOptions[key] === data.part);
                     setExerciseDetails(data);
                     setEditFormData({
                         name: data.name,
-                        part: initialPart, // Set the initial part to the Polish name
+                        part: initialPart,
                         videoLink: data.videoLink || '',
                     });
                 }
@@ -63,7 +62,7 @@ const DetailsExercisePage = () => {
         const updatedData = {
             id: exerciseDetails.id,
             ...editFormData,
-            part: partOptions[editFormData.part] // Use partOptions to get the enum value
+            part: partOptions[editFormData.part]
         };
         console.log("updatedData: ", updatedData);
 
@@ -114,7 +113,7 @@ const DetailsExercisePage = () => {
     };
 
     const partOptions = {
-        "Klatka piersiowa": "KLATKAPIERSIOWA", // Updated enum values
+        "Klatka piersiowa": "KLATKAPIERSIOWA",
         "Biceps": "BICEPS",
         "Triceps": "TRICEPS",
         "Brzuch": "BRZUCH",
@@ -150,11 +149,11 @@ const DetailsExercisePage = () => {
                                     <select
                                         className="inputStyle"
                                         name="part"
-                                        value={editFormData.part} // Use editFormData.part for value
+                                        value={editFormData.part}
                                         onChange={e => setEditFormData({...editFormData, part: e.target.value})}
                                     >
                                         {Object.keys(partOptions).map(part => (
-                                            <option key={part} value={part}>{part}</option> // Use Polish name for option value
+                                            <option key={part} value={part}>{part}</option>
                                         ))}
                                     </select>
                                     <strong>Link do wideo:</strong>

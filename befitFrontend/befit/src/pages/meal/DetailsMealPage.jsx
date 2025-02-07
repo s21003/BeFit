@@ -26,7 +26,7 @@ const DetailsMealPage = () => {
         weight: 0.0,
     }]);
     const [unsavedRows, setUnsavedRows] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Add a loading state
+    const [isLoading, setIsLoading] = useState(true);
     const [addSchemaModalOpen, setAddSchemaModalOpen] = useState(false);
     const [mealData, setMealData] = useState({
         id: 0.0,
@@ -476,7 +476,6 @@ const DetailsMealPage = () => {
             }
         }
 
-        // Update weights data with the newly fetched weights
         setWeightsData((prevWeights) => [...prevWeights, ...newWeightsData]);
     };
 
@@ -507,19 +506,18 @@ const DetailsMealPage = () => {
         };
 
         fetchAllWeights();
-    }, [mealProductData]);  // Fetch weights when mealProductData changes
+    }, [mealProductData]);
 
     useEffect(() => {
         if (!mealProductData.length) return;
 
         const fetchProductAndWeights = async () => {
-            setIsLoading(true); // Set loading to true while fetching
+            setIsLoading(true);
 
             const products = [];
             const weights = [];
             const token = localStorage.getItem("token");
 
-            // Fetch product and weight data concurrently
             await Promise.all(mealProductData.map(async (mp) => {
                 try {
                     const productResponse = await fetch(`http://localhost:8080/product/${mp.productId}`, {
@@ -550,19 +548,17 @@ const DetailsMealPage = () => {
                 }
             }));
 
-            // Update state only after fetching all products and weights
             setProductData(products);
             setWeightsData(weights);
-            setIsLoading(false); // Set loading to false after fetching
+            setIsLoading(false);
         };
 
         fetchProductAndWeights();
-    }, [mealProductData]);  // Re-fetch when mealProductData changes
+    }, [mealProductData]);
 
     useEffect(() => {
         if (isLoading) return;
 
-        // Create a new array instead of modifying the existing one
         const newRows = productData.map((product, i) => ({
             productId: product.id,
             name: product.name,

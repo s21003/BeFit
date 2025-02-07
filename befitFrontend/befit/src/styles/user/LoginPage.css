@@ -1,31 +1,28 @@
-/* Ensure full height for the page */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: #222; /* Dark background (matches HomePage) */
+    background: #222;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Login Page Container */
 .login-page {
     width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #222; /* Dark background (matches HomePage) */
+    background: #222;
 
 }
 
-/* Login Form Container */
 .login-form-container {
-    background: #222; /* Semi-transparent dark background (matches HomePage) */
+    background: #222;
     padding: 30px;
-    border-radius: 8px; /* Matches HomePage border-radius */
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 400px;
@@ -35,14 +32,12 @@ html, body {
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
-/* Fade-in effect when visible */
 .login-form-container.visible {
     opacity: 1;
     transform: translateY(0);
     background: #333;
 }
 
-/* Form Group */
 .login-page-form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -52,31 +47,28 @@ html, body {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: white; /* Light gray (matches HomePage) */
+    color: white;
 }
 
-/* Input Fields */
 .login-page-form-group input {
     width: 100%;
     padding: 10px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    background: rgba(255, 255, 255, 0.1); /* Slightly lighter (matches HomePage) */
-    color: white; /* White text (matches HomePage) */
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     outline: none;
 }
 
-/* Placeholder Color */
 .login-page-form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.5); /* Matches HomePage */
+    color: rgba(255, 255, 255, 0.5);
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 12px;
-    background: #007bff; /* Blue color (matches HomePage) */
+    background: #007bff;
     border: none;
     border-radius: 5px;
     color: white;
@@ -86,12 +78,11 @@ button {
 }
 
 button:hover {
-    background: #0056b3; /* Darker blue on hover (matches HomePage) */
+    background: #0056b3;
 }
 
-/* Error Messages */
 .error {
-    color: #ff4d4d; /* Red for errors (matches HomePage) */
+    color: #ff4d4d;
     font-size: 14px;
     margin-bottom: 5px;
     display: none;
@@ -101,18 +92,16 @@ button:hover {
     display: block;
 }
 
-/* Register Section */
 .register-section {
     margin-top: 35px;
     text-align: center;
-    color: #ccc; /* Light gray text (matches HomePage) */
+    color: #ccc;
 }
 
-/* Register Button */
 .register-button {
     padding: 10px;
     width: 100%;
-    background: #28a745; /* Green color (matches HomePage) */
+    background: #28a745;
     border: none;
     border-radius: 5px;
     color: white;
@@ -122,10 +111,9 @@ button:hover {
 }
 
 .register-button:hover {
-    background: #218838; /* Darker green on hover (matches HomePage) */
+    background: #218838;
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
     .login-form-container {
         width: 90%;

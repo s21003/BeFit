@@ -1,5 +1,3 @@
-/* ProfileComponent.css */
-
 .profileTab {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -11,11 +9,11 @@
     transform: scale(1.08);
     transform-origin: top left;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: flex-start; /* Align to the top vertically */
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.profileTabForm { /* Renamed class for clarity */
+.profileTabForm {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -23,14 +21,14 @@
     box-sizing: border-box;
 }
 
-.profileTabForm label { /* Style label */
+.profileTabForm label {
     margin-bottom: 5px;
     color: white;
 }
 
 .profileTabForm input,
 .profileTabForm textarea,
-.profileTabForm select { /* Style input, textarea, and select */
+.profileTabForm select {
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -40,7 +38,7 @@
     box-sizing: border-box;
 }
 
-.profileTabForm textarea { /* Style textarea */
+.profileTabForm textarea {
     resize: vertical;
     min-height: 100px;
     width: 100%;
@@ -54,23 +52,23 @@
 }
 
 .profileTabForm select option {
-    background-color: #333; /* Darker option background */
+    background-color: #333;
     color: white;
 }
 
 .profileTab-save-btn {
     padding: 10px 15px;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    max-width: 160px; /* Or width: auto; if you prefer */
+    max-width: 160px;
 }
 
 .profileTab-save-btn:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049;
 }
 
 .error-message {
@@ -136,18 +134,17 @@
     cursor: pointer;
     font-size: 0.9rem;
     line-height: 1;
-    padding: 0; /* Remove default padding */
-    margin-bottom: 0; /* Remove default margin */
+    padding: 0;
+    margin-bottom: 0;
 }
 
-/* Responsive adjustments (example) */
 @media (max-width: 600px) {
     .profileTab {
         padding: 10px;
         max-width: 95%;
         margin: 10px auto;
-        flex-direction: column; /* Stack items vertically on small screens */
-        align-items: center; /* Center horizontally on small screens */
+        flex-direction: column;
+        align-items: center;
     }
 
     .editForm {

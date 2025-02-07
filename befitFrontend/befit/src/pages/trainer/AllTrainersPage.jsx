@@ -11,7 +11,6 @@ const AllTrainersPage = () => {
     const [userTrainersData, setUserTrainersData] = useState([]);
     const [userId, setUserId] = useState(null);
 
-    // Fetch all trainers
     useEffect(() => {
         const fetchTrainers = async () => {
             const token = localStorage.getItem("token");
@@ -36,7 +35,6 @@ const AllTrainersPage = () => {
         fetchTrainers();
     }, []);
 
-    // Fetch user ID
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -62,7 +60,6 @@ const AllTrainersPage = () => {
         fetchUserData();
     }, []);
 
-    // Fetch user's trainers with only accepted status
     useEffect(() => {
         if (!userId) return;
 
@@ -82,10 +79,8 @@ const AllTrainersPage = () => {
                 }
                 const data = await response.json();
 
-                // Filter for trainers with accepted cooperation status
                 const acceptedTrainers = data.filter((trainer) => trainer.status === "ACCEPTED");
 
-                // Match accepted trainers with trainer details
                 const matchedTrainers = acceptedTrainers.map((userTrainer) =>
                     trainers.find((trainer) => trainer.id === userTrainer.trainerId)
                 );
@@ -148,7 +143,7 @@ const AllTrainersPage = () => {
                                     <td>{trainer.user.surname}</td>
                                     <td>{trainer.user.address}</td>
                                     <td>
-                                        {trainer?.specializations?.length > 0 ? ( // Check trainer AND specializations
+                                        {trainer?.specializations?.length > 0 ? (
                                             trainer.specializations.map(spec => reverseSpecializations[spec] || spec).join(", ")
                                         ) : (
                                             ""

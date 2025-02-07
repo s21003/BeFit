@@ -14,9 +14,9 @@ loadCldr(plNumberData, pltimeZoneData, plGregorian, plNumberingSystem, plWeekDat
 setCulture('pl');
 
 const StudentsTrainingsPage = () => {
-    const { studentUserName } = useParams(); // Get student ID from URL
+    const { studentUserName } = useParams();
     const [trainings, setTrainings] = useState([]);
-    const [trainingExercisesMap, setTrainingExercisesMap] = useState({}); // Mapping trainingId to exercises
+    const [trainingExercisesMap, setTrainingExercisesMap] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -147,7 +147,6 @@ const StudentsTrainingsPage = () => {
         },
     };
 
-    // Custom editor template for training events
     const editorTemplate = (props) => {
         if (!props) return <div></div>;
 
@@ -156,14 +155,14 @@ const StudentsTrainingsPage = () => {
         if (dialogWrapper) {
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                        dialogWrapper.style.width = '60%'; // Set your desired width
-                        dialogWrapper.style.maxWidth = '700px'; // Set your desired max width
+                    if (mutation.attributeName === 'style') {
+                        dialogWrapper.style.width = '60%';
+                        dialogWrapper.style.maxWidth = '700px';
                     }
                 });
             });
 
-            observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+            observer.observe(dialogWrapper, { attributes: true });
 
         } else {
             const waitForElement = setInterval(() => {
@@ -172,14 +171,14 @@ const StudentsTrainingsPage = () => {
                     clearInterval(waitForElement);
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
-                            if (mutation.attributeName === 'style') { // Check if the style attribute changed
-                                dialogWrapper.style.width = '60%'; // Set your desired width
-                                dialogWrapper.style.maxWidth = '600px'; // Set your desired max width
+                            if (mutation.attributeName === 'style') {
+                                dialogWrapper.style.width = '60%';
+                                dialogWrapper.style.maxWidth = '600px';
                             }
                         });
                     });
 
-                    observer.observe(dialogWrapper, { attributes: true }); // Observe attribute changes
+                    observer.observe(dialogWrapper, { attributes: true });
                 }
             }, 100);
         }
@@ -245,7 +244,7 @@ const StudentsTrainingsPage = () => {
     const onPopupOpen = (args) => {
         let isEmptyCell =
             args.target.classList.contains('e-work-cells') ||
-            args.target.classList.contains('e-header-cells'); // checking whether the cell is empty or not
+            args.target.classList.contains('e-header-cells');
 
         if ((args.type === 'Editor') && isEmptyCell) {
             args.cancel = true;
@@ -271,7 +270,7 @@ const StudentsTrainingsPage = () => {
     });
 
     const handleReturn = () => {
-        navigate(`/details-student/${studentUserName}`);  // Use the username from the state
+        navigate(`/details-student/${studentUserName}`);
     };
 
     return (

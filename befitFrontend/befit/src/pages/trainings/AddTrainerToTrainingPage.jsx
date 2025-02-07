@@ -14,7 +14,7 @@ const AddTrainerToTraining = () => {
     const [username, setUsername] = useState(null);
     const [training, setTraining] = useState(null);
 
-    const specializations = {  // Correct mapping: Enum -> Polish
+    const specializations = {
         "CARDIO": "Cardio",
         "SILOWY": "Siłowy",
         "CROSSFIT": "Crossfit",
@@ -34,12 +34,11 @@ const AddTrainerToTraining = () => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
             const decoded = jwtDecode(token);
-            setUsername(decoded.sub);  // Username is used as the sub
+            setUsername(decoded.sub);
         };
         fetchUserData();
     }, []);
 
-    // Fetch userId based on the username
     useEffect(() => {
         if (!username) return;
 
@@ -58,7 +57,7 @@ const AddTrainerToTraining = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setUserId(data.id);  // Set the userId once fetched
+                setUserId(data.id);
             } catch (error) {
                 console.error("Fetching user by username failed: ", error);
             }
@@ -66,7 +65,6 @@ const AddTrainerToTraining = () => {
         fetchUserId();
     }, [username]);
 
-    // Fetch accepted trainers based on userId
     useEffect(() => {
         if (!userId) return;
 
@@ -185,8 +183,6 @@ const AddTrainerToTraining = () => {
         }
     };
 
-
-    // Handle return to the previous page
     const handleReturn = () => {
         navigate(`/all-trainings`);
     };

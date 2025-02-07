@@ -119,7 +119,7 @@ const DetailsProductPage = () => {
                                         type="text"
                                         name="name"
                                         className="inputStyle"
-                                        value={editFormData.name} // Now correctly bound
+                                        value={editFormData.name}
                                         onChange={e => setEditFormData({...editFormData, name: e.target.value})}
                                     />
                                     <strong>Kalorie na 100g:</strong>

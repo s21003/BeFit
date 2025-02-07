@@ -3,7 +3,7 @@ import "../../styles/schema/SchemaModal.css";
 
 export const ShareTrainingSchemaModal = ({closeModal, onTrainingSchemaShared, trainingSchemas, userTrainerId,}) => {
     const [selectedTrainingSchemaId, setSelectedTrainingSchemaId] = useState(null);
-    const [sharedTrainingSchemas, setSharedTrainingSchemas] = useState();
+    const [sharedTrainingSchemas, setSharedTrainingSchemas] = useState([]);
 
 
     const handleSchemaChange = (e) => {
@@ -28,7 +28,7 @@ export const ShareTrainingSchemaModal = ({closeModal, onTrainingSchemaShared, tr
                     throw new Error(`HTTP error! status: ${sharedResponse.status}`);
                 }
                 const sharedData = await sharedResponse.json();
-                setSharedTrainingSchemas(sharedData.sharedTrainingSchemas); // Extract sharedMealSchemas
+                setSharedTrainingSchemas(sharedData.sharedTrainingSchemas);
             } catch (error) {
                 console.error("Error fetching shared schemas:", error);
             }
@@ -61,7 +61,7 @@ export const ShareTrainingSchemaModal = ({closeModal, onTrainingSchemaShared, tr
                             Authorization: `Bearer ${token}`,
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(updatedSharedTrainingSchemas), // Send updated array
+                        body: JSON.stringify(updatedSharedTrainingSchemas),
                     }
                 );
 

@@ -1,11 +1,7 @@
-/* SchemaDetailsPage.css */
-
-/* General styles */
 body {
     margin: 0;
 }
 
-/* schemaDetails-container Styles */
 .schemaDetails-container {
     display: flex;
     flex-direction: column;
@@ -17,7 +13,6 @@ body {
     padding-top: 80px;
 }
 
-/* schemaDetails Styles */
 .schemaDetails {
     display: flex;
     flex-direction: column;
@@ -39,7 +34,6 @@ body {
     border-radius: 5px;
 }
 
-/* Table styles */
 .schemaDetails table {
     width: 100%;
     border-collapse: collapse;
@@ -68,20 +62,19 @@ body {
     cursor: pointer;
 }
 
-/* Modal styles */
 .modal-content {
     background-color: #333;
     color: white;
 }
 
 .schemaDetails select {
-    background-color: #333; /* Darker background for the select */
-    color: white; /* White text for the select */
+    background-color: #333;
+    color: white;
 }
 
 .schemaDetails select option {
-    background-color: #444; /* Slightly darker background for options */
-    color: white; /* White text for options */
+    background-color: #444;
+    color: white;
 }
 
 .schemaDetails-button-container {
@@ -91,10 +84,10 @@ body {
     margin-top: 20px;
 }
 
-.schemaDetails-add-btn, /* Updated class name */
-.schemaDetails-save-btn, /* Updated class name */
-.schemaDetails-delete-btn, /* Updated class name */
-.schemaDetails-return-btn { /* Updated class name */
+.schemaDetails-add-btn,
+.schemaDetails-save-btn,
+.schemaDetails-delete-btn,
+.schemaDetails-return-btn {
     padding: 8px 12px;
     color: white;
     border: none;
@@ -104,38 +97,37 @@ body {
 }
 
 .schemaDetails-add-btn {
-    background-color: #007bff; /* Blue */
+    background-color: #007bff;
 }
 
 .schemaDetails-add-btn:hover {
-    background-color: #0056b3; /* Darker blue */
+    background-color: #0056b3;
 }
 
 .schemaDetails-save-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 .schemaDetails-save-btn:hover {
-    background-color: #45a049; /* Darker green */
+    background-color: #45a049;
 }
 
 .schemaDetails-delete-btn {
-    background-color: #dc3545; /* Red */
+    background-color: #dc3545;
 }
 
 .schemaDetails-delete-btn:hover {
-    background-color: #c12a36; /* Darker red */
+    background-color: #c12a36;
 }
 
 .schemaDetails-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .schemaDetails-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-/* Responsive Design (if needed) */
 @media (max-width: 768px) {
     .schemaDetails {
         margin: 10px;

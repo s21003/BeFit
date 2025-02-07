@@ -48,7 +48,6 @@ const OwnExercisesPage = () => {
     };
 
     const handleVideoClick = (videoLink) => {
-        // Open the video link in a new tab if it exists
         if (videoLink) {
             window.open(videoLink, "_blank");
         }
@@ -62,7 +61,7 @@ const OwnExercisesPage = () => {
         navigate(`/all-trainings`);
     }
 
-    const parts = {  // Correct mapping: Display Name -> Enum Value
+    const parts = {
         "Klatka piersiowa": "KLATKAPIERSIOWA",
         "Biceps": "BICEPS",
         "Triceps": "TRICEPS",
@@ -73,7 +72,7 @@ const OwnExercisesPage = () => {
         "Cardio": "CARDIO",
     };
 
-    const reverseParts = Object.fromEntries( // Create Reverse Mapping: Enum Value -> Display Name
+    const reverseParts = Object.fromEntries(
         Object.entries(parts).map(([key, value]) => [value, key])
     );
 
@@ -101,7 +100,7 @@ const OwnExercisesPage = () => {
                                         {exercise.videoLink && (
                                             <button className="btn-video"
                                                     onClick={(e) => {
-                                                        e.stopPropagation(); // Prevent row click
+                                                        e.stopPropagation();
                                                         handleVideoClick(exercise.videoLink);
                                                     }}
                                             >

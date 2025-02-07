@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import "../../styles/schema/SchemaModal.css";
 
 export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
-    // Normalize the default value:
-    // If base nutrient values are not provided, calculate them from the computed ones.
     const normalizeDefault = (data) => {
         if (!data) return null;
         const weight = data.weight || 0;
         return {
             productId: data.productId || 0,
             name: data.name || '',
-            // If baseKcal is defined, use it; otherwise, compute it using computed kcal.
+
             baseKcal: data.baseKcal !== undefined
                 ? data.baseKcal
                 : (data.kcal && weight ? data.kcal * 100 / weight : 0),
@@ -29,24 +27,21 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
 
     const normalizedDefault = normalizeDefault(defaultValue);
 
-    // Initialize state with normalized defaults (or fallback if none provided)
     const initialFormState = normalizedDefault || {
         productId: 0,
         name: '',
-        baseKcal: 0.0,      // Base kcal per 100g
-        baseProtein: 0.0,   // Base protein per 100g
-        baseFat: 0.0,       // Base fat per 100g
-        baseCarbs: 0.0,     // Base carbs per 100g
-        weight: 0.0         // Planned weight
+        baseKcal: 0.0,
+        baseProtein: 0.0,
+        baseFat: 0.0,
+        baseCarbs: 0.0,
+        weight: 0.0
     };
 
     const [formState, setFormState] = useState(initialFormState);
-    // We'll use displayValues to show computed numbers (if needed).
     const [displayValues, setDisplayValues] = useState({ ...initialFormState });
     const [errors, setErrors] = useState("");
     const [products, setProducts] = useState([]);
 
-    // Update state when defaultValue changes.
     useEffect(() => {
         if (defaultValue) {
             const normalized = normalizeDefault(defaultValue);
@@ -56,7 +51,6 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     }, [defaultValue]);
 
     const validateForm = () => {
-        // Check that productId and weight are truthy (non-zero)
         if (formState.productId && formState.weight) {
             setErrors("");
             return true;
@@ -72,17 +66,14 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
         }
     };
 
-    // Update form state when inputs change.
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // Here only weight is expected to be changed.
         const parsedValue = name === "weight" ? Number(value) : value;
 
         setFormState(prev => ({ ...prev, [name]: parsedValue }));
         setDisplayValues(prev => ({ ...prev, [name]: parsedValue }));
     };
 
-    // When selecting a product, update the product-related fields while preserving the current weight.
     const handleProductChange = (e) => {
         const selectedId = parseInt(e.target.value, 10);
         const selectedProduct = products.find((product) => product.id === selectedId);
@@ -93,10 +84,10 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
                 ...formState,
                 productId: selectedProduct.id,
                 name: selectedProduct.name,
-                baseKcal: selectedProduct.kcal,       // base kcal per 100g
-                baseProtein: selectedProduct.protein,   // base protein per 100g
-                baseFat: selectedProduct.fat,           // base fat per 100g
-                baseCarbs: selectedProduct.carbs,       // base carbs per 100g
+                baseKcal: selectedProduct.kcal,
+                baseProtein: selectedProduct.protein,
+                baseFat: selectedProduct.fat,
+                baseCarbs: selectedProduct.carbs,
                 weight: currentWeight
             };
             setFormState(newState);
@@ -110,7 +101,6 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
         e.preventDefault();
         if (!validateForm()) return;
 
-        // Calculate final (computed) values using the base nutrient values.
         const calculatedValues = {
             kcal: formState.baseKcal * formState.weight / 100,
             protein: formState.baseProtein * formState.weight / 100,
@@ -125,7 +115,6 @@ export const MealSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
         closeModal();
     };
 
-    // Fetch products when the component loads.
     useEffect(() => {
         const fetchProducts = async () => {
             try {

@@ -11,7 +11,7 @@ const AddTrainingSchemaPage = () => {
     const [rowToEdit, setRowToEdit] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [rows, setRows] = useState([]);
-    const [categories, setCategories] = useState([]); // Initialize as an empty array
+    const [categories, setCategories] = useState([]);
     const [trainingSchemaData, setTrainingSchemaData] = useState({
         name: '',
         category: '',

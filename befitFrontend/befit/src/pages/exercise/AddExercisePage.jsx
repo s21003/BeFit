@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import "../../styles/items/AddItemsPage.css"
 import NavBar from "../../components/NavBar";
@@ -9,7 +9,7 @@ const AddExercisePage = () => {
     const [exerciseData, setExerciseData] = useState({
         name: '',
         part: '',
-        videoLink: '', // Nullable link
+        videoLink: '',
         creatorUsername: ''
     });
 
@@ -29,14 +29,13 @@ const AddExercisePage = () => {
 
         let videoLink = exerciseData.videoLink;
 
-        // Ensure video link starts with a protocol (http:// or https://) only if it's provided
         if (videoLink && !videoLink.startsWith('http://') && !videoLink.startsWith('https://')) {
-            videoLink = 'http://' + videoLink; // Add http:// if missing
+            videoLink = 'http://' + videoLink;
         }
 
         const exercisePayload = {
             name: exerciseData.name,
-            part: parts[exerciseData.part] || null, // Use the mapping or null if not selected
+            part: parts[exerciseData.part] || null,
             videoLink: videoLink || '',
             creatorUsername: decodedToken.sub
         };
@@ -70,7 +69,7 @@ const AddExercisePage = () => {
         navigate(`/own-exercises`);
     };
 
-    const parts = {  // Correct mapping: Display Name -> Enum Value
+    const parts = {
         "Klatka piersiowa": "KLATKAPIERSIOWA",
         "Biceps": "BICEPS",
         "Triceps": "TRICEPS",
@@ -106,7 +105,7 @@ const AddExercisePage = () => {
                         required
                     >
                         <option value="">-- Wybierz partię --</option>
-                        {Object.keys(parts).map(partName => ( // Dynamically generate options
+                        {Object.keys(parts).map(partName => (
                             <option key={partName} value={partName}>{partName}</option>
                         ))}
                     </select>

@@ -1,9 +1,7 @@
-
 body {
     margin: 0;
 }
 
-/* details-container Styles */
 .details-container {
     display: flex;
     flex-direction: column;
@@ -12,10 +10,9 @@ body {
     font-family: 'Arial', sans-serif;
     color: white;
     overflow-x: hidden;
-    padding-top: 80px; /* Adjust as needed for your navbar */
+    padding-top: 80px;
 }
 
-/* details Styles */
 .details {
     display: flex;
     flex-direction: column;
@@ -26,7 +23,7 @@ body {
     margin-bottom: 5px;
 }
 
-.details .inputStyle, /* Style for selects and inputs*/
+.details .inputStyle,
 .details input {
     padding: 8px;
     margin-bottom: 10px;
@@ -34,16 +31,15 @@ body {
     background-color: rgba(255, 255, 255, 0.05);
     color: white;
     border-radius: 5px;
-    width: 100%; /* Occupy full width of parent */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.details .inputStyle option { /* Style the options */
-    background-color: #333; /* Darker background for options */
-    color: white; /* White text for options */
+.details .inputStyle option {
+    background-color: #333;
+    color: white;
 }
 
-/* Button styles */
 .details-add-btn,
 .details-save-btn,
 .details-return-btn {
@@ -54,7 +50,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 10px;
-    display: inline-block; /* Key for width control */
+    display: inline-block;
 }
 
 .details-add-btn {
@@ -66,7 +62,7 @@ body {
 }
 
 .details-save-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
 }
 
 .details-save-btn:hover {
@@ -74,21 +70,18 @@ body {
 }
 
 .details-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .details-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-/* Same-size buttons within .buttons-container */
 .details-buttons-container .btn {
     width: 150px;
     text-align: center;
 }
 
-
-/* Container for buttons */
 .details-buttons-container {
     display: flex;
     justify-content: center;
@@ -96,7 +89,6 @@ body {
     margin-top: 20px;
 }
 
-/* Responsive Design (if needed) */
 @media (max-width: 768px) {
     .details {
         margin: 10px;

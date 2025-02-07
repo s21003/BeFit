@@ -67,7 +67,7 @@ const AddProductPage = () => {
     };
 
     const handleReturn = () => {
-        navigate(`/own-products`);  // Use the username from the state
+        navigate(`/own-products`);
     };
 
     return (

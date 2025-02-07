@@ -77,7 +77,7 @@ const SignUpPage = () => {
     const handleRoleToggle = () => {
         setUserDetails((prevDetails) => ({
             ...prevDetails,
-            role: prevDetails.role === 'USER' ? 'TRAINER' : 'USER', // Toggle between USER and TRAINER
+            role: prevDetails.role === 'USER' ? 'TRAINER' : 'USER',
         }));
     };
 

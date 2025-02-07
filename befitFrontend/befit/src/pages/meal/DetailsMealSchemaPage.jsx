@@ -173,11 +173,11 @@ const DetailsMealSchemaPage = () => {
         const combinedRows = schemaProductData.map((product, i) => ({
             productId: product.id,
             name: product.name,
-            kcal: Math.round(product.kcal * (schemaWeightsData[i]?.weight || 0) / 100), // Use optional chaining
+            kcal: Math.round(product.kcal * (schemaWeightsData[i]?.weight || 0) / 100),
             protein: Math.round(product.protein * (schemaWeightsData[i]?.weight || 0) / 100),
             fat: Math.round(product.fat * (schemaWeightsData[i]?.weight || 0) / 100),
             carbs: Math.round(product.carbs * (schemaWeightsData[i]?.weight || 0) / 100),
-            weight: schemaWeightsData[i]?.weight || 0, // Use optional chaining
+            weight: schemaWeightsData[i]?.weight || 0,
         }));
         setRows(combinedRows);
     }, [schemaProductData]);
@@ -388,7 +388,7 @@ const DetailsMealSchemaPage = () => {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(mealSchemaData) // Send mealSchemaData in the body
+                    body: JSON.stringify(mealSchemaData)
                 });
 
                 if (!response.ok) {
@@ -453,7 +453,7 @@ const DetailsMealSchemaPage = () => {
 
             const removeResponse = await fetch(
                 `http://localhost:8080/userTrainer/removeMealSchema/${userTrainerData.id}/${mealSchemaData.id}`, {
-                method: "PUT", // Changed to PUT
+                method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",

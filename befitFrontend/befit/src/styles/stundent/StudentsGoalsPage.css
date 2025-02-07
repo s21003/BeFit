@@ -1,13 +1,11 @@
-/* StudentsGoalsPage.css */
-
 .studentsGoalsTab {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 90%; /* Use a percentage for responsiveness */
+    width: 90%;
     max-width: 900px;
-    margin: 80px auto; /* Center the form and adjust top margin */
+    margin: 80px auto;
 }
 
 .studentsGoalsTab h2 {
@@ -30,19 +28,19 @@
 .goalFormRow {
     display: flex;
     gap: 20px;
-    align-items: flex-start; /* Align items to the top of the container */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-.goalForm-plannedFields, /* Added prefix */
-.goalForm-recommendedFields { /* Added prefix */
-    flex: 1 1 45%; /* Adjust flex basis as needed */
+.goalForm-plannedFields,
+.goalForm-recommendedFields {
+    flex: 1 1 45%;
 }
 
 .goalForm label {
     margin-bottom: 5px;
     color: white;
-    font-size: 1.2rem; /* Slightly larger labels */
+    font-size: 1.2rem;
 }
 
 .goalForm input {
@@ -54,7 +52,7 @@
     color: white;
     width: 100%;
     box-sizing: border-box;
-    font-size: 1rem; /* Consistent font size for inputs */
+    font-size: 1rem;
 }
 
 .subtleReadOnly {
@@ -63,7 +61,7 @@
     cursor: default;
 }
 
-.goalForm-dateField { /* Added prefix */
+.goalForm-dateField {
     margin-top: 20px;
     width: 100%;
     display: flex;
@@ -71,17 +69,17 @@
 }
 
 
-.goalForm-buttons-container { /* Added prefix */
+.goalForm-buttons-container {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     margin-top: 20px;
     align-items: center;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
-.goalForm-btn-save, /* Added prefix */
-.goalForm-btn-return { /* Added prefix */
+.goalForm-btn-save,
+.goalForm-btn-return {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -94,24 +92,23 @@
     box-sizing: border-box;
 }
 
-.goalForm-btn-save { /* Added prefix */
+.goalForm-btn-save {
     background-color: #4CAF50;
     color: white;
 }
 
-.goalForm-btn-save:hover { /* Added prefix */
+.goalForm-btn-save:hover {
     background-color: #45a049;
 }
 
 .goalForm-btn-return {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .goalForm-btn-return:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-/* Responsive adjustments */
 @media (max-width: 600px) {
     .goalFormRow {
         flex-direction: column;
@@ -131,8 +128,8 @@
         padding: 6px;
     }
 
-    .goalForm-btn-save, /* Added prefix */
-    .goalForm-btn-return { /* Added prefix */
+    .goalForm-btn-save,
+    .goalForm-btn-return {
         font-size: 0.9rem;
         padding: 8px 16px;
     }

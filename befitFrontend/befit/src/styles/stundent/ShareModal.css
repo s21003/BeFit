@@ -1,10 +1,10 @@
-/* SchemaModal.css */.share-modal-container {
+.share-modal-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(34, 34, 34, 0.7); /* Dark semi-transparent background - matches your body */
+    background-color: rgba(34, 34, 34, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,12 +12,12 @@
 }
 
 .share-modal {
-    background-color: #333; /* Dark background - matches input areas */
+    background-color: #333;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     width: 400px;
-    color: white; /* White text */
+    color: white;
 }
 
 .schema-modal-form-group {
@@ -27,7 +27,7 @@
 .schema-modal-form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #eee; /* Slightly lighter text for labels */
+    color: #eee;
 }
 
 .share-modal input[type="checkbox"] {
@@ -37,11 +37,11 @@
 .share-modal-buttons-container {
     display: flex;
     justify-content: flex-end;
-    margin-top: 15px; /* Add some spacing above the buttons */
+    margin-top: 15px;
 }
 
 .share-modal-save-btn,.share-modal-cancel-btn {
-    padding: 8px 12px; /* Match the button padding from details page */
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -51,27 +51,27 @@
 }
 
 .share-modal-save-btn {
-    background-color: #007bff; /* Blue - matches your add button */
+    background-color: #007bff;
 }
 
 .share-modal-save-btn:hover {
-    background-color: #0056b3; /* Darker blue */
+    background-color: #0056b3;
 }
 
 .share-modal-cancel-btn {
-    background-color: #6c757d; /* Gray - matches your return button */
+    background-color: #6c757d;
 }
 
 .share-modal-cancel-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
 .share-modal.schema-modal-form-group div {
     display: flex;
-    align-items: center; /* Vertically align checkbox and label */
-    margin-bottom: 5px; /* Add some spacing between checkbox groups */
+    align-items: center;
+    margin-bottom: 5px;
 }
 
-.share-modal input[type="checkbox"] + label { /* Style the label next to the checkbox */
-    cursor: pointer; /* Make the label clickable */
+.share-modal input[type="checkbox"] + label {
+    cursor: pointer;
 }

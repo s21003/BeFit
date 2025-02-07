@@ -1,5 +1,3 @@
-/* OwnItemsPage.css */
-
 .ownItems-container {
     display: flex;
     flex-direction: column;
@@ -26,7 +24,7 @@
 
 .ownItems-table {
     width: 100%;
-    overflow-x: auto; /* Add horizontal scroll if needed */
+    overflow-x: auto;
 }
 
 table {
@@ -52,8 +50,8 @@ tr:hover {
 
 .ownItems-buttons-container {
     display: flex;
-    justify-content: center; /* or flex-end, flex-start, space-between, etc. */
-    gap: 10px; /* Space between buttons */
+    justify-content: center;
+    gap: 10px;
     margin-top: 20px;
 }
 
@@ -64,17 +62,17 @@ tr:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     text-align: center;
-    min-width: 160px; /* Adjust as needed */
-    -webkit-appearance: none; /* Reset default button styles */
+    min-width: 160px;
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     box-sizing: border-box;
     display: inline-block;
-    font-size: 1rem; /* Or your preferred font size */
+    font-size: 1rem;
 }
 
 .ownItems-add-btn {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
 }
 
@@ -83,29 +81,28 @@ tr:hover {
 }
 
 .ownItems-return-btn {
-    background-color: #6c757d; /* Gray (or any color you prefer) */
+    background-color: #6c757d;
 }
 
 .ownItems-return-btn:hover {
-    background-color: #5c6268; /* Darker gray */
+    background-color: #5c6268;
 }
 
-.btn-video { /* Video button styles */
-    padding: 5px 10px; /* Smaller padding */
+.btn-video {
+    padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
-    font-size: 0.9rem; /* Smaller font size */
+    font-size: 0.9rem;
 }
 
 .btn-video:hover {
     background-color: #45a049;
 }
 
-/* Responsive adjustments (example) */
 @media (max-width: 600px) {
     table {
         font-size: 0.9rem;

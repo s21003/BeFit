@@ -41,21 +41,8 @@ const DetailsStudentPage = () => {
                 setStudentUsername(studentData.username); // Set the username in state
 
                 const decodedToken = jwtDecode(token)
-                const trainerDataResponse = await fetch(`http://localhost:8080/user/${decodedToken.sub}`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
 
-                if (!studentResponse.ok) {
-                    throw new Error(`HTTP error! status: ${studentResponse.status}`);
-                }
-
-                const trainer = await trainerDataResponse.json();
-
-                const trainerResponse = await fetch(`http://localhost:8080/userTrainer/user/${studentData.id}?trainerId=${trainer.id}`, {
+                const trainerResponse = await fetch(`http://localhost:8080/trainer/username/${decodedToken.sub}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -66,8 +53,21 @@ const DetailsStudentPage = () => {
                 if (!trainerResponse.ok) {
                     throw new Error(`HTTP error! status: ${trainerResponse.status}`);
                 }
+                const trainer = await trainerResponse.json();
 
-                const trainerData = await trainerResponse.json();
+                const userTrainerResponse = await fetch(`http://localhost:8080/userTrainer/user/${studentData.id}?trainerId=${trainer.id}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!userTrainerResponse.ok) {
+                    throw new Error(`HTTP error! status: ${userTrainerResponse.status}`);
+                }
+
+                const trainerData = await userTrainerResponse.json();
                 setUserTrainerData(trainerData);
 
                 if (!trainerResponse.ok) {
@@ -87,8 +87,6 @@ const DetailsStudentPage = () => {
     }, [username]);
 
     useEffect(() => {
-
-
         const fetchTrainerSchemas = async () => {
             const token = localStorage.getItem("token");
             const decodeToken = jwtDecode(token)
@@ -209,7 +207,6 @@ const DetailsStudentPage = () => {
 
             if (response.ok) {
                 setShowTrainingSchemaModal(false); // Close the modal
-                // Optionally, you can update the userTrainerData or refresh the page
             } else {
                 console.error("Error sharing training schemas:", response.status);
             }
@@ -256,6 +253,7 @@ const DetailsStudentPage = () => {
             )}
 
             {showTrainingSchemaModal && (
+
                 <ShareTrainingSchemaModal
                     closeModal={() => setShowTrainingSchemaModal(false)}
                     trainingSchemas={trainerTrainingSchemas} // Pass the trainer's training schemas

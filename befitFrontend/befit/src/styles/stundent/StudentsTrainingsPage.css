@@ -1,12 +1,10 @@
-/* StudentsTrainingsPage.css */
-
 .studentsTrainings-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     padding-top: 80px;
-    background-color: #222; /* Added dark background */
-    color: white; /* Added white text color */
+    background-color: #222;
+    color: white;
 }
 
 .studentsTrainings {
@@ -15,7 +13,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto; /* Add scroll if content overflows */
+    overflow-y: auto;
 }
 
 .studentsTrainings h1 {
@@ -23,53 +21,52 @@
     color: white;
 }
 
-.custom-event-editor-wrapper { /* Updated class name */
+.custom-event-editor-wrapper {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
-.custom-event-editor { /* Updated class name */
+.custom-event-editor {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: rgba(255,255,255, 0.05); /* Added background color to editor */
-    color: white; /* Added white text color to editor */
+    background-color: rgba(255,255,255, 0.05);
+    color: white;
 }
 
-
-.custom-event-editor td { /* Updated class name */
+.custom-event-editor td {
     padding: 8px;
-    border: 1px solid rgba(255,255,255, 0.2); /* Subtler border */
+    border: 1px solid rgba(255,255,255, 0.2);
     text-align: left;
 }
 
-.custom-event-editor .e-textlabel { /* Updated class name */
+.custom-event-editor .e-textlabel {
     font-weight: bold;
     width: 150px;
-    color: white; /* Added white text color */
+    color: white;
 }
 
-.editor-table { /* Updated class name */
+.editor-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.editor-table th, /* Updated class name */
-.editor-table td { /* Updated class name */
+.editor-table th,
+.editor-table td {
     padding: 8px;
-    border: 1px solid rgba(255,255,255, 0.2); /* Subtler border */
+    border: 1px solid rgba(255,255,255, 0.2);
     text-align: left;
-    color: white; /* Added white text color */
+    color: white;
 }
 
-.editor-table th { /* Updated class name */
-    background-color: rgba(0, 0, 0, 0.3); /* Darker header background */
+.editor-table th {
+    background-color: rgba(0, 0, 0, 0.3);
     font-weight: bold;
 }
 
-.studentsTrainings-return-btn { /* Updated class name */
+.studentsTrainings-return-btn {
     background-color: #888;
     border: none;
     color: white;
@@ -84,30 +81,29 @@
     transition: background-color 0.3s ease;
 }
 
-.studentsTrainings-return-btn:hover { /* Updated class name */
+.studentsTrainings-return-btn:hover {
     background-color: #666;
 }
 
-.studentsTrainings-scheduler-container { /* Updated class name */
+.studentsTrainings-scheduler-container {
     width: 100%;
     height: 550px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    .custom-event-editor { /* Updated class name */
+    .custom-event-editor {
         font-size: 14px;
     }
-    .custom-event-editor .e-textlabel { /* Updated class name */
+    .custom-event-editor .e-textlabel {
         width: 120px;
     }
-    .editor-table th, /* Updated class name */
-    .editor-table td { /* Updated class name */
+    .editor-table th,
+    .editor-table td {
         padding: 6px;
         font-size: 14px;
     }
 
-    .studentsTrainings-scheduler-container { /* Updated class name */
+    .studentsTrainings-scheduler-container {
         height: 400px;
     }
 }
