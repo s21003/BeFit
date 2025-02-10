@@ -103,6 +103,14 @@
     background-color: #5c6268;
 }
 
+.schema-modal-delete-btn {
+    background-color: #dc3545;
+}
+
+.schema-modal-delete-btn:hover {
+    background-color: #c12a36;
+}
+
 .error {
     color: red;
     margin-top: 5px;

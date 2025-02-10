@@ -16,11 +16,13 @@ const DetailsTrainingSchemaPage = () => {
     const [schemaExerciseData, setSchemaExerciseData] = useState([]);
     const [schemaSeriesData, setSchemaSeriesData] = useState([]);
     const [trainingSchemaData, setTrainingSchemaData] = useState({
+        id: 0.0,
         name: '',
         category: '',
         trainingSchemaExerciseIds: [],
         creatorUsername: ''
     });
+    const [isSchemaShared, setIsSchemaShared] = useState(null);
 
     const categories = {
         "Cardio":"Cardio",
@@ -53,6 +55,10 @@ const DetailsTrainingSchemaPage = () => {
 
         fetchSchema();
     }, [id]);
+
+    useEffect(() => {
+        setIsSchemaShared(isShared());
+    }, [trainingSchemaData]);
 
     useEffect(() => {
         if (!trainingSchemaData.trainingSchemaExerciseIds.length) return;
@@ -170,7 +176,6 @@ const DetailsTrainingSchemaPage = () => {
 
     useEffect(() => {
         if (!schemaExerciseData.length || !schemaSeriesData.length) return;
-        console.log("schemaExerciseData: ",schemaExerciseData)
         const combinedRows = schemaExerciseData.map((exercise, index) => ({
             exerciseId: exercise.id,
             name: exercise.name,
@@ -431,7 +436,7 @@ const DetailsTrainingSchemaPage = () => {
             if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
 
             const trainerResponse = await fetch(
-                `http://localhost:8080/user/${trainingSchemaData.creatorUsername}`, {
+                `http://localhost:8080/trainer/username/${trainingSchemaData.creatorUsername}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -484,7 +489,7 @@ const DetailsTrainingSchemaPage = () => {
         <div className="schemaDetails-container">
             <NavBar/>
             <div className="schemaDetails">
-                {isShared ? (
+                {!isSchemaShared ? (
                     <>
                         <label>Nazwa schematu:</label>
                         <strong>{trainingSchemaData.name}</strong>
@@ -521,7 +526,9 @@ const DetailsTrainingSchemaPage = () => {
 
                 <TrainingSchemaTable rows={rows} schemaExercise={schemaExerciseData}
                                      deleteRow={handleDeleteRow}
-                                     editRow={handleEditRow}/>
+                                     editRow={handleEditRow}
+                                     isShared={isSchemaShared}
+                />
                 {modalOpen && (
                     <TrainingSchemaModal
                         closeModal={() => {
@@ -533,7 +540,7 @@ const DetailsTrainingSchemaPage = () => {
                     />
                 )}
                 <div className="schemaDetails-button-container">
-                    {isShared ? (
+                    {!isSchemaShared ? (
                         <>
                             <button type="button" className="schemaDetails-delete-btn"
                                     onClick={handleRemoveSchema}>Usuń

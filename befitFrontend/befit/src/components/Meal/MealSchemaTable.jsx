@@ -1,15 +1,8 @@
 import React from 'react';
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import "../../styles/schema/SchemaTable.css"
-import {jwtDecode} from "jwt-decode";
 
-export const MealSchemaTable = ({ rows, deleteRow, editRow }) => {
-
-    const isShared = () => {
-        const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token)
-        return decodedToken.sub === rows.creatorUsername;
-    }
+export const MealSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
 
     return (
         <div className="schema-table-wrapper">

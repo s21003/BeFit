@@ -41,4 +41,8 @@ public class ProductController {
     public ResponseEntity<List<Product>> getOwnProducts(@PathVariable String username){
         return new ResponseEntity<>(productService.ownProducts(username),HttpStatus.OK);
     }
+    @GetMapping("/all/{username}")
+    public ResponseEntity<List<Product>> getProducts(@PathVariable String username){
+        return new ResponseEntity<>(productService.getProducts(username),HttpStatus.OK);
+    }
 }

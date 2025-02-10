@@ -138,7 +138,7 @@ const AllMealSchemasPage = () => {
                         fat: Math.round(nutritions[i].fat),
                         carbs: Math.round(nutritions[i].carbs),
                         creationDate: schema.creationDate,
-                        creatorUsername: schema.creatorUsername === decodedToken.sub ? "Utworzone" : "Otrzymano od trenera"
+                        creatorUsername: schema.creatorUsername
                     }))
                 );
             } catch (error) {
@@ -158,6 +158,8 @@ const AllMealSchemasPage = () => {
     const handleReturn = () => {
         navigate(`/all-meals`);
     };
+
+    const decodedToken = jwtDecode(localStorage.getItem("token"))
 
     return (
         <div className="schemaPage-container">
@@ -186,7 +188,7 @@ const AllMealSchemasPage = () => {
                                 <td>{row.fat}</td>
                                 <td>{row.carbs}</td>
                                 <td>{row.creationDate}</td>
-                                <td>{row.creatorUsername}</td>
+                                <td>{row.creatorUsername === decodedToken.sub ? "Utworzono" : "Otrzymano od trenera"}</td>
                             </tr>
                         ))}
                         </tbody>

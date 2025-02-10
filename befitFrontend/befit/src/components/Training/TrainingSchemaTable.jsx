@@ -3,13 +3,7 @@ import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import "../../styles/schema/SchemaTable.css"
 import {jwtDecode} from "jwt-decode";
 
-export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
-
-    const isShared = () => {
-        const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token)
-        return decodedToken.sub === rows.creatorUsername;
-    }
+export const TrainingSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
 
     return (
         <div className="schema-table-wrapper">
@@ -22,7 +16,7 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
                     <th>Planowana liczba powtórzeń w serii</th>
                     <th>Planowana waga w serii</th>
                     <th>Link do wideo</th>
-                    {isShared ? (
+                    {!isShared ? (
                         <></>
                     ) : (
                         <th>Akcje</th>
@@ -39,7 +33,7 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow }) => {
                                 <td>{row.repeatNumber}</td>
                                 <td>{row.weight}</td>
                                 <td>{row.videoLink}</td>
-                                {isShared ? (
+                                {!isShared ? (
                                     <></>
                                 ) : (
                                     <td>

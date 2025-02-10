@@ -5,97 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../befitBackend/.idea/befitBackend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/chat/MessageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/chat/MessageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/befit/src/pages/chat/ChatPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/chat/ChatController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/chat/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/chat/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/CustomHandshakeHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtChannelInterceptor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/WebsocketConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/WebsocketHandshakeInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/Series.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/Series.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/resources/logback.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/ChatController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/Message$MessageBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/Message$MessageBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/chat/Message.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/CustomHandshakeHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/JwtChannelInterceptor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/WebSocketConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/WebsocketHandshakeInterceptor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/surefire-reports/TEST-com.befit.BefitApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/surefire-reports/TEST-com.befit.BefitApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/surefire-reports/com.befit.BefitApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/surefire-reports/com.befit.BefitApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/JwtService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/series/Series.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/series/Series.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/logback.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealAddSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealAddSchemaModal.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/ShareMealSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/ShareMealSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/NavBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/NavBar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Profile/ProfileComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Profile/ProfileComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/ShareTrainingSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/ShareTrainingSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingAddSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingAddSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/chat/TmpChatPage.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/AddExercisePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/AddExercisePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/OwnExercisesPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/OwnExercisesPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AllMealsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealSchemaPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/product/AddProductPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/product/AddProductPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/product/DetailsProductPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/product/DetailsProductPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/product/OwnProductsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/product/OwnProductsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/student/DetailsStudentPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/student/DetailsStudentPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/student/StudentsTrainingsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/student/StudentsTrainingsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainer/AllTrainersPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainer/AllTrainersPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainer/DeatilsTrainerPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainer/DeatilsTrainerPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainerToTrainingPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainerToTrainingPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingSchemasPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingSchemasPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AllTrainingsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/user/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/user/HomePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/user/SignUpPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/user/SignUpPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/NavBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/NavBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/items/AddItemsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/items/AddItemsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/items/DetailsItemsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/items/DetailsItemsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/items/OwnItemsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/items/OwnItemsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/profile/GoalComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/profile/GoalComponent.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/profile/ProfileComponent.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/profile/ProfileComponent.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/profile/ProfilePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/profile/ProfilePage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/scheduler/DetailsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/scheduler/DetailsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/scheduler/SchedulePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/scheduler/SchedulePage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/AddSchemaPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/AddSchemaPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/SchemaDetailsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/SchemaDetailsPage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/SchemaModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/SchemaModal.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/SchemaPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/SchemaPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/SchemaTable.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/SchemaTable.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/DetailsStudentPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/DetailsStudentPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/OwnStundentsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/OwnStundentsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/ShareModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/ShareModal.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsGoalsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsGoalsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsMealsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsMealsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsTrainingsPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/stundent/StudentsTrainingsPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/trainer/AddTrainerToTraining.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/trainer/AddTrainerToTraining.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/trainer/DetailsTrainerPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/trainer/DetailsTrainerPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/trainer/TrainersPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/trainer/TrainersPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/user/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/user/HomePage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/user/LoginPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/user/LoginPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/user/SignUpPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/user/SignUpPage.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,26 +51,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.AllMealsPage.js.executor": "Run",
-    "Node.js.CalendarController.js.executor": "Run",
-    "Node.js.TmpChatPage.jsx.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/domin/testPiotrka/pracaInz/frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.AllMealsPage.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.CalendarController.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.TmpChatPage.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/domin/testPiotrka/pracaInz/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\domin\befit\befitFrontend\befit\src\styles\chat" />
@@ -248,7 +176,9 @@
       <workItem from="1738422511566" duration="20620000" />
       <workItem from="1738499909351" duration="35013000" />
       <workItem from="1738584628618" duration="14631000" />
-      <workItem from="1738601954258" duration="120053000" />
+      <workItem from="1738601954258" duration="120699000" />
+      <workItem from="1739122816743" duration="5340000" />
+      <workItem from="1739150064105" duration="9609000" />
     </task>
     <servers />
   </component>

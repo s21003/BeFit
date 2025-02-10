@@ -105,6 +105,8 @@ public class UserTrainerService {
     }
 
     public Optional<UserTrainer> singleUserTrainerByUserId(Long trainerId, Long userId) {
+        System.out.println("Fetching UserTrainer with userId: " + userId + " and trainerId: " + trainerId); // Log IDs
+
         return userTrainerRepository.findByTrainerIdAndUserId(trainerId, userId);
     }
 
@@ -199,10 +201,6 @@ public class UserTrainerService {
     }
 
     public String removeSharedTrainingSchema(Long userTrainerId, Long trainingSchemaId) {
-
-        System.out.println();
-        System.out.println("Usuwanko");
-        System.out.println();
         Optional<UserTrainer> userTrainerOptional = userTrainerRepository.findById(userTrainerId);
         if (userTrainerOptional.isPresent()) {
             UserTrainer userTrainer = userTrainerOptional.get();

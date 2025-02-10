@@ -63,4 +63,8 @@ public class ExerciseService {
     public List<Exercise> ownExercises(String username) {
         return exerciseRepository.findByCreatorUsername(username);
     }
+
+    public List<Exercise> getExercises(String username) {
+        return exerciseRepository.findByCreatorUsernameOrCreatorUsernameIsNull(username);
+    }
 }

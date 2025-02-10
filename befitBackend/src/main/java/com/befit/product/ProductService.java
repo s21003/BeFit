@@ -59,4 +59,7 @@ public class ProductService {
         return productRepository.findByCreatorUsername(username);
     }
 
+    public List<Product> getProducts(String username) {
+        return productRepository.findByCreatorUsernameOrCreatorUsernameIsNull(username);
+    }
 }

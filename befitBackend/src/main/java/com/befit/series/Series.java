@@ -24,10 +24,4 @@ public class Series {
 
     @Column
     private int weight;
-
-    public Series(int series, int repeatNumber, int weight){
-        this.series=series;
-        this.repeatNumber=repeatNumber;
-        this.weight=weight;
-    }
 }

@@ -27,11 +27,13 @@ const DetailsMealSchemaPage = () => {
         weight: 0.0,
     }]);
     const [mealSchemaData, setMealSchemaData] = useState({
+        id: 0.0,
         name: '',
         mealSchemaProductIds: [],
         creatorUsername: '',
         weights: []
     });
+    const [isSchemaShared, setIsSchemaShared] = useState(null);
 
     useEffect(() => {
         const fetchSchema = async () => {
@@ -56,6 +58,10 @@ const DetailsMealSchemaPage = () => {
 
         fetchSchema();
     }, [id]);
+
+    useEffect(() => {
+        setIsSchemaShared(isShared());
+    }, [mealSchemaData]);
 
     useEffect(() => {
         const fetchMealSchemaProduct = async (spId) => {
@@ -431,14 +437,17 @@ const DetailsMealSchemaPage = () => {
             if (!sharedResponse.ok) throw new Error(`HTTP error! Status: ${sharedResponse.status}`);
 
             const trainerResponse = await fetch(
-                `http://localhost:8080/user/${mealSchemaData.creatorUsername}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
+                `http://localhost:8080/trainer/username/${mealSchemaData.creatorUsername}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
             if (!trainerResponse.ok) throw new Error(`HTTP error! Status: ${trainerResponse.status}`);
             const trainer = await trainerResponse.json();
+
+            console.log(userData)
+            console.log(trainer)
 
             const response = await fetch(
                 `http://localhost:8080/userTrainer/user/${userData.id}?trainerId=${trainer.id}`, {
@@ -450,6 +459,7 @@ const DetailsMealSchemaPage = () => {
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const userTrainerData = await response.json();
+            console.log(userTrainerData)
 
             const removeResponse = await fetch(
                 `http://localhost:8080/userTrainer/removeMealSchema/${userTrainerData.id}/${mealSchemaData.id}`, {
@@ -475,15 +485,15 @@ const DetailsMealSchemaPage = () => {
 
     const isShared = () => {
         const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token)
-        return decodedToken.sub === mealSchemaData.creatorUsername;
-    }
+        const decodedToken = jwtDecode(token);
+        return decodedToken.sub !== mealSchemaData.creatorUsername;
+    };
 
     return (
         <div className="schemaDetails-container">
             <NavBar />
             <div className="schemaDetails">
-                {isShared ? (
+                {isSchemaShared ? (
                     <>
                         <label>Nazwa schematu:</label>
                         <strong>{mealSchemaData.name}</strong>
@@ -504,7 +514,9 @@ const DetailsMealSchemaPage = () => {
 
                 <MealSchemaTable rows={rows} schemaProduct={schemaProductData}
                                  deleteRow={handleDeleteRow}
-                                 editRow={handleEditRow}/>
+                                 editRow={handleEditRow}
+                                 isShared={isSchemaShared}
+                />
                 {modalOpen && (
                     <MealSchemaModal
                         closeModal={() => {
@@ -516,7 +528,7 @@ const DetailsMealSchemaPage = () => {
                     />
                 )}
                 <div className="schemaDetails-button-container">
-                    {isShared ? (
+                    {isSchemaShared ? (
                         <>
                             <button type="button" className="schemaDetails-delete-btn"
                                     onClick={handleRemoveSchema}>Usuń

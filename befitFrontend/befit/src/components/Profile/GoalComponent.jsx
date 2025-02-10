@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import "../../styles/profile/GoalComponent.css"
+import "../../styles/profile/GoalComponent.css";
 
 const GoalComponent = () => {
     const [goal, setGoal] = useState({
@@ -15,6 +15,12 @@ const GoalComponent = () => {
         recommendedDailyProteins: 0.0,
         recommendedDailyFats: 0.0,
         recommendedDailyCarbs: 0.0,
+        // New fields for Befit recommendations (initialized to 0)
+        recommendedDailyKcalByBefit: 0.0,
+        recommendedDailyProteinsByBefit: 0.0,
+        recommendedDailyFatsByBefit: 0.0,
+        recommendedDailyCarbsByBefit: 0.0,
+        userUsername: "",
     });
     const [activeTab, setActiveTab] = useState("planned");
     const [role, setRole] = useState("");
@@ -22,7 +28,7 @@ const GoalComponent = () => {
     useEffect(() => {
         fetchGoal();
         setUserRole();
-    }, []);
+    },);
 
     const fetchGoal = async () => {
         const token = localStorage.getItem("token");
@@ -43,7 +49,20 @@ const GoalComponent = () => {
             }
 
             const data = await response.json();
-            setGoal(data);
+
+            // Initialize "recommended by Befit" fields
+            const goalDataWithBefitRecommendations = {
+                ...data,
+                recommendedDailyKcalByBefit: 0.0,
+                recommendedDailyProteinsByBefit: 0.0,
+                recommendedDailyFatsByBefit: 0.0,
+                recommendedDailyCarbsByBefit: 0.0,
+            };
+
+            setGoal(goalDataWithBefitRecommendations);
+
+            // Calculate recommended values immediately after fetching the goal
+            calculateRecommendedValues(goalDataWithBefitRecommendations);
         } catch (error) {
             console.error("Fetching goal failed: ", error);
         }
@@ -80,7 +99,7 @@ const GoalComponent = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(goal),
+                body: JSON.stringify(goal), // Make sure to send only the necessary fields to the backend
             });
 
             if (!response.ok) {
@@ -97,10 +116,10 @@ const GoalComponent = () => {
     const handleSetAsPlanned = () => {
         setGoal((prevGoal) => ({
             ...prevGoal,
-            plannedDailyKcal: prevGoal.recommendedDailyKcal,
-            plannedDailyProteins: prevGoal.recommendedDailyProteins,
-            plannedDailyFats: prevGoal.recommendedDailyFats,
-            plannedDailyCarbs: prevGoal.recommendedDailyCarbs,
+            plannedDailyKcal: prevGoal.recommendedDailyKcalByBefit, // Use Befit values
+            plannedDailyProteins: prevGoal.recommendedDailyProteinsByBefit,
+            plannedDailyFats: prevGoal.recommendedDailyFatsByBefit,
+            plannedDailyCarbs: prevGoal.recommendedDailyCarbsByBefit,
         }));
     };
 
@@ -108,9 +127,41 @@ const GoalComponent = () => {
         setActiveTab(tab);
     };
 
+    const calculateRecommendedValues = (goalData) => {
+        const { actualWeight, targetWeight, plannedAccomplishDate } = goalData;
+
+        if (actualWeight && targetWeight && plannedAccomplishDate) {
+            const today = new Date();
+            const plannedDate = new Date(plannedAccomplishDate);
+            const daysToAccomplish = Math.ceil((plannedDate - today) / (1000 * 60 * 60 * 24));
+            const kcalZero = actualWeight * 22 * 1.3;
+
+            const weightDifference = (targetWeight - actualWeight) * 7000;
+            const dailyKcalChangeWithoutLimit = weightDifference / daysToAccomplish;
+            const dailyKcalChange = Math.max(-1000, Math.min(1000, dailyKcalChangeWithoutLimit));
+            const recommendedDailyKcal = Math.round(kcalZero + dailyKcalChange);
+            const recommendedDailyProteins = Math.round(targetWeight * 1.5);
+            const recommendedDailyFats = Math.round(targetWeight * 0.8);
+            const recommendedDailyCarbs = Math.round(
+                (recommendedDailyKcal - recommendedDailyProteins * 4 - recommendedDailyFats * 9) / 4
+            );
+
+            setGoal((prevGoal) => ({
+                ...prevGoal,
+                recommendedDailyKcalByBefit: recommendedDailyKcal,
+                recommendedDailyProteinsByBefit: recommendedDailyProteins,
+                recommendedDailyFatsByBefit: recommendedDailyFats,
+                recommendedDailyCarbsByBefit: recommendedDailyCarbs,
+            }));
+        }
+    };
+
     if (!goal) {
         return <div>Loading...</div>;
     }
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
 
     return (
         <div className="goalsTab">
@@ -169,7 +220,7 @@ const GoalComponent = () => {
                     </div>
 
                     <div className="goalForm-recommendedFields">
-                        {role !== "TRAINER" && (
+                        {role !== "TRAINER" ? (
                             <>
                                 <div className="recommendedLabel">
                                     <label>Rekomendowane przez:</label>
@@ -196,28 +247,28 @@ const GoalComponent = () => {
                                         <label>Rekomendowane dzienne kalorie</label>
                                         <input
                                             type="number"
-                                            value={goal.plannedDailyKcal || ""}
+                                            value={goal.recommendedDailyKcalByBefit || ""}
                                             readOnly
                                             className="readonlyInput"
                                         />
                                         <label>Rekomendowane dzienne białko</label>
                                         <input
                                             type="number"
-                                            value={goal.plannedDailyProteins || ""}
+                                            value={goal.recommendedDailyProteinsByBefit || ""}
                                             readOnly
                                             className="readonlyInput"
                                         />
                                         <label>Rekomendowane dzienne tłuszcze</label>
                                         <input
                                             type="number"
-                                            value={goal.plannedDailyFats || ""}
+                                            value={goal.recommendedDailyFatsByBefit || ""}
                                             readOnly
                                             className="readonlyInput"
                                         />
                                         <label>Rekomendowane dzienne węglowodany</label>
                                         <input
                                             type="number"
-                                            value={goal.plannedDailyCarbs || ""}
+                                            value={goal.recommendedDailyCarbsByBefit || ""}
                                             readOnly
                                             className="readonlyInput"
                                         />
@@ -261,50 +312,94 @@ const GoalComponent = () => {
                                     <button type="button" className="setAsPlannedButton" onClick={handleSetAsPlanned}>Ustaw jako planowane</button>
                                 </div>
                             </>
+                        ) : (
+                            <></>
                         )}
 
-                        {/* If user is a TRAINER, show only the read-only fields without tabs */}
                         {role === "TRAINER" && (
                             <>
-                                <div className="goalForm-recommendedLabel">
-                                <label>Rekomendowane przez Befit:</label>
-                                </div>
-                                <label>Rekomendowane dzienne kalorie</label>
-                                <input
-                                    type="number"
-                                    value={goal.recommendedDailyKcal || ""}
-                                    readOnly
-                                    className="readonlyInput"
-                                />
-                                <label>Rekomendowane dzienne białko</label>
-                                <input
-                                    type="number"
-                                    value={goal.recommendedDailyProteins || ""}
-                                    readOnly
-                                    className="readonlyInput"
-                                />
-                                <label>Rekomendowane dzienne tłuszcze</label>
-                                <input
-                                    type="number"
-                                    value={goal.recommendedDailyFats || ""}
-                                    readOnly
-                                    className="readonlyInput"
-                                />
-                                <label>Rekomendowane dzienne węglowodany</label>
-                                <input
-                                    type="number"
-                                    value={goal.recommendedDailyCarbs || ""}
-                                    readOnly
-                                    className="readonlyInput"
-                                />
+                                { goal.userUsername === decodedToken.sub ? (
+                                    <>
+                                        <div className="goalForm-recommendedLabel">
+                                            <label>Rekomendowane przez Befit:</label>
+                                        </div>
+                                        <label>Rekomendowane dzienne kalorie</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyKcalByBefit || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne białko</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyProteinsByBefit || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne tłuszcze</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyFatsByBefit || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne węglowodany</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyCarbsByBefit || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
 
-                                <button
-                                    type="button"
-                                    className="setAsPlannedButton"
-                                    onClick={handleSetAsPlanned}
-                                >
-                                    Ustaw jako planowane
-                                </button>
+                                        <button
+                                            type="button"
+                                            className="setAsPlannedButton"
+                                            onClick={handleSetAsPlanned}
+                                        >
+                                            Ustaw jako planowane
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <label>Rekomendowane dzienne kalorie</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyKcal || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne białko</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyProteins || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne tłuszcze</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyFats || ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+                                        <label>Rekomendowane dzienne węglowodany</label>
+                                        <input
+                                            type="number"
+                                            value={goal.recommendedDailyCarbs|| ""}
+                                            readOnly
+                                            className="readonlyInput"
+                                        />
+
+                                        <button
+                                            type="button"
+                                            className="setAsPlannedButton"
+                                            onClick={handleSetAsPlanned}
+                                        >
+                                            Ustaw rekomendowane wartości
+                                        </button>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>

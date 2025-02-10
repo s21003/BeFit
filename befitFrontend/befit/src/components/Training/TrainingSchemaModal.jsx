@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../../styles/schema/SchemaModal.css";
+import {jwtDecode} from "jwt-decode";
 
 export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
     const [formState, setFormState] = useState(
@@ -63,7 +64,8 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
         const fetchExercises = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/exercise/all`, {
+                const decodedtoken = jwtDecode(token)
+                const response = await fetch(`http://localhost:8080/exercise/all/${decodedtoken.sub}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,

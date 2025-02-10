@@ -40,4 +40,9 @@ public class ExerciseController {
     public ResponseEntity<List<Exercise>> getOwnExercises(@PathVariable String username){
         return new ResponseEntity<>(exerciseService.ownExercises(username),HttpStatus.OK);
     }
+
+    @GetMapping("/all/{username}")
+    public ResponseEntity<List<Exercise>> getExercises(@PathVariable String username){
+        return new ResponseEntity<>(exerciseService.getExercises(username),HttpStatus.OK);
+    }
 }
