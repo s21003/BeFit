@@ -1,11 +1,15 @@
 package com.befit.chat;
 
 import com.befit.config.JwtService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
@@ -24,7 +28,7 @@ import org.springframework.http.MediaType;
 public class ChatController {
 
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     @Autowired
     private MessageService messageService;
@@ -41,6 +45,7 @@ public class ChatController {
         if (username == null) {
             return createErrorEmitter("Invalid token");
         }
+
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
         if (!jwtService.isTokenValid(token, userDetails)) {
             return createErrorEmitter("Invalid token");
@@ -48,6 +53,25 @@ public class ChatController {
 
         SseEmitter emitter = new SseEmitter(30 * 60 * 1000L);
 
+        // Dodaj okresową walidację tokenu
+        ScheduledFuture<?> validationTask = executor.scheduleAtFixedRate(() -> {
+            if (!jwtService.isTokenValid(token, userDetails)) {
+                emitter.completeWithError(new SecurityException("Token expired"));
+            }
+        }, 5, 5, TimeUnit.MINUTES);
+
+        // Bezpośrednie wywołanie bez transakcji
+        setupSseConnection(username, emitter, validationTask);
+
+        emitter.onCompletion(() -> {
+            validationTask.cancel(true);
+            cleanupResources(username, emitter, validationTask);
+        });
+
+        return emitter;
+    }
+
+    private void setupSseConnection(String username, SseEmitter emitter, ScheduledFuture<?> validationTask) {
         SseEmitter existingEmitter = emitters.get(username);
         if (existingEmitter != null) {
             existingEmitter.complete();
@@ -64,30 +88,34 @@ public class ChatController {
 
         ScheduledFuture<?> keepAliveTask = executor.scheduleAtFixedRate(() -> {
             try {
-                emitter.send(SseEmitter.event().comment("keep-alive"));
+                emitter.send(SseEmitter.event().name("keep-alive").data("ping"));
             } catch (IOException e) {
                 System.out.println("Error sending keep-alive message: " + e.getMessage());
                 handleEmitterError(username, emitter, e);
             }
         }, 0, 60, TimeUnit.SECONDS);
 
-        emitter.onCompletion(() -> {
-            removeEmitter(username);
-            keepAliveTask.cancel(true);
-            System.out.println("Connection closed for user: " + username);
-        });
-        emitter.onError((e) -> {
-            removeEmitter(username);
-            keepAliveTask.cancel(true);
-            System.out.println("Connection closed for user: " + username);
-        });
-        emitter.onTimeout(() -> {
-            removeEmitter(username);
-            keepAliveTask.cancel(true);
-            System.out.println("Connection closed for user: " + username);
-        });
+        // Przekaż OBA taski do cleanup
+        emitter.onCompletion(() -> cleanupResources(username, emitter, validationTask, keepAliveTask));
+        emitter.onError((e) -> cleanupResources(username, emitter, validationTask, keepAliveTask));
+        emitter.onTimeout(() -> cleanupResources(username, emitter, validationTask, keepAliveTask));
+    }
 
-        return emitter;
+    private void cleanupResources(String username, SseEmitter emitter, ScheduledFuture<?>... tasks) {
+        try {
+            emitter.complete();
+        } catch (Exception e) {
+            System.err.println("Error completing emitter for " + username + ": " + e.getMessage());
+        }
+
+        for (ScheduledFuture<?> task : tasks) {
+            if (task != null && !task.isCancelled()) {
+                task.cancel(true);
+            }
+        }
+
+        emitters.remove(username);
+        System.out.println("Connection closed for user: " + username);
     }
 
     private SseEmitter createErrorEmitter(String errorMessage) {

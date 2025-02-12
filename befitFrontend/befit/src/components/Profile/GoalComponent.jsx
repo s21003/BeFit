@@ -15,7 +15,6 @@ const GoalComponent = () => {
         recommendedDailyProteins: 0.0,
         recommendedDailyFats: 0.0,
         recommendedDailyCarbs: 0.0,
-        // New fields for Befit recommendations (initialized to 0)
         recommendedDailyKcalByBefit: 0.0,
         recommendedDailyProteinsByBefit: 0.0,
         recommendedDailyFatsByBefit: 0.0,
@@ -28,7 +27,7 @@ const GoalComponent = () => {
     useEffect(() => {
         fetchGoal();
         setUserRole();
-    },);
+    }, []);
 
     const fetchGoal = async () => {
         const token = localStorage.getItem("token");
@@ -49,8 +48,8 @@ const GoalComponent = () => {
             }
 
             const data = await response.json();
+            console.log("data: ",data)
 
-            // Initialize "recommended by Befit" fields
             const goalDataWithBefitRecommendations = {
                 ...data,
                 recommendedDailyKcalByBefit: 0.0,
@@ -60,8 +59,6 @@ const GoalComponent = () => {
             };
 
             setGoal(goalDataWithBefitRecommendations);
-
-            // Calculate recommended values immediately after fetching the goal
             calculateRecommendedValues(goalDataWithBefitRecommendations);
         } catch (error) {
             console.error("Fetching goal failed: ", error);
@@ -99,7 +96,7 @@ const GoalComponent = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(goal), // Make sure to send only the necessary fields to the backend
+                body: JSON.stringify(goal),
             });
 
             if (!response.ok) {
@@ -107,20 +104,33 @@ const GoalComponent = () => {
             }
 
             alert("Goal updated successfully!");
-            fetchGoal();
+            window.location.reload();
         } catch (error) {
             console.error("Saving goal failed:", error);
         }
     };
 
     const handleSetAsPlanned = () => {
-        setGoal((prevGoal) => ({
-            ...prevGoal,
-            plannedDailyKcal: prevGoal.recommendedDailyKcalByBefit, // Use Befit values
-            plannedDailyProteins: prevGoal.recommendedDailyProteinsByBefit,
-            plannedDailyFats: prevGoal.recommendedDailyFatsByBefit,
-            plannedDailyCarbs: prevGoal.recommendedDailyCarbsByBefit,
-        }));
+        console.log("activeTab: ",activeTab);
+        setGoal((prevGoal) => {
+            if (activeTab === "trainer") {
+                return {
+                    ...prevGoal,
+                    plannedDailyKcal: prevGoal.recommendedDailyKcal,
+                    plannedDailyProteins: prevGoal.recommendedDailyProteins,
+                    plannedDailyFats: prevGoal.recommendedDailyFats,
+                    plannedDailyCarbs: prevGoal.recommendedDailyCarbs,
+                };
+            } else {
+                return {
+                    ...prevGoal,
+                    plannedDailyKcal: prevGoal.recommendedDailyKcalByBefit,
+                    plannedDailyProteins: prevGoal.recommendedDailyProteinsByBefit,
+                    plannedDailyFats: prevGoal.recommendedDailyFatsByBefit,
+                    plannedDailyCarbs: prevGoal.recommendedDailyCarbsByBefit,
+                };
+            }
+        });
     };
 
     const handleTabChange = (tab) => {
@@ -155,6 +165,7 @@ const GoalComponent = () => {
             }));
         }
     };
+
 
     if (!goal) {
         return <div>Loading...</div>;

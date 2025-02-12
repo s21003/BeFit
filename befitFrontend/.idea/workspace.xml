@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../befitBackend/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/config/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/Series.java" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/java/com/befit/series/Series.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/src/main/resources/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/config/JwtService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/series/Series.class" beforeDir="false" afterPath="$PROJECT_DIR$/../befitBackend/target/classes/com/befit/series/Series.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../befitBackend/target/classes/logback.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AllMealSchemasPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealSchemaPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingSchemaPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/styles/schema/SchemaModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/styles/schema/SchemaModal.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

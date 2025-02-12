@@ -65,6 +65,7 @@ function Chat({ receiverUsername }) {
             es.onerror = (error) => {
                 console.error("SSE error:", error, es.readyState);
                 if (es.readyState === EventSource.CLOSED) {
+                    es.close();
                     setIsConnected(false);
                     if (reconnectAttempts < 5) {
                         const timeout = Math.pow(2, reconnectAttempts) * 1000;

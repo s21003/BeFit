@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/styled": "^11.14.0",
     "@stomp/stompjs": "^7.0.0",
+    "@syncfusion/ej2-cldr-data": "^28.1.33",
     "@syncfusion/ej2-react-schedule": "^25.2.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
