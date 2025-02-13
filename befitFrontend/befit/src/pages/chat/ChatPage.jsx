@@ -54,7 +54,7 @@ function ChatPage() {
 
                     endpoint = `http://localhost:8080/userTrainer/acceptedStudents/${trainerDataResponse.id}`;
                 } else if (role === 'USER') {
-                    endpoint = `http://localhost:8080/userTrainer/studentsTrainers/${user.id}`;
+                    endpoint = `http://localhost:8080/userTrainer/acceptedTrainers/${user.id}`;
                 }
 
                 console.log(endpoint)

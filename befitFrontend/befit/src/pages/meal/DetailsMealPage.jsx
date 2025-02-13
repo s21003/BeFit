@@ -5,6 +5,7 @@ import { MealSchemaTable } from "../../components/Meal/MealSchemaTable";
 import NavBar from "../../components/NavBar";
 import {MealAddSchemaModal} from "../../components/Meal/MealAddSchemaModal";
 import "../../styles/scheduler/DetailsPage.css"
+import {jwtDecode} from "jwt-decode";
 
 const DetailsMealPage = () => {
     let { id } = useParams();
@@ -37,6 +38,7 @@ const DetailsMealPage = () => {
         endTime: null,
         userUsername: ''
     });
+    const [isSchemaShared, setIsSchemaShared] = useState(null);
 
     useEffect(() => {
         const fetchMeal = async () => {
@@ -61,6 +63,10 @@ const DetailsMealPage = () => {
 
         fetchMeal();
     }, [id]);
+
+    useEffect(() => {
+        setIsSchemaShared(isShared());
+    }, [mealData]);
 
     useEffect(() => {
         const fetchMealProduct = async (mpId) => {
@@ -224,14 +230,26 @@ const DetailsMealPage = () => {
     };
 
     const handleSubmit = (newRow) => {
-        setUnsavedRows(prevUnsavedRows => [...prevUnsavedRows, newRow]);
-
-        rowToEdit === null
-            ? setRows([...rows, newRow])
-            : setRows(rows.map((currentRow, id) => {
-                if (id !== rowToEdit) return currentRow;
-                return newRow;
-            }));
+        if (rowToEdit === null) {
+            setUnsavedRows((prevUnsavedRows) => [...prevUnsavedRows, newRow]);
+            setRows((prevRows) => [...prevRows, newRow]);
+        } else {
+            setRows((prevRows) =>
+                prevRows.map((row, idx) => (idx === rowToEdit ? newRow : row))
+            );
+            setUnsavedRows((prevUnsavedRows) => {
+                const index = prevUnsavedRows.findIndex(
+                    (row) => row.productId === newRow.productId
+                );
+                if (index !== -1) {
+                    const updatedUnsaved = [...prevUnsavedRows];
+                    updatedUnsaved[index] = newRow;
+                    return updatedUnsaved;
+                }
+                return prevUnsavedRows;
+            });
+        }
+        setRowToEdit(null);
     };
 
     const handleSubmitMeal = async (e) => {
@@ -572,6 +590,12 @@ const DetailsMealPage = () => {
         setRows([...newRows,...unsavedRows]);
     }, [productData, weightsData, unsavedRows, isLoading]);
 
+    const isShared = () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        return decodedToken.sub !== mealData.creatorUsername;
+    };
+
     return (
         <div className="details-container">
             <NavBar/>
@@ -591,7 +615,13 @@ const DetailsMealPage = () => {
                     ))}
                 </select>
 
-                <MealSchemaTable rows={rows} product={productData} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <MealSchemaTable
+                    rows={rows}
+                    product={productData}
+                    deleteRow={handleDeleteRow}
+                    editRow={handleEditRow}
+                    isShared={isSchemaShared}
+                />
                 <div className="details-buttons-container">
                     <button className="details-add-btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
                     {modalOpen && (

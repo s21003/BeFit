@@ -5,6 +5,7 @@ import { TrainingSchemaTable } from "../../components/Training/TrainingSchemaTab
 import NavBar from "../../components/NavBar";
 import { TrainingAddSchemaModal } from "../../components/Training/TrainingAddSchemaModal";
 import "../../styles/scheduler/DetailsPage.css";
+import {jwtDecode} from "jwt-decode";
 
 const DetailsTrainingPage = () => {
     let { id } = useParams();
@@ -34,7 +35,7 @@ const DetailsTrainingPage = () => {
         endTime: null,
         userUsername: '',
     });
-
+    const [isSchemaShared, setIsSchemaShared] = useState(null);
 
     useEffect(() => {
         const fetchTraining = async () => {
@@ -59,6 +60,10 @@ const DetailsTrainingPage = () => {
 
         fetchTraining();
     }, [id]);
+
+    useEffect(() => {
+        setIsSchemaShared(isShared());
+    }, [trainingData]);
 
     useEffect(() => {
         const fetchTrainingExercise = async (teId) => {
@@ -227,17 +232,28 @@ const DetailsTrainingPage = () => {
     };
 
     const handleSubmit = (newRow) => {
-        setUnsavedRows((prevUnsavedRows) => [...prevUnsavedRows, newRow]);
-
-        rowToEdit === null
-            ? setRows([...rows, newRow])
-            : setRows(
-                rows.map((currentRow, id) => {
-                    if (id!== rowToEdit) return currentRow;
-                    return newRow;
-                })
+        if (rowToEdit === null) {
+            setUnsavedRows((prevUnsavedRows) => [...prevUnsavedRows, newRow]);
+            setRows((prevRows) => [...prevRows, newRow]);
+        } else {
+            setRows((prevRows) =>
+                prevRows.map((row, idx) => (idx === rowToEdit ? newRow : row))
             );
+            setUnsavedRows((prevUnsavedRows) => {
+                const index = prevUnsavedRows.findIndex(
+                    (row) => row.exerciseId === newRow.exerciseId
+                );
+                if (index !== -1) {
+                    const updatedUnsaved = [...prevUnsavedRows];
+                    updatedUnsaved[index] = newRow;
+                    return updatedUnsaved;
+                }
+                return prevUnsavedRows;
+            });
+        }
+        setRowToEdit(null);
     };
+
 
     const handleSubmitTraining = async (e) => {
         e.preventDefault();
@@ -580,6 +596,12 @@ const DetailsTrainingPage = () => {
         setRows([...newRows,...unsavedRows]);
     }, [exerciseData, seriesData, unsavedRows, isLoading]);
 
+    const isShared = () => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        return decodedToken.sub !== trainingData.creatorUsername;
+    };
+
     return (
         <div className="details-container">
             <NavBar/>
@@ -599,7 +621,13 @@ const DetailsTrainingPage = () => {
                     ))}
                 </select>
 
-                <TrainingSchemaTable rows={rows} trainingExercise={exerciseData} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <TrainingSchemaTable
+                    rows={rows}
+                    trainingExercise={exerciseData}
+                    deleteRow={handleDeleteRow}
+                    editRow={handleEditRow}
+                    isShared={isSchemaShared}
+                />
                 <div className="buttons-container">
                     <button className="details-add-btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
                     {modalOpen && (

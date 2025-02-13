@@ -65,6 +65,7 @@ export const TrainingSchemaModal = ({ closeModal, onSubmit, defaultValue }) => {
             try {
                 const token = localStorage.getItem("token");
                 const decodedtoken = jwtDecode(token)
+                console.log(decodedtoken.sub)
                 const response = await fetch(`http://localhost:8080/exercise/all/${decodedtoken.sub}`, {
                     method: 'GET',
                     headers: {

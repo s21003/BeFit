@@ -15,7 +15,7 @@ export const MealSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
                     <th>Tłuszcze</th>
                     <th>Węglowodany</th>
                     <th>Waga</th>
-                    {isShared ? (
+                    {!isShared ? (
                         <></>
                         ) : (
                             <th>Akcje</th>
@@ -32,7 +32,7 @@ export const MealSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
                                 <td>{row.fat}</td>
                                 <td>{row.carbs}</td>
                                 <td>{row.weight}</td>
-                                {isShared ? (
+                                {!isShared ? (
                                     <></>
                                 ) : (
                                     <td>

@@ -190,7 +190,12 @@ const AddMealSchemaPage = () => {
                     onChange={handleChange}
                     required
                 />
-                <MealSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <MealSchemaTable
+                    rows={rows}
+                    deleteRow={handleDeleteRow}
+                    editRow={handleEditRow}
+                    isShared={true}
+                />
                 <div className="addSchemaPage-buttons-container">
                     <button className="addSchemaPage-add-btn" onClick={() => setModalOpen(true)}>Dodaj produkt</button>
                     {modalOpen && (

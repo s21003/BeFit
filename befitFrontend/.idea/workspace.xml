@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="7dc00b15-d3ef-45d0-8016-e758e53ed804" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/befit/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Profile/GoalComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Meal/MealSchemaTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/components/Training/TrainingSchemaTable.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/chat/ChatPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/chat/ChatPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/exercise/DetailsExercisePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/AddMealSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/AddMealSchemaPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/meal/DetailsMealPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/AddTrainingSchemaPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/befit/src/pages/trainings/DetailsTrainingPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,6 +170,7 @@
       <workItem from="1738601954258" duration="120699000" />
       <workItem from="1739122816743" duration="5340000" />
       <workItem from="1739150064105" duration="9609000" />
+      <workItem from="1739446500657" duration="4154000" />
     </task>
     <servers />
   </component>

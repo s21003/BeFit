@@ -240,7 +240,13 @@ const AddTrainingSchemaPage = () => {
                     ))}
                 </select>
 
-                <TrainingSchemaTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+                <TrainingSchemaTable
+                    rows={rows}
+                    deleteRow={handleDeleteRow}
+                    editRow={handleEditRow}
+                    isShared={true}
+                />
+
                 <div className="addSchemaPage-buttons-container">
                     <button className="addSchemaPage-add-btn" onClick={() => setModalOpen(true)}>Dodaj ćwiczenie</button>
                     {modalOpen && (

@@ -23,9 +23,9 @@ public class ExerciseController {
     public ResponseEntity<Exercise> addNewExercise(@RequestBody ExerciseDTO ex){
         return new ResponseEntity<>(exerciseService.createExercise(ex),HttpStatus.CREATED);
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteExercise(@RequestBody Exercise ex){
-        return new ResponseEntity<>(exerciseService.dropExercise(ex.getId()),HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteExercise(@PathVariable Long id){
+        return new ResponseEntity<>(exerciseService.dropExercise(id),HttpStatus.OK);
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateExercise(@RequestBody Exercise ex, @PathVariable Long id){

@@ -89,23 +89,21 @@ const DetailsExercisePage = () => {
     };
 
     const handleDelete = async () => {
-        const deletedData = { id: exerciseDetails.id, ...editFormData };
-        if (window.confirm("Are you sure you want to delete this exercise?")) {
+        if (window.confirm("Czy napewno chcesz usunąć te ćwiczenie?")) {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8080/exercise/delete`, {
+                const response = await fetch(`http://localhost:8080/exercise/delete/${exerciseDetails.id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify(deletedData),
+                    }
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                alert("Successfully deleted exercise");
-                navigate('/all-exercises')
+                alert("Ćwicznie usunęto pomyślnie");
+                navigate('/own-exercises')
             } catch (error) {
                 console.error("Delete exercise failed: ", error);
             }

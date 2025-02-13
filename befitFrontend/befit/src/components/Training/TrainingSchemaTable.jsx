@@ -1,10 +1,13 @@
 import React from 'react';
 import {BsFillPencilFill, BsFillTrashFill} from "react-icons/bs";
 import "../../styles/schema/SchemaTable.css"
-import {jwtDecode} from "jwt-decode";
 
 export const TrainingSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
-
+    const handleVideoClick = (videoLink) => {
+        if (videoLink) {
+            window.open(videoLink, "_blank");
+        }
+    };
     return (
         <div className="schema-table-wrapper">
             <table className="schema-table">
@@ -32,7 +35,20 @@ export const TrainingSchemaTable = ({ rows, deleteRow, editRow, isShared }) => {
                                 <td>{row.series}</td>
                                 <td>{row.repeatNumber}</td>
                                 <td>{row.weight}</td>
-                                <td>{row.videoLink}</td>
+                                <td>
+                                    {row.videoLink ? (
+                                        <button
+                                            className="btn-video"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleVideoClick(row.videoLink);
+                                            }}
+                                        >
+                                            Zobacz wideo
+                                        </button>
+                                    ) : null}
+                                </td>
+
                                 {!isShared ? (
                                     <></>
                                 ) : (
